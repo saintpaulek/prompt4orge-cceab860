@@ -231,7 +231,9 @@ function Builder() {
         tone ? `AESTHETIC / TONE: ${tone}` : "",
         "COMPOSITION: clear focal point, balanced negative space, professional advertising quality.",
         "DETAILS: materials, textures, color palette; no text unless specified.",
-        incCam ? "CAMERA: 50mm lens, shallow depth of field, ISO 200, natural bokeh." : "",
+        incCam
+          ? `CAMERA: ${camera}, ${lens}, ${aperture}, ${iso}, shutter ${shutter}${camExtra ? `, ${camExtra}` : ""}.`
+          : "",
         extras ? `EXTRA CONTEXT: ${extras}` : "",
         "",
         "Write 2 complete prompt variants:",
