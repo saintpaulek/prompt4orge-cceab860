@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Hammer, Library, Bookmark, Search, Copy, Check, Lock, Unlock,
-  Sparkles, Image as ImageIcon, X, Star,
+  Sparkles, Image as ImageIcon, X, Star, ChevronDown, ChevronRight,
 } from "lucide-react";
 import logoAsset from "@/assets/promptforge-logo.png.asset.json";
 import { LIBRARY, CATEGORIES, isFreePrompt, type Prompt } from "@/lib/prompts";
@@ -59,6 +59,14 @@ const LIGHTS = [
   "Soft natural daylight", "Dramatic rim light", "Studio softbox", "Golden hour",
   "Neon / cyberpunk", "Moody low-key", "Bright high-key commercial",
 ];
+const LENSES = [
+  "24mm wide-angle", "35mm documentary", "50mm nifty-fifty", "85mm portrait",
+  "100mm macro", "135mm telephoto", "16mm ultra-wide", "Anamorphic 40mm",
+];
+const APERTURES = ["f/1.2", "f/1.4", "f/1.8", "f/2.8", "f/4", "f/5.6", "f/8", "f/11"];
+const ISOS = ["ISO 100", "ISO 200", "ISO 400", "ISO 800", "ISO 1600", "ISO 3200"];
+const SHUTTERS = ["1/1000s", "1/500s", "1/250s", "1/125s", "1/60s", "1/30s", "1s long exposure"];
+const CAMERAS = ["Sony A7 IV", "Canon EOS R5", "Fujifilm X-T5", "Hasselblad X2D", "Leica Q3", "Phase One XT", "iPhone 15 Pro"];
 
 // ---------- app ----------
 function PromptForgeApp() {
@@ -194,6 +202,19 @@ function Builder() {
   const [incCam, setIncCam] = useState(false);
   const [incMJ, setIncMJ] = useState(true);
   const [plainOnly, setPlainOnly] = useState(false);
+  // advanced image controls
+  const [advOpen, setAdvOpen] = useState(false);
+  const [negOpen, setNegOpen] = useState(true);
+  const [camOpen, setCamOpen] = useState(true);
+  const [negText, setNegText] = useState(
+    "blur, watermark, extra fingers, distorted text, low quality, cluttered background",
+  );
+  const [lens, setLens] = useState<string>(LENSES[2]);
+  const [aperture, setAperture] = useState<string>(APERTURES[2]);
+  const [iso, setIso] = useState<string>(ISOS[1]);
+  const [shutter, setShutter] = useState<string>(SHUTTERS[3]);
+  const [camera, setCamera] = useState<string>(CAMERAS[0]);
+  const [camExtra, setCamExtra] = useState("shallow depth of field, natural bokeh");
 
   const isImage = contentType === "Image Prompt (AI Art)";
 
@@ -210,7 +231,9 @@ function Builder() {
         tone ? `AESTHETIC / TONE: ${tone}` : "",
         "COMPOSITION: clear focal point, balanced negative space, professional advertising quality.",
         "DETAILS: materials, textures, color palette; no text unless specified.",
-        incCam ? "CAMERA: 50mm lens, shallow depth of field, ISO 200, natural bokeh." : "",
+        incCam
+          ? `CAMERA: ${camera}, ${lens}, ${aperture}, ${iso}, shutter ${shutter}${camExtra ? `, ${camExtra}` : ""}.`
+          : "",
         extras ? `EXTRA CONTEXT: ${extras}` : "",
         "",
         "Write 2 complete prompt variants:",
@@ -218,10 +241,8 @@ function Builder() {
         "2) Simpler, cleaner alternative",
       ];
       if (incNeg) {
-        lines.push(
-          "",
-          "NEGATIVE PROMPT: blur, watermark, extra fingers, distorted text, low quality, cluttered background.",
-        );
+        const neg = negText.trim() || "blur, watermark, extra fingers, distorted text, low quality, cluttered background";
+        lines.push("", `NEGATIVE PROMPT: ${neg}.`);
       }
       if (incMJ && !plainOnly) {
         lines.push("", `Midjourney flags: --ar ${ratio} --stylize 200 --v 6`);
@@ -251,7 +272,7 @@ function Builder() {
       "",
       "CONSTRAINTS: match the platform's format and length, no fluff, 7th-grade reading level, no emojis unless brand-appropriate.",
     ].filter(Boolean).join("\n");
-  }, [isImage, contentType, topic, audience, platform, tone, goal, extras, imgStyle, ratio, light, incNeg, incCam, incMJ, plainOnly]);
+  }, [isImage, contentType, topic, audience, platform, tone, goal, extras, imgStyle, ratio, light, incNeg, incCam, incMJ, plainOnly, negText, lens, aperture, iso, shutter, camera, camExtra]);
 
   const whyTags = isImage
     ? ["Subject clarity", "Style constraint", "Composition", "Negative prompt", "Parameter packing"]
@@ -294,6 +315,112 @@ function Builder() {
               <Toggle on={incCam} onChange={setIncCam}>Camera / lens</Toggle>
               <Toggle on={incMJ} onChange={setIncMJ}>Midjourney flags</Toggle>
               <Toggle on={plainOnly} onChange={setPlainOnly}>DALL·E / plain English</Toggle>
+            </div>
+
+            <div className="mt-4 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)]/40">
+              <button
+                type="button"
+                onClick={() => setAdvOpen((o) => !o)}
+                className="w-full flex items-center justify-between px-3 py-2 text-xs uppercase tracking-wider text-[color:var(--color-cream)]/80 hover:text-[color:var(--color-ember)]"
+                aria-expanded={advOpen}
+              >
+                <span className="flex items-center gap-2">
+                  {advOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                  Advanced
+                </span>
+                <span className="text-[10px] opacity-60">
+                  {incNeg || incCam ? "customize negative + camera" : "optional"}
+                </span>
+              </button>
+
+              {advOpen && (
+                <div className="border-t border-[color:var(--color-line)] p-3 space-y-3">
+                  {/* Negative prompt */}
+                  <div className="rounded-md border border-[color:var(--color-line)]">
+                    <button
+                      type="button"
+                      onClick={() => setNegOpen((o) => !o)}
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium hover:text-[color:var(--color-ember)]"
+                      aria-expanded={negOpen}
+                    >
+                      <span className="flex items-center gap-2">
+                        {negOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                        Negative prompt
+                      </span>
+                      <span className={`text-[10px] ${incNeg ? "text-[color:var(--color-ember)]" : "opacity-50"}`}>
+                        {incNeg ? "on" : "off"}
+                      </span>
+                    </button>
+                    {negOpen && (
+                      <div className="px-3 pb-3 space-y-2">
+                        <textarea
+                          value={negText}
+                          onChange={(e) => setNegText(e.target.value)}
+                          placeholder="things to avoid: blur, watermark, extra fingers, distorted text..."
+                          className="w-full min-h-20 rounded-md border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] px-3 py-2 text-sm outline-none focus:border-[color:var(--color-ember)]"
+                          disabled={!incNeg}
+                        />
+                        <div className="flex flex-wrap gap-1.5">
+                          {["blur", "watermark", "extra fingers", "distorted text", "low quality", "cluttered background", "oversaturated", "plastic skin", "bad anatomy", "duplicate"].map((chip) => (
+                            <button
+                              key={chip}
+                              type="button"
+                              disabled={!incNeg}
+                              onClick={() => {
+                                setNegText((prev) => {
+                                  const parts = prev.split(",").map((p) => p.trim()).filter(Boolean);
+                                  if (parts.includes(chip)) return parts.filter((p) => p !== chip).join(", ");
+                                  return [...parts, chip].join(", ");
+                                });
+                              }}
+                              className="text-[10px] px-2 py-0.5 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-ember)] disabled:opacity-40"
+                            >
+                              {chip}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Camera / lens */}
+                  <div className="rounded-md border border-[color:var(--color-line)]">
+                    <button
+                      type="button"
+                      onClick={() => setCamOpen((o) => !o)}
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium hover:text-[color:var(--color-ember)]"
+                      aria-expanded={camOpen}
+                    >
+                      <span className="flex items-center gap-2">
+                        {camOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                        Camera &amp; lens
+                      </span>
+                      <span className={`text-[10px] ${incCam ? "text-[color:var(--color-ember)]" : "opacity-50"}`}>
+                        {incCam ? "on" : "off"}
+                      </span>
+                    </button>
+                    {camOpen && (
+                      <div className="px-3 pb-3 space-y-2" aria-disabled={!incCam}>
+                        <div className={`grid grid-cols-2 gap-2 ${!incCam ? "opacity-50 pointer-events-none" : ""}`}>
+                          <Field label="Camera body"><Select value={camera} onChange={setCamera} options={CAMERAS} /></Field>
+                          <Field label="Lens"><Select value={lens} onChange={setLens} options={LENSES} /></Field>
+                          <Field label="Aperture"><Select value={aperture} onChange={setAperture} options={APERTURES} /></Field>
+                          <Field label="ISO"><Select value={iso} onChange={setIso} options={ISOS} /></Field>
+                          <Field label="Shutter"><Select value={shutter} onChange={setShutter} options={SHUTTERS} /></Field>
+                          <Field label="Extra notes">
+                            <input
+                              value={camExtra}
+                              onChange={(e) => setCamExtra(e.target.value)}
+                              placeholder="shallow DOF, bokeh, tripod..."
+                              className="w-full rounded-md border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] px-2 py-1.5 text-sm outline-none focus:border-[color:var(--color-ember)]"
+                            />
+                          </Field>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </>
         ) : (
