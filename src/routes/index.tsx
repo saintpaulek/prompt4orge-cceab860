@@ -272,7 +272,7 @@ function Builder() {
       "",
       "CONSTRAINTS: match the platform's format and length, no fluff, 7th-grade reading level, no emojis unless brand-appropriate.",
     ].filter(Boolean).join("\n");
-  }, [isImage, contentType, topic, audience, platform, tone, goal, extras, imgStyle, ratio, light, incNeg, incCam, incMJ, plainOnly]);
+  }, [isImage, contentType, topic, audience, platform, tone, goal, extras, imgStyle, ratio, light, incNeg, incCam, incMJ, plainOnly, negText, lens, aperture, iso, shutter, camera, camExtra]);
 
   const whyTags = isImage
     ? ["Subject clarity", "Style constraint", "Composition", "Negative prompt", "Parameter packing"]
