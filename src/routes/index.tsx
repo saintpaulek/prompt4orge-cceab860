@@ -59,6 +59,14 @@ const LIGHTS = [
   "Soft natural daylight", "Dramatic rim light", "Studio softbox", "Golden hour",
   "Neon / cyberpunk", "Moody low-key", "Bright high-key commercial",
 ];
+const LENSES = [
+  "24mm wide-angle", "35mm documentary", "50mm nifty-fifty", "85mm portrait",
+  "100mm macro", "135mm telephoto", "16mm ultra-wide", "Anamorphic 40mm",
+];
+const APERTURES = ["f/1.2", "f/1.4", "f/1.8", "f/2.8", "f/4", "f/5.6", "f/8", "f/11"];
+const ISOS = ["ISO 100", "ISO 200", "ISO 400", "ISO 800", "ISO 1600", "ISO 3200"];
+const SHUTTERS = ["1/1000s", "1/500s", "1/250s", "1/125s", "1/60s", "1/30s", "1s long exposure"];
+const CAMERAS = ["Sony A7 IV", "Canon EOS R5", "Fujifilm X-T5", "Hasselblad X2D", "Leica Q3", "Phase One XT", "iPhone 15 Pro"];
 
 // ---------- app ----------
 function PromptForgeApp() {
