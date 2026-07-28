@@ -241,10 +241,8 @@ function Builder() {
         "2) Simpler, cleaner alternative",
       ];
       if (incNeg) {
-        lines.push(
-          "",
-          "NEGATIVE PROMPT: blur, watermark, extra fingers, distorted text, low quality, cluttered background.",
-        );
+        const neg = negText.trim() || "blur, watermark, extra fingers, distorted text, low quality, cluttered background";
+        lines.push("", `NEGATIVE PROMPT: ${neg}.`);
       }
       if (incMJ && !plainOnly) {
         lines.push("", `Midjourney flags: --ar ${ratio} --stylize 200 --v 6`);
