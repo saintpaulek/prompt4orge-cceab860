@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Hammer, Library, Bookmark, Search, Copy, Check, Lock, Unlock,
-  Sparkles, Image as ImageIcon, X, Star,
+  Sparkles, Image as ImageIcon, X, Star, ChevronDown, ChevronRight,
 } from "lucide-react";
 import logoAsset from "@/assets/promptforge-logo.png.asset.json";
 import { LIBRARY, CATEGORIES, isFreePrompt, type Prompt } from "@/lib/prompts";
