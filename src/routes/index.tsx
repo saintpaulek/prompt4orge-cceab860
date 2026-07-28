@@ -202,6 +202,19 @@ function Builder() {
   const [incCam, setIncCam] = useState(false);
   const [incMJ, setIncMJ] = useState(true);
   const [plainOnly, setPlainOnly] = useState(false);
+  // advanced image controls
+  const [advOpen, setAdvOpen] = useState(false);
+  const [negOpen, setNegOpen] = useState(true);
+  const [camOpen, setCamOpen] = useState(true);
+  const [negText, setNegText] = useState(
+    "blur, watermark, extra fingers, distorted text, low quality, cluttered background",
+  );
+  const [lens, setLens] = useState<string>(LENSES[2]);
+  const [aperture, setAperture] = useState<string>(APERTURES[2]);
+  const [iso, setIso] = useState<string>(ISOS[1]);
+  const [shutter, setShutter] = useState<string>(SHUTTERS[3]);
+  const [camera, setCamera] = useState<string>(CAMERAS[0]);
+  const [camExtra, setCamExtra] = useState("shallow depth of field, natural bokeh");
 
   const isImage = contentType === "Image Prompt (AI Art)";
 
