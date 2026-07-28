@@ -316,6 +316,112 @@ function Builder() {
               <Toggle on={incMJ} onChange={setIncMJ}>Midjourney flags</Toggle>
               <Toggle on={plainOnly} onChange={setPlainOnly}>DALL·E / plain English</Toggle>
             </div>
+
+            <div className="mt-4 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)]/40">
+              <button
+                type="button"
+                onClick={() => setAdvOpen((o) => !o)}
+                className="w-full flex items-center justify-between px-3 py-2 text-xs uppercase tracking-wider text-[color:var(--color-cream)]/80 hover:text-[color:var(--color-ember)]"
+                aria-expanded={advOpen}
+              >
+                <span className="flex items-center gap-2">
+                  {advOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                  Advanced
+                </span>
+                <span className="text-[10px] opacity-60">
+                  {incNeg || incCam ? "customize negative + camera" : "optional"}
+                </span>
+              </button>
+
+              {advOpen && (
+                <div className="border-t border-[color:var(--color-line)] p-3 space-y-3">
+                  {/* Negative prompt */}
+                  <div className="rounded-md border border-[color:var(--color-line)]">
+                    <button
+                      type="button"
+                      onClick={() => setNegOpen((o) => !o)}
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium hover:text-[color:var(--color-ember)]"
+                      aria-expanded={negOpen}
+                    >
+                      <span className="flex items-center gap-2">
+                        {negOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                        Negative prompt
+                      </span>
+                      <span className={`text-[10px] ${incNeg ? "text-[color:var(--color-ember)]" : "opacity-50"}`}>
+                        {incNeg ? "on" : "off"}
+                      </span>
+                    </button>
+                    {negOpen && (
+                      <div className="px-3 pb-3 space-y-2">
+                        <textarea
+                          value={negText}
+                          onChange={(e) => setNegText(e.target.value)}
+                          placeholder="things to avoid: blur, watermark, extra fingers, distorted text..."
+                          className="w-full min-h-20 rounded-md border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] px-3 py-2 text-sm outline-none focus:border-[color:var(--color-ember)]"
+                          disabled={!incNeg}
+                        />
+                        <div className="flex flex-wrap gap-1.5">
+                          {["blur", "watermark", "extra fingers", "distorted text", "low quality", "cluttered background", "oversaturated", "plastic skin", "bad anatomy", "duplicate"].map((chip) => (
+                            <button
+                              key={chip}
+                              type="button"
+                              disabled={!incNeg}
+                              onClick={() => {
+                                setNegText((prev) => {
+                                  const parts = prev.split(",").map((p) => p.trim()).filter(Boolean);
+                                  if (parts.includes(chip)) return parts.filter((p) => p !== chip).join(", ");
+                                  return [...parts, chip].join(", ");
+                                });
+                              }}
+                              className="text-[10px] px-2 py-0.5 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-ember)] disabled:opacity-40"
+                            >
+                              {chip}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Camera / lens */}
+                  <div className="rounded-md border border-[color:var(--color-line)]">
+                    <button
+                      type="button"
+                      onClick={() => setCamOpen((o) => !o)}
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium hover:text-[color:var(--color-ember)]"
+                      aria-expanded={camOpen}
+                    >
+                      <span className="flex items-center gap-2">
+                        {camOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                        Camera &amp; lens
+                      </span>
+                      <span className={`text-[10px] ${incCam ? "text-[color:var(--color-ember)]" : "opacity-50"}`}>
+                        {incCam ? "on" : "off"}
+                      </span>
+                    </button>
+                    {camOpen && (
+                      <div className="px-3 pb-3 space-y-2" aria-disabled={!incCam}>
+                        <div className={`grid grid-cols-2 gap-2 ${!incCam ? "opacity-50 pointer-events-none" : ""}`}>
+                          <Field label="Camera body"><Select value={camera} onChange={setCamera} options={CAMERAS} /></Field>
+                          <Field label="Lens"><Select value={lens} onChange={setLens} options={LENSES} /></Field>
+                          <Field label="Aperture"><Select value={aperture} onChange={setAperture} options={APERTURES} /></Field>
+                          <Field label="ISO"><Select value={iso} onChange={setIso} options={ISOS} /></Field>
+                          <Field label="Shutter"><Select value={shutter} onChange={setShutter} options={SHUTTERS} /></Field>
+                          <Field label="Extra notes">
+                            <input
+                              value={camExtra}
+                              onChange={(e) => setCamExtra(e.target.value)}
+                              placeholder="shallow DOF, bokeh, tripod..."
+                              className="w-full rounded-md border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] px-2 py-1.5 text-sm outline-none focus:border-[color:var(--color-ember)]"
+                            />
+                          </Field>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </>
         ) : (
           <>
