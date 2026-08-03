@@ -17,11 +17,33 @@ export const CATEGORIES = [
   "Content Strategy",
   "Image Generation",
   "Video & Shorts",
+  "Blogging & Articles",
+  "Ecommerce & Product",
+  "Freelancing & Clients",
+  "Branding & Identity",
+  "Ads & Paid Media",
+  "ChatGPT Productivity",
+  "Business & Strategy",
+  "Education & Learning",
+  "Personal Development",
+  "Finance & Admin",
 ] as const;
 
 export function isFreePrompt(id: number) {
   return (id - 1) % 50 < 5;
 }
+
+/** Short one-line description used on library cards. */
+export function promptDesc(p: Prompt) {
+  const line =
+    p.prompt
+      .split("\n")
+      .map((l) => l.trim())
+      .find((l) => l && !l.startsWith("-")) ?? p.title;
+  const clean = line.replace(/^(TASK:|You are|Act as)\s*/i, "").replace(/\[|\]/g, "");
+  return clean.length > 120 ? clean.slice(0, 117) + "…" : clean;
+}
+
 
 // Per-category title seeds (50 each) and prompt template builders.
 type Block = {
@@ -365,10 +387,156 @@ CONSTRAINTS: match platform length, spoken-word rhythm, no filler.`,
   },
 ];
 
-export const LIBRARY: Prompt[] = blocks.flatMap((b, bi) =>
+// ---------- expansion blocks: 10 more categories × 50 = 1000 prompts total ----------
+const ANGLES = [
+  "complete step-by-step guide",
+  "ready-to-use template",
+  "advanced expert framework",
+  "beginner-friendly walkthrough",
+  "checklist with examples",
+];
+
+type ExtraCat = {
+  cat: string;
+  tags: string[];
+  role: string;
+  topics: string[];
+};
+
+const extraCats: ExtraCat[] = [
+  {
+    cat: "Blogging & Articles",
+    tags: ["Blog", "Writing"],
+    role: "senior long-form content editor",
+    topics: [
+      "SEO blog post (1500 words)", "Listicle article", "How-to tutorial post", "Ultimate guide outline",
+      "Opinion / POV essay", "Interview-style article", "Product roundup review", "Data-driven research post",
+      "Beginner glossary post", "Article rewrite & upgrade",
+    ],
+  },
+  {
+    cat: "Ecommerce & Product",
+    tags: ["Ecommerce", "Product"],
+    role: "ecommerce merchandising strategist",
+    topics: [
+      "Product description", "Collection page copy", "Amazon listing copy", "Product bundle offer",
+      "Shipping & returns page", "Product FAQ block", "Review response pack", "Post-purchase upsell",
+      "Product naming ideas", "Packaging insert copy",
+    ],
+  },
+  {
+    cat: "Freelancing & Clients",
+    tags: ["Freelance", "Clients"],
+    role: "experienced freelance consultant",
+    topics: [
+      "Client proposal", "Project scope document", "Rate increase message", "Discovery questionnaire",
+      "Late payment follow-up", "Portfolio case study", "Upwork / Fiverr gig copy", "Client onboarding pack",
+      "Scope-creep pushback message", "Contract summary in plain English",
+    ],
+  },
+  {
+    cat: "Branding & Identity",
+    tags: ["Brand", "Identity"],
+    role: "brand strategist",
+    topics: [
+      "Brand positioning statement", "Brand voice guide", "Mission & values copy", "Tagline options",
+      "Business name ideas", "Brand story narrative", "Competitor differentiation map", "Visual identity brief",
+      "Brand messaging hierarchy", "Rebrand announcement",
+    ],
+  },
+  {
+    cat: "Ads & Paid Media",
+    tags: ["Ads", "Paid"],
+    role: "performance marketing specialist",
+    topics: [
+      "Meta ad copy set", "Google Search ad set", "TikTok ad script", "Retargeting ad angles",
+      "Ad creative testing plan", "Landing page match brief", "Audience targeting plan", "Budget & bidding plan",
+      "Ad account audit", "Ad hook variations (10)",
+    ],
+  },
+  {
+    cat: "ChatGPT Productivity",
+    tags: ["Productivity", "AI"],
+    role: "AI workflow coach",
+    topics: [
+      "Daily planning assistant", "Meeting notes summarizer", "Inbox zero workflow", "Research assistant brief",
+      "Document summarizer", "Decision-making assistant", "Brainstorm partner setup", "Custom instructions writer",
+      "Spreadsheet formula helper", "Weekly review assistant",
+    ],
+  },
+  {
+    cat: "Business & Strategy",
+    tags: ["Business", "Strategy"],
+    role: "management consultant",
+    topics: [
+      "Business model canvas", "Go-to-market plan", "Pricing strategy review", "Competitor analysis",
+      "SWOT analysis", "Customer persona research", "OKR planning session", "Investor one-pager",
+      "Partnership proposal", "Quarterly business review",
+    ],
+  },
+  {
+    cat: "Education & Learning",
+    tags: ["Learning", "Teaching"],
+    role: "instructional designer",
+    topics: [
+      "Lesson plan", "Course curriculum outline", "Study guide", "Quiz & answer key",
+      "Concept explained simply", "Flashcard set", "Assignment rubric", "Workshop facilitation script",
+      "Learning roadmap (90 days)", "Exam revision plan",
+    ],
+  },
+  {
+    cat: "Personal Development",
+    tags: ["Growth", "Habits"],
+    role: "performance coach",
+    topics: [
+      "Goal-setting framework", "Habit tracker plan", "Weekly review ritual", "Time-blocking schedule",
+      "Career change roadmap", "Resume rewrite", "Interview preparation drill", "Personal brand plan",
+      "Burnout recovery plan", "Reading & learning system",
+    ],
+  },
+  {
+    cat: "Finance & Admin",
+    tags: ["Finance", "Admin"],
+    role: "small-business finance manager",
+    topics: [
+      "Monthly budget template", "Cash-flow forecast", "Invoice & payment terms", "Expense policy",
+      "Pricing & margin calculator brief", "Tax-season checklist", "Financial report summary", "Subscription audit",
+      "Payment reminder sequence", "Bookkeeping SOP",
+    ],
+  },
+];
+
+const extraBlocks: Block[] = extraCats.map((c) => {
+  const topics = c.topics;
+  const role = c.role;
+
+  return {
+    cat: c.cat,
+    titles: topics.flatMap((topic) => ANGLES.map((a) => `${topic} — ${a}`)),
+    build: (t) => ({
+      tags: c.tags,
+      prompt: `You are a ${role}.
+TASK: ${t.split(" — ")[0]} for [company / person / project].
+FORMAT: ${t.split(" — ")[1]}.
+CONTEXT: [industry, audience, current situation, constraints].
+GOAL: [the specific outcome you want].
+DELIVERABLES:
+- A clear, structured result I can use immediately
+- 2 alternative versions (one shorter, one more detailed)
+- Key assumptions you made, listed separately
+- Next steps checklist with owners and timing
+CONSTRAINTS: plain English, no filler, be specific and practical, ask me up to 3 clarifying questions first if anything essential is missing.`,
+    }),
+  };
+});
+
+const allBlocks: Block[] = [...blocks, ...extraBlocks];
+
+export const LIBRARY: Prompt[] = allBlocks.flatMap((b, bi) =>
   b.titles.map((title, ti) => {
     const id = bi * 50 + ti + 1;
     const { tags, prompt } = b.build(title, id);
     return { id, cat: b.cat, title, tags, prompt };
   }),
 );
+
