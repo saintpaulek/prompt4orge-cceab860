@@ -101,7 +101,30 @@ function BuilderPage() {
   const [note, setNote] = useState("");
   const [, setMine] = useLocal<MyPrompt[]>(K_MY, []);
 
+  // "Use this prompt" from the Library: /?p=<id>
+  const { p: importedId } = Route.useSearch();
+  const [imported, setImported] = useState<{ id: number; title: string; cat: string; text: string } | null>(null);
+
+  useEffect(() => {
+    if (importedId == null) return;
+    const found = LIBRARY.find((x) => x.id === importedId);
+    if (!found) return;
+    const preset = CAT_PRESET[found.cat];
+    if (preset) {
+      setContentType(preset.type as ContentType);
+      if (preset.platform) setPlatform(preset.platform);
+      if (preset.tone) setTone(preset.tone);
+      if (preset.goal) setGoal(preset.goal);
+    }
+    setTopic(found.title);
+    setAudience("");
+    setImported({ id: found.id, title: found.title, cat: found.cat, text: found.prompt });
+    setNote(`Loaded "${found.title}" from the library.`);
+    setTimeout(() => setNote(""), 2500);
+  }, [importedId]);
+
   const isImage = contentType === "Image Prompt (AI Art)";
+
 
   const base = useMemo(() => {
     if (isImage) {
