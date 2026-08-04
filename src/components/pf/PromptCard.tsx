@@ -161,6 +161,14 @@ export function PromptModal({
         </pre>
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <CopyButton text={p.prompt} label="Copy prompt" />
+          <Link
+            to="/"
+            search={{ p: p.id }}
+            onClick={onClose}
+            className="flex min-h-11 items-center gap-1.5 rounded-lg border border-[color:var(--color-gold)] px-3.5 py-2 text-sm font-semibold text-[color:var(--color-gold)] hover:bg-[color:var(--color-gold-soft)]"
+          >
+            <Wand2 size={15} /> Use this prompt
+          </Link>
           <button
             type="button"
             onClick={onToggleSave}

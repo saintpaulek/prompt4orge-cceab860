@@ -1,10 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Hammer, Sparkles, RotateCcw, Bookmark, Wand2, ChevronDown, ChevronRight } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { Hammer, Sparkles, RotateCcw, Bookmark, Wand2, ChevronDown, ChevronRight, Library as LibraryIcon, X } from "lucide-react";
 import { Field, Select, SelectChips, Toggle, CopyButton, SectionTitle, inputCls, GhostButton } from "@/components/pf/ui";
 import { useLocal } from "@/lib/store";
+import { LIBRARY } from "@/lib/prompts";
 
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    p: search.p != null && Number.isFinite(Number(search.p)) ? Number(search.p) : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "PromptForge Builder — Craft an AI prompt in 60 seconds" },
@@ -15,6 +19,30 @@ export const Route = createFileRoute("/")({
   }),
   component: BuilderPage,
 });
+
+// maps a library category onto builder selectors
+const CAT_PRESET: Record<string, { type: string; platform?: string; tone?: string; goal?: string }> = {
+  SMM: { type: "Social post", platform: "Instagram", goal: "Engagement" },
+  "VA Tasks": { type: "Email", platform: "Email", goal: "Retention" },
+  "Customer Service": { type: "Email", platform: "Email", tone: "Warm / conversational", goal: "Retention" },
+  "Automation Logic": { type: "Blog", platform: "Blog", goal: "Education" },
+  SEO: { type: "Blog", platform: "Blog", goal: "Awareness" },
+  "Email Marketing": { type: "Email", platform: "Email", goal: "Sales" },
+  "Sales & Copywriting": { type: "Ad copy", platform: "Facebook", tone: "Bold / edgy", goal: "Sales" },
+  "Content Strategy": { type: "Social post", platform: "LinkedIn", goal: "Awareness" },
+  "Image Generation": { type: "Image Prompt (AI Art)" },
+  "Video & Shorts": { type: "Video script", platform: "TikTok", goal: "Engagement" },
+  "Blogging & Articles": { type: "Blog", platform: "Blog", goal: "Education" },
+  "Ecommerce & Product": { type: "Ad copy", platform: "Instagram", goal: "Sales" },
+  "Freelancing & Clients": { type: "Email", platform: "Email", goal: "Leads" },
+  "Branding & Identity": { type: "Social post", platform: "Instagram", tone: "Premium / luxury", goal: "Awareness" },
+  "Ads & Paid Media": { type: "Ad copy", platform: "Facebook", goal: "Sales" },
+  "ChatGPT Productivity": { type: "Blog", platform: "Blog", goal: "Education" },
+  "Business & Strategy": { type: "Social post", platform: "LinkedIn", tone: "Authoritative", goal: "Leads" },
+  "Education & Learning": { type: "Blog", platform: "Blog", goal: "Education" },
+  "Personal Development": { type: "Social post", platform: "LinkedIn", goal: "Education" },
+  "Finance & Admin": { type: "Email", platform: "Email", tone: "Authoritative", goal: "Retention" },
+};
 
 type ContentType = "Social post" | "Email" | "Blog" | "Ad copy" | "Video script" | "Image Prompt (AI Art)";
 const CONTENT_TYPES: ContentType[] = ["Social post", "Email", "Blog", "Ad copy", "Video script", "Image Prompt (AI Art)"];
