@@ -173,9 +173,21 @@ function BuilderPage() {
     ].filter(Boolean).join("\n");
   }, [isImage, contentType, topic, audience, platform, tone, goal, extras, imgStyle, ratio, light, incNeg, incCam, incMJ, plainOnly, negText, lens, aperture, iso, shutter, camera, camExtra]);
 
+  const source = imported
+    ? [
+        imported.text,
+        "",
+        "— YOUR SETTINGS —",
+        `PLATFORM: ${platform}`,
+        `TONE / VOICE: ${tone}`,
+        `PRIMARY GOAL: ${goal}`,
+        extras ? `EXTRA CONTEXT: ${extras}` : "",
+      ].filter(Boolean).join("\n")
+    : base;
+
   const generated = refined
     ? [
-        base,
+        source,
         "",
         "— REFINEMENTS —",
         "QUALITY BAR: write like a top 1% specialist; be concrete, use real numbers and examples over adjectives.",
@@ -183,16 +195,18 @@ function BuilderPage() {
         "SELF-CHECK: review your draft against the goal and constraints, then output the improved final version.",
         "CLARIFY: if anything essential is missing, ask up to 3 questions first.",
       ].join("\n")
-    : base;
+    : source;
 
   const reset = () => {
     setContentType("Social post"); setTopic(""); setAudience(""); setPlatform("Instagram");
     setTone(TONES[0]); setGoal(GOALS[0]); setExtras(""); setRefined(false);
     setImgStyle(IMG_STYLES[0]); setRatio("1:1"); setLight(LIGHTS[0]);
     setIncNeg(true); setIncCam(false); setIncMJ(true); setPlainOnly(false); setNegText(DEFAULT_NEG);
+    setImported(null);
     setNote("Builder reset.");
     setTimeout(() => setNote(""), 1800);
   };
+
 
   const savePrompt = () => {
     const title = (topic.trim() || contentType) + (isImage ? " (image prompt)" : "");
