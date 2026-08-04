@@ -381,6 +381,28 @@ function BuilderPage() {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <SectionTitle icon={<Sparkles size={16} />}>YOUR FORGED PROMPT</SectionTitle>
           </div>
+
+          {imported && (
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[color:var(--color-gold)] bg-[color:var(--color-gold-soft)] px-3 py-2 text-xs text-[color:var(--color-gold)]">
+              <span className="flex min-w-0 items-center gap-2">
+                <LibraryIcon size={14} />
+                <span className="truncate">
+                  From library #{imported.id.toString().padStart(4, "0")} · {imported.cat} — {imported.title}
+                </span>
+              </span>
+              <span className="flex items-center gap-2">
+                <Link to="/library" className="underline hover:no-underline">Library</Link>
+                <button
+                  type="button"
+                  onClick={() => setImported(null)}
+                  aria-label="Clear imported prompt"
+                  className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-[color:var(--color-gold)]/20"
+                >
+                  <X size={13} />
+                </button>
+              </span>
+            </div>
+          )}
           <pre className="scrollbar-thin max-h-[420px] overflow-auto rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] p-4 text-sm leading-relaxed break-words whitespace-pre-wrap text-[color:var(--color-cream)] md:max-h-[520px]">
 {generated}
           </pre>
