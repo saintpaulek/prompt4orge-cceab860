@@ -1,4 +1,5 @@
-import { Bookmark, Lock, Image as ImageIcon, Trash2, X } from "lucide-react";
+import { Bookmark, Lock, Image as ImageIcon, Trash2, X, Wand2 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { isFreePrompt, promptDesc, type Prompt } from "@/lib/prompts";
 import { CopyButton } from "./ui";
 
@@ -58,13 +59,22 @@ export function PromptCard({
             <Lock size={14} /> Unlock to view
           </button>
         ) : (
-          <button
-            type="button"
-            onClick={onOpen}
-            className="flex min-h-11 items-center gap-1.5 rounded-lg bg-[color:var(--color-ember)] px-3.5 py-2 text-sm font-semibold text-[color:var(--color-bg-deep)] hover:brightness-110"
-          >
-            View &amp; use
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={onOpen}
+              className="flex min-h-11 items-center gap-1.5 rounded-lg bg-[color:var(--color-ember)] px-3.5 py-2 text-sm font-semibold text-[color:var(--color-bg-deep)] hover:brightness-110"
+            >
+              View
+            </button>
+            <Link
+              to="/"
+              search={{ p: p.id }}
+              className="flex min-h-11 items-center gap-1.5 rounded-lg border border-[color:var(--color-gold)] px-3 py-2 text-sm font-semibold text-[color:var(--color-gold)] hover:bg-[color:var(--color-gold-soft)]"
+            >
+              <Wand2 size={14} /> Use this prompt
+            </Link>
+          </div>
         )}
         <div className="flex items-center gap-2">
           {!locked && <CopyButtonSmall text={p.prompt} />}
@@ -151,6 +161,14 @@ export function PromptModal({
         </pre>
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <CopyButton text={p.prompt} label="Copy prompt" />
+          <Link
+            to="/"
+            search={{ p: p.id }}
+            onClick={onClose}
+            className="flex min-h-11 items-center gap-1.5 rounded-lg border border-[color:var(--color-gold)] px-3.5 py-2 text-sm font-semibold text-[color:var(--color-gold)] hover:bg-[color:var(--color-gold-soft)]"
+          >
+            <Wand2 size={15} /> Use this prompt
+          </Link>
           <button
             type="button"
             onClick={onToggleSave}

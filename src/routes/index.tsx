@@ -1,10 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Hammer, Sparkles, RotateCcw, Bookmark, Wand2, ChevronDown, ChevronRight } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { Hammer, Sparkles, RotateCcw, Bookmark, Wand2, ChevronDown, ChevronRight, Library as LibraryIcon, X } from "lucide-react";
 import { Field, Select, SelectChips, Toggle, CopyButton, SectionTitle, inputCls, GhostButton } from "@/components/pf/ui";
 import { useLocal } from "@/lib/store";
+import { LIBRARY } from "@/lib/prompts";
 
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    p: search.p != null && Number.isFinite(Number(search.p)) ? Number(search.p) : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "PromptForge Builder — Craft an AI prompt in 60 seconds" },
@@ -15,6 +19,30 @@ export const Route = createFileRoute("/")({
   }),
   component: BuilderPage,
 });
+
+// maps a library category onto builder selectors
+const CAT_PRESET: Record<string, { type: string; platform?: string; tone?: string; goal?: string }> = {
+  SMM: { type: "Social post", platform: "Instagram", goal: "Engagement" },
+  "VA Tasks": { type: "Email", platform: "Email", goal: "Retention" },
+  "Customer Service": { type: "Email", platform: "Email", tone: "Warm / conversational", goal: "Retention" },
+  "Automation Logic": { type: "Blog", platform: "Blog", goal: "Education" },
+  SEO: { type: "Blog", platform: "Blog", goal: "Awareness" },
+  "Email Marketing": { type: "Email", platform: "Email", goal: "Sales" },
+  "Sales & Copywriting": { type: "Ad copy", platform: "Facebook", tone: "Bold / edgy", goal: "Sales" },
+  "Content Strategy": { type: "Social post", platform: "LinkedIn", goal: "Awareness" },
+  "Image Generation": { type: "Image Prompt (AI Art)" },
+  "Video & Shorts": { type: "Video script", platform: "TikTok", goal: "Engagement" },
+  "Blogging & Articles": { type: "Blog", platform: "Blog", goal: "Education" },
+  "Ecommerce & Product": { type: "Ad copy", platform: "Instagram", goal: "Sales" },
+  "Freelancing & Clients": { type: "Email", platform: "Email", goal: "Leads" },
+  "Branding & Identity": { type: "Social post", platform: "Instagram", tone: "Premium / luxury", goal: "Awareness" },
+  "Ads & Paid Media": { type: "Ad copy", platform: "Facebook", goal: "Sales" },
+  "ChatGPT Productivity": { type: "Blog", platform: "Blog", goal: "Education" },
+  "Business & Strategy": { type: "Social post", platform: "LinkedIn", tone: "Authoritative", goal: "Leads" },
+  "Education & Learning": { type: "Blog", platform: "Blog", goal: "Education" },
+  "Personal Development": { type: "Social post", platform: "LinkedIn", goal: "Education" },
+  "Finance & Admin": { type: "Email", platform: "Email", tone: "Authoritative", goal: "Retention" },
+};
 
 type ContentType = "Social post" | "Email" | "Blog" | "Ad copy" | "Video script" | "Image Prompt (AI Art)";
 const CONTENT_TYPES: ContentType[] = ["Social post", "Email", "Blog", "Ad copy", "Video script", "Image Prompt (AI Art)"];
@@ -73,7 +101,30 @@ function BuilderPage() {
   const [note, setNote] = useState("");
   const [, setMine] = useLocal<MyPrompt[]>(K_MY, []);
 
+  // "Use this prompt" from the Library: /?p=<id>
+  const { p: importedId } = Route.useSearch();
+  const [imported, setImported] = useState<{ id: number; title: string; cat: string; text: string } | null>(null);
+
+  useEffect(() => {
+    if (importedId == null) return;
+    const found = LIBRARY.find((x) => x.id === importedId);
+    if (!found) return;
+    const preset = CAT_PRESET[found.cat];
+    if (preset) {
+      setContentType(preset.type as ContentType);
+      if (preset.platform) setPlatform(preset.platform);
+      if (preset.tone) setTone(preset.tone);
+      if (preset.goal) setGoal(preset.goal);
+    }
+    setTopic(found.title);
+    setAudience("");
+    setImported({ id: found.id, title: found.title, cat: found.cat, text: found.prompt });
+    setNote(`Loaded "${found.title}" from the library.`);
+    setTimeout(() => setNote(""), 2500);
+  }, [importedId]);
+
   const isImage = contentType === "Image Prompt (AI Art)";
+
 
   const base = useMemo(() => {
     if (isImage) {
@@ -122,9 +173,21 @@ function BuilderPage() {
     ].filter(Boolean).join("\n");
   }, [isImage, contentType, topic, audience, platform, tone, goal, extras, imgStyle, ratio, light, incNeg, incCam, incMJ, plainOnly, negText, lens, aperture, iso, shutter, camera, camExtra]);
 
+  const source = imported
+    ? [
+        imported.text,
+        "",
+        "— YOUR SETTINGS —",
+        `PLATFORM: ${platform}`,
+        `TONE / VOICE: ${tone}`,
+        `PRIMARY GOAL: ${goal}`,
+        extras ? `EXTRA CONTEXT: ${extras}` : "",
+      ].filter(Boolean).join("\n")
+    : base;
+
   const generated = refined
     ? [
-        base,
+        source,
         "",
         "— REFINEMENTS —",
         "QUALITY BAR: write like a top 1% specialist; be concrete, use real numbers and examples over adjectives.",
@@ -132,16 +195,18 @@ function BuilderPage() {
         "SELF-CHECK: review your draft against the goal and constraints, then output the improved final version.",
         "CLARIFY: if anything essential is missing, ask up to 3 questions first.",
       ].join("\n")
-    : base;
+    : source;
 
   const reset = () => {
     setContentType("Social post"); setTopic(""); setAudience(""); setPlatform("Instagram");
     setTone(TONES[0]); setGoal(GOALS[0]); setExtras(""); setRefined(false);
     setImgStyle(IMG_STYLES[0]); setRatio("1:1"); setLight(LIGHTS[0]);
     setIncNeg(true); setIncCam(false); setIncMJ(true); setPlainOnly(false); setNegText(DEFAULT_NEG);
+    setImported(null);
     setNote("Builder reset.");
     setTimeout(() => setNote(""), 1800);
   };
+
 
   const savePrompt = () => {
     const title = (topic.trim() || contentType) + (isImage ? " (image prompt)" : "");
@@ -316,6 +381,28 @@ function BuilderPage() {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <SectionTitle icon={<Sparkles size={16} />}>YOUR FORGED PROMPT</SectionTitle>
           </div>
+
+          {imported && (
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[color:var(--color-gold)] bg-[color:var(--color-gold-soft)] px-3 py-2 text-xs text-[color:var(--color-gold)]">
+              <span className="flex min-w-0 items-center gap-2">
+                <LibraryIcon size={14} />
+                <span className="truncate">
+                  From library #{imported.id.toString().padStart(4, "0")} · {imported.cat} — {imported.title}
+                </span>
+              </span>
+              <span className="flex items-center gap-2">
+                <Link to="/library" className="underline hover:no-underline">Library</Link>
+                <button
+                  type="button"
+                  onClick={() => setImported(null)}
+                  aria-label="Clear imported prompt"
+                  className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-[color:var(--color-gold)]/20"
+                >
+                  <X size={13} />
+                </button>
+              </span>
+            </div>
+          )}
           <pre className="scrollbar-thin max-h-[420px] overflow-auto rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] p-4 text-sm leading-relaxed break-words whitespace-pre-wrap text-[color:var(--color-cream)] md:max-h-[520px]">
 {generated}
           </pre>
