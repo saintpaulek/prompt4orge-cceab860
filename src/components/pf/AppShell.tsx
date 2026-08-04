@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Hammer, Library, Bookmark, Info, Mail, Menu, X, Lock, Unlock, Sparkles } from "lucide-react";
-import logoAsset from "@/assets/promptforge-logo.png.asset.json";
+import logoAsset from "@/assets/promptforge-wordmark.png.asset.json";
 import { useUnlock, useLocal, K_WELCOME } from "@/lib/store";
 import { UnlockModal } from "./UnlockModal";
 
@@ -22,17 +22,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen w-full flex-col overflow-x-hidden bg-[color:var(--color-bg)] text-[color:var(--color-cream)]">
       <header className="sticky top-0 z-30 border-b border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)]/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-          <Link to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
-            <img src={logoAsset.url} alt="PromptForge logo" className="h-10 w-10 rounded-lg object-cover" />
-            <div className="leading-tight">
-              <div className="font-display text-2xl sm:text-3xl">
-                <span className="text-[color:var(--color-cream)]">Prompt</span>
-                <span className="wordmark-forge">Forge</span>
-              </div>
-              <div className="hidden text-[11px] text-[color:var(--color-cream-dim)] sm:block">
-                Build the perfect AI prompt in 60 seconds
-              </div>
-            </div>
+          <Link to="/" className="flex min-w-0 items-center" onClick={() => setMenuOpen(false)}>
+            <img
+              src={logoAsset.url}
+              alt="PromptForge — build the perfect AI prompt in 60 seconds"
+              className="h-11 w-auto max-w-[230px] object-contain sm:h-14 sm:max-w-[320px]"
+            />
           </Link>
 
           {/* desktop nav */}
