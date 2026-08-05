@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Hammer, Sparkles, RotateCcw, Bookmark, Wand2, ChevronDown, ChevronRight, Library as LibraryIcon, X, Users } from "lucide-react";
-import { Field, Select, SelectChips, Toggle, CopyButton, SectionTitle, inputCls, GhostButton } from "@/components/pf/ui";
+import { Field, Select, Toggle, CopyButton, SectionTitle, inputCls, GhostButton } from "@/components/pf/ui";
 import { useLocal } from "@/lib/store";
 import { LIBRARY } from "@/lib/prompts";
 import { BUILDER_CATEGORIES, CATEGORY_CONFIG, type BuilderCategory } from "@/lib/categories";
