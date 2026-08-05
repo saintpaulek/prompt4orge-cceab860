@@ -17,6 +17,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Pick a category, platform, tone, and goal, then copy a production-ready AI prompt instantly." },
       { property: "og:title", content: "PromptForge Builder — Craft an AI prompt in 60 seconds" },
       { property: "og:description", content: "Pick a category, platform, tone, and goal, then copy a production-ready AI prompt instantly." },
+      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
+      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
     ],
   }),
   component: BuilderPage,

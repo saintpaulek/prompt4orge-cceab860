@@ -8,6 +8,8 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "PromptForge helps anyone create high-quality AI prompts in under 60 seconds — no experience needed. Learn about our mission and what we offer." },
       { property: "og:title", content: "About PromptForge — prompt engineering made simple" },
       { property: "og:description", content: "Our mission: make professional prompt engineering simple and accessible for creators, marketers, students, and businesses." },
+      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
+      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
     ],
   }),
   component: AboutPage,
