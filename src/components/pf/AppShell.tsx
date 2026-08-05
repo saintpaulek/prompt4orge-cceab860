@@ -62,7 +62,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               }`}
             >
               {unlocked ? <Unlock size={14} /> : <Lock size={14} />}
-              {unlocked ? "Unlocked" : "Unlock"}
+              {unlocked ? "Full Access" : "Unlock Full Access"}
             </button>
           </div>
 
@@ -106,7 +106,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 className="mt-1 flex min-h-11 items-center gap-3 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-panel)] px-3 py-3 text-sm font-medium text-[color:var(--color-cream)]"
               >
                 {unlocked ? <Unlock size={17} /> : <Lock size={17} />}
-                {unlocked ? "Library unlocked" : "Unlock full library"}
+                {unlocked ? "Full Access active" : "Unlock Full Access"}
               </button>
             </div>
           </nav>

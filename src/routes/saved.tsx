@@ -13,6 +13,8 @@ export const Route = createFileRoute("/saved")({
       { name: "description", content: "View, copy, and manage the AI prompts you saved from the PromptForge library and builder." },
       { property: "og:title", content: "Saved Prompts — your PromptForge collection" },
       { property: "og:description", content: "View, copy, and manage the AI prompts you saved in PromptForge." },
+      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
+      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
     ],
   }),
   component: SavedPage,

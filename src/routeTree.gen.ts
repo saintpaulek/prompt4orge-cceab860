@@ -14,6 +14,7 @@ import { Route as LibraryRouteImport } from './routes/library'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminCodesRouteImport } from './routes/admin.codes'
 
 const SavedRoute = SavedRouteImport.update({
   id: '/saved',
@@ -40,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCodesRoute = AdminCodesRouteImport.update({
+  id: '/admin/codes',
+  path: '/admin/codes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/library': typeof LibraryRoute
   '/saved': typeof SavedRoute
+  '/admin/codes': typeof AdminCodesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/library': typeof LibraryRoute
   '/saved': typeof SavedRoute
+  '/admin/codes': typeof AdminCodesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,27 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/library': typeof LibraryRoute
   '/saved': typeof SavedRoute
+  '/admin/codes': typeof AdminCodesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/library' | '/saved'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/library'
+    | '/saved'
+    | '/admin/codes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/library' | '/saved'
-  id: '__root__' | '/' | '/about' | '/contact' | '/library' | '/saved'
+  to: '/' | '/about' | '/contact' | '/library' | '/saved' | '/admin/codes'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/library'
+    | '/saved'
+    | '/admin/codes'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +99,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LibraryRoute: typeof LibraryRoute
   SavedRoute: typeof SavedRoute
+  AdminCodesRoute: typeof AdminCodesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/codes': {
+      id: '/admin/codes'
+      path: '/admin/codes'
+      fullPath: '/admin/codes'
+      preLoaderRoute: typeof AdminCodesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +155,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LibraryRoute: LibraryRoute,
   SavedRoute: SavedRoute,
+  AdminCodesRoute: AdminCodesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

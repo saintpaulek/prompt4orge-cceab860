@@ -10,6 +10,8 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Reach the PromptForge team by email at saintpaulek@gmail.com, by phone on +2347069573528, or with the contact form." },
       { property: "og:title", content: "Contact PromptForge — questions, ideas, partnerships" },
       { property: "og:description", content: "Have a question, suggestion, or partnership idea? Get in touch with the PromptForge team." },
+      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
+      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
     ],
   }),
   component: ContactPage,

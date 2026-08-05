@@ -14,6 +14,8 @@ export const Route = createFileRoute("/library")({
       { name: "description", content: "Search and filter 1000+ expert-crafted AI prompts across 20 categories: social, SEO, email, sales, image generation and more." },
       { property: "og:title", content: "Prompt Library — 1000+ expert AI prompts | PromptForge" },
       { property: "og:description", content: "Search and filter 1000+ expert-crafted AI prompts across 20 categories." },
+      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
+      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
     ],
   }),
   component: LibraryPage,
