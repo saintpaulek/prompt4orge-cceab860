@@ -8,9 +8,9 @@ import { BUILDER_CATEGORIES, CATEGORY_CONFIG, type BuilderCategory } from "@/lib
 import { SOCIAL_PROOF_TEXT, TESTIMONIALS } from "@/lib/copy";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    p: search.p != null && Number.isFinite(Number(search.p)) ? Number(search.p) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { p?: number } =>
+    search.p != null && Number.isFinite(Number(search.p)) ? { p: Number(search.p) } : {},
+
   head: () => ({
     meta: [
       { title: "PromptForge Builder — Craft an AI prompt in 60 seconds" },
