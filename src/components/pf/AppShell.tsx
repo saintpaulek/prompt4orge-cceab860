@@ -22,13 +22,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen w-full flex-col overflow-x-hidden bg-[color:var(--color-bg)] text-[color:var(--color-cream)]">
       <header className="sticky top-0 z-30 border-b border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)]/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-          <Link to="/" className="flex min-w-0 items-center" onClick={() => setMenuOpen(false)}>
-            <img
-              src={logoAsset.url}
-              alt="PromptForge — build the perfect AI prompt in 60 seconds"
-              className="h-11 w-auto max-w-[230px] object-contain sm:h-14 sm:max-w-[320px]"
-            />
+          <Link to="/" className="flex min-w-0 items-center gap-2" onClick={() => setMenuOpen(false)}>
+            <span className="font-display truncate text-2xl tracking-wide sm:text-3xl">
+              Prompt
+              <span className="bg-gradient-to-r from-[color:var(--color-gold)] to-[color:var(--color-ember)] bg-clip-text text-transparent">
+                Forge
+              </span>
+            </span>
           </Link>
+
 
           {/* desktop nav */}
           <div className="hidden items-center gap-2 lg:flex">
