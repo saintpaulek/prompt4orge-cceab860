@@ -51,12 +51,14 @@ export function UnlockModal({
       const res = await redeem({ data: { code } });
       if (res.ok) onUnlock();
       else setErr(res.reason);
-    } catch {
-      setErr("Couldn't check that code right now. Please try again.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setErr(`Couldn't check that code: ${msg}`);
     } finally {
       setBusy(false);
     }
   };
+
 
   return (
     <div
