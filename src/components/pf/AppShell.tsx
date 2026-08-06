@@ -135,9 +135,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+const SLIDES = [
+  {
+    kind: "logo" as const,
+    title: "Welcome to PromptForge",
+    body: ["Build the perfect AI prompt in 60 seconds.", "Access a library of 1000+ expert-crafted prompts and a powerful custom builder."],
+  },
+  {
+    kind: "icon" as const,
+    title: "Forge in seconds",
+    body: ["Pick a category, platform, tone and goal.", "Your prompt is written live — copy it straight into any AI tool."],
+  },
+  {
+    kind: "icon" as const,
+    title: "Save what works",
+    body: ["Bookmark prompts you love and find them again on the Saved page.", "Unlock Full Access anytime for unlimited saves and every template."],
+  },
+];
+
 function WelcomeModal() {
   const [seen, setSeen, ready] = useLocal<boolean>(K_WELCOME, false);
   const [open, setOpen] = useState(false);
+  const [i, setI] = useState(0);
 
   useEffect(() => {
     if (ready && !seen) setOpen(true);
@@ -145,6 +164,8 @@ function WelcomeModal() {
 
   if (!open) return null;
   const close = () => { setSeen(true); setOpen(false); };
+  const slide = SLIDES[i];
+  const last = i === SLIDES.length - 1;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onClick={close}>
@@ -163,22 +184,51 @@ function WelcomeModal() {
         >
           <X size={18} />
         </button>
-        <Sparkles className="mx-auto text-[color:var(--color-gold)]" size={28} />
-        <h2 id="welcome-title" className="font-display mt-3 text-3xl">Welcome to PromptForge</h2>
-        <p className="mt-3 text-sm leading-relaxed text-[color:var(--color-cream-dim)]">
-          Build the perfect AI prompt in 60 seconds.
-        </p>
-        <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-cream-dim)]">
-          Access a library of 1000+ expert-crafted prompts and a powerful custom builder.
-        </p>
+
+        {slide.kind === "logo" ? (
+          <img
+            src={logoAsset.url}
+            alt="PromptForge — build the perfect AI prompt in 60 seconds"
+            className="mx-auto h-auto w-full max-w-[300px] object-contain"
+          />
+        ) : (
+          <Sparkles className="mx-auto text-[color:var(--color-gold)]" size={28} />
+        )}
+
+        <h2 id="welcome-title" className="font-display mt-4 text-3xl">{slide.title}</h2>
+        {slide.body.map((t) => (
+          <p key={t} className="mt-3 text-sm leading-relaxed text-[color:var(--color-cream-dim)]">{t}</p>
+        ))}
+
+        <div className="mt-6 flex items-center justify-center gap-2">
+          {SLIDES.map((s, idx) => (
+            <span
+              key={s.title}
+              className={`h-1.5 rounded-full transition-all ${
+                idx === i ? "w-6 bg-[color:var(--color-ember)]" : "w-1.5 bg-[color:var(--color-line)]"
+              }`}
+            />
+          ))}
+        </div>
+
         <button
           type="button"
-          onClick={close}
-          className="mt-6 min-h-11 w-full rounded-lg bg-[color:var(--color-ember)] px-4 py-3 text-sm font-semibold text-[color:var(--color-bg-deep)] hover:brightness-110"
+          onClick={() => (last ? close() : setI((n) => n + 1))}
+          className="mt-4 min-h-11 w-full rounded-lg bg-[color:var(--color-ember)] px-4 py-3 text-sm font-semibold text-[color:var(--color-bg-deep)] hover:brightness-110"
         >
-          Get Started
+          {last ? "Get Started" : "Next"}
         </button>
+        {!last && (
+          <button
+            type="button"
+            onClick={close}
+            className="mt-2 min-h-11 w-full text-xs font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-cream)]"
+          >
+            Skip
+          </button>
+        )}
       </div>
     </div>
   );
 }
+
