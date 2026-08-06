@@ -63,23 +63,44 @@ export const adminGenerateCodes = createServerFn({ method: "POST" })
   });
 
 export const redeemUnlockCode = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => z.object({ code: z.string().trim().min(4).max(40) }).parse(d))
-  .handler(async ({ data }) => {
+  .inputValidator((d: unknown) => z.object({ code: z.string().max(60) }).parse(d))
+  .handler(async ({ data }): Promise<{ ok: true } | { ok: false; reason: string }> => {
     const code = data.code.toUpperCase().replace(/\s+/g, "");
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: row, error } = await supabaseAdmin
-      .from("unlock_codes")
-      .select("id, is_used")
-      .eq("code", code)
-      .maybeSingle();
-    if (error) throw new Error(error.message);
-    if (!row) return { ok: false as const, reason: "That code isn't valid. Check it and try again." };
-    if (row.is_used) return { ok: false as const, reason: "That code has already been used." };
-    const { error: upErr } = await supabaseAdmin
-      .from("unlock_codes")
-      .update({ is_used: true, used_at: new Date().toISOString() })
-      .eq("id", row.id)
-      .eq("is_used", false);
-    if (upErr) throw new Error(upErr.message);
-    return { ok: true as const };
+    if (code.length < 4) {
+      return { ok: false, reason: "That code looks too short. Codes look like PF-XXXX-XXXX." };
+    }
+    try {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { data: row, error } = await supabaseAdmin
+        .from("unlock_codes")
+        .select("id, is_used")
+        .eq("code", code)
+        .maybeSingle();
+      if (error) {
+        console.error("[redeemUnlockCode] lookup failed", error);
+        return { ok: false, reason: `We couldn't reach the code database (${error.message}). Please try again in a moment.` };
+      }
+      if (!row) return { ok: false, reason: "That code isn't valid. Check for typos — codes look like PF-XXXX-XXXX." };
+      if (row.is_used) return { ok: false, reason: "That code has already been used. Each code works once." };
+
+      const { data: updated, error: upErr } = await supabaseAdmin
+        .from("unlock_codes")
+        .update({ is_used: true, used_at: new Date().toISOString() })
+        .eq("id", row.id)
+        .eq("is_used", false)
+        .select("id");
+      if (upErr) {
+        console.error("[redeemUnlockCode] update failed", upErr);
+        return { ok: false, reason: `We found your code but couldn't activate it (${upErr.message}). Please try again.` };
+      }
+      if (!updated || updated.length === 0) {
+        return { ok: false, reason: "That code was just used on another device." };
+      }
+      return { ok: true };
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error("[redeemUnlockCode] unexpected", msg);
+      return { ok: false, reason: `Unlock service error: ${msg}` };
+    }
   });
+
