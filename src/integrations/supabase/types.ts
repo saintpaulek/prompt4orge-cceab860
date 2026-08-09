@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          is_unlocked: boolean
+          unlocked_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id: string
+          is_unlocked?: boolean
+          unlocked_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          is_unlocked?: boolean
+          unlocked_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      saved_prompts: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          prompt_id: number | null
+          prompt_text: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          prompt_id?: number | null
+          prompt_text: string
+          title?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          prompt_id?: number | null
+          prompt_text?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       unlock_codes: {
         Row: {
           code: string
