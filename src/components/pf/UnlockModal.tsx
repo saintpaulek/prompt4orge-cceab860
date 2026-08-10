@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { Lock, Unlock, Star, X, Check, Loader2 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Lock, Unlock, Star, X, Check, Loader2, CreditCard, FlaskConical, CheckCircle2 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { redeemUnlockCode } from "@/lib/codes.functions";
+import { markProfileUnlocked } from "@/lib/account.functions";
+import { useAuth } from "@/lib/use-auth";
 import { FULL_ACCESS_BENEFITS, FULL_ACCESS_PRICE, PLAN_COMPARISON } from "@/lib/copy";
 import { inputCls } from "./ui";
 
@@ -42,15 +45,32 @@ export function UnlockModal({
   const [code, setCode] = useState("");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [paid, setPaid] = useState(false);
+  const [payNote, setPayNote] = useState("");
   const redeem = useServerFn(redeemUnlockCode);
+  const markUnlocked = useServerFn(markProfileUnlocked);
+  const { user, refreshProfile } = useAuth();
+
+  // Persist the unlock on the signed-in account (best effort — local unlock still applies).
+  const persistToAccount = async () => {
+    if (!user) return;
+    try {
+      await markUnlocked({});
+      await refreshProfile();
+    } catch (e) {
+      console.error("[unlock] account sync failed:", e);
+    }
+  };
 
   const submit = async () => {
     if (!code.trim()) { setErr("Enter your unlock code."); return; }
     setBusy(true); setErr("");
     try {
       const res = await redeem({ data: { code } });
-      if (res.ok) onUnlock();
-      else setErr(res.reason);
+      if (res.ok) {
+        await persistToAccount();
+        setPaid(true);
+      } else setErr(res.reason);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setErr(`Couldn't check that code: ${msg}`);
@@ -59,6 +79,20 @@ export function UnlockModal({
     }
   };
 
+  const simulatePayment = async () => {
+    setBusy(true); setErr(""); setPayNote("");
+    try {
+      if (user) {
+        await markUnlocked({});
+        await refreshProfile();
+      }
+      setPaid(true);
+    } catch (e) {
+      setErr(`Payment simulation failed: ${e instanceof Error ? e.message : String(e)}`);
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div
@@ -89,75 +123,141 @@ export function UnlockModal({
           </button>
         </div>
 
-        {!unlocked && (
-          <>
-            <div className="mt-5">
-              <div className="mb-2 text-xs tracking-wider text-[color:var(--color-gold)] uppercase">
-                What you get with Full Access
-              </div>
-              <ul className="space-y-2">
-                {FULL_ACCESS_BENEFITS.map((b) => (
-                  <li key={b} className="flex items-start gap-2 text-sm text-[color:var(--color-cream)]">
-                    <Check size={15} className="mt-0.5 shrink-0 text-[color:var(--color-gold)]" />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              {PLAN_COMPARISON.map((p, i) => (
-                <div
-                  key={p.label}
-                  className={`rounded-xl border p-3 ${
-                    i === 1
-                      ? "border-[color:var(--color-gold)] bg-[color:var(--color-gold-soft)]"
-                      : "border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)]"
-                  }`}
-                >
-                  <div className={`text-xs font-semibold uppercase ${i === 1 ? "text-[color:var(--color-gold)]" : "text-[color:var(--color-cream-dim)]"}`}>
-                    {p.label}
-                  </div>
-                  <div className="mt-1 text-xs leading-relaxed text-[color:var(--color-cream)]">{p.value}</div>
+        {paid ? (
+          <div className="mt-6 text-center">
+            <CheckCircle2 className="mx-auto text-[color:var(--color-gold)]" size={40} />
+            <div className="font-display mt-3 text-2xl">FULL ACCESS ACTIVE</div>
+            <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-cream-dim)]">
+              {user
+                ? `Unlocked on ${user.email} — it follows you on every device.`
+                : "Unlocked on this device. Create a free account and your next unlock will sync across devices."}
+            </p>
+            <button
+              type="button"
+              onClick={onUnlock}
+              className="mt-5 min-h-11 w-full rounded-lg bg-[color:var(--color-ember)] px-4 py-3 text-sm font-semibold text-[color:var(--color-bg-deep)] hover:brightness-110"
+            >
+              Start using everything
+            </button>
+          </div>
+        ) : (
+          !unlocked && (
+            <>
+              <div className="mt-5">
+                <div className="mb-2 text-xs tracking-wider text-[color:var(--color-gold)] uppercase">
+                  What you get with Full Access
                 </div>
-              ))}
-            </div>
+                <ul className="space-y-2">
+                  {FULL_ACCESS_BENEFITS.map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-sm text-[color:var(--color-cream)]">
+                      <Check size={15} className="mt-0.5 shrink-0 text-[color:var(--color-gold)]" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            <div className="mt-5">
-              <label htmlFor="unlock-code" className="mb-1.5 block text-xs tracking-wider text-[color:var(--color-gold)] uppercase">
-                Have a one-time unlock code?
-              </label>
-              <input
-                id="unlock-code"
-                value={code}
-                onChange={(e) => { setCode(e.target.value); setErr(""); }}
-                onKeyDown={(e) => { if (e.key === "Enter") void submit(); }}
-                placeholder="PF-XXXX-XXXX"
-                autoCapitalize="characters"
-                className={inputCls}
-              />
-              {err && <div className="mt-2 text-xs text-[color:var(--color-ember)]">{err}</div>}
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                {PLAN_COMPARISON.map((p, i) => (
+                  <div
+                    key={p.label}
+                    className={`rounded-xl border p-3 ${
+                      i === 1
+                        ? "border-[color:var(--color-gold)] bg-[color:var(--color-gold-soft)]"
+                        : "border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)]"
+                    }`}
+                  >
+                    <div className={`text-xs font-semibold uppercase ${i === 1 ? "text-[color:var(--color-gold)]" : "text-[color:var(--color-cream-dim)]"}`}>
+                      {p.label}
+                    </div>
+                    <div className="mt-1 text-xs leading-relaxed text-[color:var(--color-cream)]">{p.value}</div>
+                  </div>
+                ))}
+              </div>
 
-              <button
-                type="button"
-                disabled={busy}
-                onClick={() => void submit()}
-                className="mt-3 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-ember)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-bg-deep)] hover:brightness-110 disabled:opacity-60"
-              >
-                {busy ? <Loader2 size={15} className="animate-spin" /> : <Lock size={15} />} Unlock Full Access
-              </button>
-              <button
-                type="button"
-                onClick={onClose}
-                className="mt-2 flex min-h-11 w-full items-center justify-center rounded-lg border border-[color:var(--color-line)] px-4 py-2.5 text-sm font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-cream)]"
-              >
-                Continue with Free
-              </button>
-              <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--color-cream-dim)]">
-                Codes are issued after payment. Email saintpaulek@gmail.com if you need help with yours.
-              </p>
-            </div>
-          </>
+              {/* payment */}
+              <div className="mt-5 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] p-4">
+                <div className="text-xs tracking-wider text-[color:var(--color-gold)] uppercase">
+                  Pay once, own it forever
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setPayNote(
+                      "Live card checkout is being connected. For now, use the test button below — it activates the exact same Full Access.",
+                    )
+                  }
+                  className="mt-2 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-gold)] px-4 py-2.5 text-sm font-bold text-[color:var(--color-bg-deep)] hover:brightness-110"
+                >
+                  <CreditCard size={15} /> Pay {FULL_ACCESS_PRICE}
+                </button>
+                {payNote && (
+                  <p className="mt-2 text-[11px] leading-relaxed text-[color:var(--color-cream-dim)]">{payNote}</p>
+                )}
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void simulatePayment()}
+                  className="mt-2 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-[color:var(--color-line)] px-4 py-2 text-xs font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-cream)] disabled:opacity-60"
+                >
+                  {busy ? <Loader2 size={13} className="animate-spin" /> : <FlaskConical size={13} />}
+                  Simulate successful payment (test)
+                </button>
+                {!user && (
+                  <p className="mt-2 text-[11px] leading-relaxed text-[color:var(--color-cream-dim)]">
+                    Tip:{" "}
+                    <Link to="/auth" onClick={onClose} className="text-[color:var(--color-gold)] underline">
+                      sign in first
+                    </Link>{" "}
+                    so your unlock is stored on your account, not just this device.
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-5 flex items-center gap-3">
+                <span className="h-px flex-1 bg-[color:var(--color-line)]" />
+                <span className="text-[10px] tracking-wider text-[color:var(--color-cream-dim)] uppercase">
+                  or redeem a code
+                </span>
+                <span className="h-px flex-1 bg-[color:var(--color-line)]" />
+              </div>
+
+              <div className="mt-4">
+                <label htmlFor="unlock-code" className="mb-1.5 block text-xs tracking-wider text-[color:var(--color-gold)] uppercase">
+                  Have a one-time unlock code?
+                </label>
+                <input
+                  id="unlock-code"
+                  value={code}
+                  onChange={(e) => { setCode(e.target.value); setErr(""); }}
+                  onKeyDown={(e) => { if (e.key === "Enter") void submit(); }}
+                  placeholder="PF-XXXX-XXXX"
+                  autoCapitalize="characters"
+                  className={inputCls}
+                />
+                {err && <div className="mt-2 text-xs text-[color:var(--color-ember)]">{err}</div>}
+
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void submit()}
+                  className="mt-3 flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-ember)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-bg-deep)] hover:brightness-110 disabled:opacity-60"
+                >
+                  {busy ? <Loader2 size={15} className="animate-spin" /> : <Lock size={15} />} Redeem code
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="mt-2 flex min-h-11 w-full items-center justify-center rounded-lg border border-[color:var(--color-line)] px-4 py-2.5 text-sm font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-cream)]"
+                >
+                  Continue with Free
+                </button>
+                <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--color-cream-dim)]">
+                  Codes are issued after payment. Email saintpaulek@gmail.com if you need help with yours.
+                </p>
+              </div>
+            </>
+          )
         )}
       </div>
     </div>
