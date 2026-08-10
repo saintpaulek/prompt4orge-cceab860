@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { Hammer, Library, Bookmark, Info, Mail, Menu, X, Lock, Unlock, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  Hammer, Library, Bookmark, Info, Mail, Menu, X, Lock, Unlock, Sparkles, LogIn, LogOut, UserRound,
+} from "lucide-react";
 import logoAsset from "@/assets/promptforge-wordmark.png.asset.json";
-import { useUnlock, useLocal, K_WELCOME } from "@/lib/store";
+import { useLocal, K_WELCOME } from "@/lib/store";
+import { useAccess } from "@/lib/use-auth";
 import { UnlockModal } from "./UnlockModal";
 
 const NAV = [
@@ -16,7 +20,19 @@ const NAV = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [unlockOpen, setUnlockOpen] = useState(false);
-  const { unlocked, setUnlocked } = useUnlock();
+  const [acctOpen, setAcctOpen] = useState(false);
+  const { user, unlocked, loading, signOut, markUnlockedLocal } = useAccess();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleSignOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
+    setAcctOpen(false);
+    setMenuOpen(false);
+    void navigate({ to: "/", replace: true });
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col overflow-x-hidden bg-[color:var(--color-bg)] text-[color:var(--color-cream)]">
@@ -30,7 +46,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </span>
             </span>
           </Link>
-
 
           {/* desktop nav */}
           <div className="hidden items-center gap-2 lg:flex">
@@ -66,6 +81,47 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               {unlocked ? <Unlock size={14} /> : <Lock size={14} />}
               {unlocked ? "Full Access" : "Unlock Full Access"}
             </button>
+
+            {/* auth affordance — reflects session state */}
+            {loading ? null : user ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setAcctOpen((o) => !o)}
+                  aria-expanded={acctOpen}
+                  aria-label="Account menu"
+                  className="flex min-h-11 items-center gap-1.5 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-panel)] px-3 py-2 text-sm font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-cream)]"
+                >
+                  <UserRound size={14} /> Account
+                </button>
+                {acctOpen && (
+                  <div className="absolute right-0 z-40 mt-2 w-64 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-panel)] p-3 shadow-2xl">
+                    <div className="truncate text-xs text-[color:var(--color-cream-dim)]">{user.email}</div>
+                    <div
+                      className={`mt-1 text-xs font-semibold ${
+                        unlocked ? "text-[color:var(--color-gold)]" : "text-[color:var(--color-cream-dim)]"
+                      }`}
+                    >
+                      {unlocked ? "Full Access" : "Free plan"}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => void handleSignOut()}
+                      className="mt-3 flex min-h-11 w-full items-center gap-2 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] px-3 py-2 text-sm font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-ember)]"
+                    >
+                      <LogOut size={14} /> Sign out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/auth"
+                className="flex min-h-11 items-center gap-1.5 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-panel)] px-3 py-2 text-sm font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-cream)]"
+              >
+                <LogIn size={14} /> Sign in
+              </Link>
+            )}
           </div>
 
           {/* mobile hamburger */}
@@ -110,6 +166,33 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 {unlocked ? <Unlock size={17} /> : <Lock size={17} />}
                 {unlocked ? "Full Access active" : "Unlock Full Access"}
               </button>
+
+              {loading ? null : user ? (
+                <div className="mt-1 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-panel)] px-3 py-3">
+                  <div className="flex items-center gap-3 text-sm font-medium text-[color:var(--color-cream)]">
+                    <UserRound size={17} className="shrink-0 text-[color:var(--color-gold)]" />
+                    <span className="truncate">{user.email}</span>
+                  </div>
+                  <div className="mt-1 pl-8 text-xs font-semibold text-[color:var(--color-cream-dim)]">
+                    {unlocked ? "Full Access" : "Free plan"}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => void handleSignOut()}
+                    className="mt-2 ml-8 flex min-h-11 items-center gap-2 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-bg-deep)] px-3 py-2 text-sm font-medium text-[color:var(--color-cream-dim)] hover:text-[color:var(--color-ember)]"
+                  >
+                    <LogOut size={14} /> Sign out
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/auth"
+                  onClick={() => setMenuOpen(false)}
+                  className="mt-1 flex min-h-11 items-center gap-3 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-panel)] px-3 py-3 text-sm font-medium text-[color:var(--color-cream)]"
+                >
+                  <LogIn size={17} /> Sign in / Create account
+                </Link>
+              )}
             </div>
           </nav>
         )}
@@ -119,7 +202,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <footer className="mt-10 border-t border-[color:var(--color-line)]">
         <div className="mx-auto max-w-6xl px-4 py-8 text-center text-xs leading-relaxed text-[color:var(--color-cream-dim)]">
-          Built for social media managers, VAs, and creators learning to work with AI — one prompt at a time.
+          <nav className="mb-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm">
+            <Link to="/privacy" className="hover:text-[color:var(--color-cream)]">Privacy</Link>
+            <span aria-hidden="true">|</span>
+            <Link to="/terms" className="hover:text-[color:var(--color-cream)]">Terms</Link>
+            <span aria-hidden="true">|</span>
+            <Link to="/about" className="hover:text-[color:var(--color-cream)]">About</Link>
+            <span aria-hidden="true">|</span>
+            <Link to="/contact" className="hover:text-[color:var(--color-cream)]">Contact</Link>
+          </nav>
+          <p>
+            Built for social media managers, VAs, and creators learning to work with AI — one prompt at a time.
+          </p>
+          <p className="mt-2">© 2026 PromptForge</p>
         </div>
       </footer>
 
@@ -127,7 +222,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <UnlockModal
           unlocked={unlocked}
           onClose={() => setUnlockOpen(false)}
-          onUnlock={() => { setUnlocked(true); setUnlockOpen(false); }}
+          onUnlock={() => { markUnlockedLocal(); setUnlockOpen(false); }}
         />
       )}
       <WelcomeModal />
@@ -231,4 +326,3 @@ function WelcomeModal() {
     </div>
   );
 }
-

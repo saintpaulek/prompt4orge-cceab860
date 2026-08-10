@@ -1,19 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, Phone, Send, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, Send, CheckCircle2, MessageCircle } from "lucide-react";
 import { Field, inputCls } from "@/components/pf/ui";
+import { leafHead } from "@/lib/meta";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact PromptForge — questions, ideas, partnerships" },
-      { name: "description", content: "Reach the PromptForge team by email at saintpaulek@gmail.com, by phone on +2347069573528, or with the contact form." },
-      { property: "og:title", content: "Contact PromptForge — questions, ideas, partnerships" },
-      { property: "og:description", content: "Have a question, suggestion, or partnership idea? Get in touch with the PromptForge team." },
-      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
-      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
-    ],
-  }),
+  head: leafHead(
+    "/contact",
+    "Contact PromptForge — questions, ideas, partnerships",
+    "Reach the PromptForge team by email at saintpaulek@gmail.com, on WhatsApp, by phone on +2347069573528, or with the contact form.",
+  ),
   component: ContactPage,
 });
 
@@ -30,7 +26,7 @@ function ContactPage() {
         Have a question, suggestion, or partnership idea? We'd love to hear from you.
       </p>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <a
           href="mailto:saintpaulek@gmail.com"
           className="flex min-h-11 items-center gap-3 rounded-2xl border border-[color:var(--color-line)] bg-[color:var(--color-panel)] p-5 shadow-sm transition hover:border-[color:var(--color-gold)]"
@@ -49,6 +45,18 @@ function ContactPage() {
           <div className="min-w-0">
             <div className="text-xs tracking-wider text-[color:var(--color-gold)] uppercase">Phone</div>
             <div className="truncate text-sm font-semibold text-[color:var(--color-cream)]">+2347069573528</div>
+          </div>
+        </a>
+        <a
+          href="https://wa.me/2347069573528"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex min-h-11 items-center gap-3 rounded-2xl border border-[color:var(--color-line)] bg-[color:var(--color-panel)] p-5 shadow-sm transition hover:border-[color:var(--color-gold)]"
+        >
+          <MessageCircle className="shrink-0 text-[color:var(--color-ember)]" size={20} />
+          <div className="min-w-0">
+            <div className="text-xs tracking-wider text-[color:var(--color-gold)] uppercase">WhatsApp</div>
+            <div className="truncate text-sm font-semibold text-[color:var(--color-cream)]">Chat with us</div>
           </div>
         </a>
       </div>

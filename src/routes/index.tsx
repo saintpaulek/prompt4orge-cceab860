@@ -1,26 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Hammer, Sparkles, RotateCcw, Bookmark, Wand2, ChevronDown, ChevronRight, Library as LibraryIcon, X, Users } from "lucide-react";
 import { Field, Select, Toggle, CopyButton, SectionTitle, inputCls, GhostButton } from "@/components/pf/ui";
 import { useLocal } from "@/lib/store";
 import { LIBRARY } from "@/lib/prompts";
 import { BUILDER_CATEGORIES, CATEGORY_CONFIG, type BuilderCategory } from "@/lib/categories";
 import { SOCIAL_PROOF_TEXT, TESTIMONIALS } from "@/lib/copy";
+import { useAccess } from "@/lib/use-auth";
+import { savePromptToAccount } from "@/lib/account.functions";
+import { leafHead, SITE_TITLE, SITE_DESC } from "@/lib/meta";
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): { p?: number } =>
     search.p != null && Number.isFinite(Number(search.p)) ? { p: Number(search.p) } : {},
 
-  head: () => ({
-    meta: [
-      { title: "PromptForge Builder — Craft an AI prompt in 60 seconds" },
-      { name: "description", content: "Pick a category, platform, tone, and goal, then copy a production-ready AI prompt instantly." },
-      { property: "og:title", content: "PromptForge Builder — Craft an AI prompt in 60 seconds" },
-      { property: "og:description", content: "Pick a category, platform, tone, and goal, then copy a production-ready AI prompt instantly." },
-      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
-      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
-    ],
-  }),
+  head: leafHead("/", SITE_TITLE, SITE_DESC),
   component: BuilderPage,
 });
 
@@ -106,6 +101,8 @@ function BuilderPage() {
   const [note, setNote] = useState("");
   const [previewOpen, setPreviewOpen] = useState(true);
   const [, setMine] = useLocal<MyPrompt[]>(K_MY, []);
+  const { user } = useAccess();
+  const saveToAccount = useServerFn(savePromptToAccount);
 
   // switching category re-scopes every dependent selector
   const applyCategory = (next: BuilderCategory) => {
@@ -223,7 +220,13 @@ function BuilderPage() {
   const savePrompt = () => {
     const title = (topic.trim() || category) + (isImage ? " (image prompt)" : "");
     setMine((m) => [{ id: `my-${Date.now()}`, title, text: generated, at: Date.now() }, ...m]);
-    setNote("Saved to your Saved page.");
+    if (user) {
+      void saveToAccount({ data: { title, category, promptText: generated } })
+        .then(() => setNote("Saved to your account."))
+        .catch(() => setNote("Saved on this device (account sync failed)."));
+    } else {
+      setNote("Saved to your Saved page.");
+    }
     setTimeout(() => setNote(""), 2000);
   };
 
@@ -255,6 +258,12 @@ function BuilderPage() {
               <p className="mt-1 text-[11px] text-[color:var(--color-cream-dim)]">{t.role}</p>
             </div>
           ))}
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-panel)]/60 px-3 py-2 text-xs text-[color:var(--color-cream-dim)]">
+          <span className="font-semibold text-[color:var(--color-gold)]">How it works:</span>
+          <span>1 · Pick your materials below</span>
+          <span>2 · Watch the prompt build live</span>
+          <span>3 · Copy &amp; paste into any AI tool</span>
         </div>
       </div>
 

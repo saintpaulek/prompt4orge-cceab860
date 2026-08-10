@@ -1,23 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { Search } from "lucide-react";
 import { LIBRARY, CATEGORIES, isFreePrompt, type Prompt } from "@/lib/prompts";
 import { PromptCard, PromptModal } from "@/components/pf/PromptCard";
 import { UnlockBanner, UnlockModal } from "@/components/pf/UnlockModal";
-import { useSavedPrompts, useUnlock } from "@/lib/store";
+import { useSavedPrompts } from "@/lib/store";
+import { useAccess } from "@/lib/use-auth";
+import { savePromptToAccount, removeAccountSavedByPromptId } from "@/lib/account.functions";
+import { leafHead } from "@/lib/meta";
 import { inputCls } from "@/components/pf/ui";
 
 export const Route = createFileRoute("/library")({
-  head: () => ({
-    meta: [
-      { title: "Prompt Library — 1000+ expert AI prompts | PromptForge" },
-      { name: "description", content: "Search and filter 1000+ expert-crafted AI prompts across 20 categories: social, SEO, email, sales, image generation and more." },
-      { property: "og:title", content: "Prompt Library — 1000+ expert AI prompts | PromptForge" },
-      { property: "og:description", content: "Search and filter 1000+ expert-crafted AI prompts across 20 categories." },
-      { property: "og:image", content: "https://prompt4orge.lovable.app/og-image.png" },
-      { name: "twitter:image", content: "https://prompt4orge.lovable.app/og-image.png" },
-    ],
-  }),
+  head: leafHead(
+    "/library",
+    "Prompt Library — 1,000+ expert AI prompts | PromptForge",
+    "Search and filter 1,000+ expert-crafted AI prompts across 20 categories: social, SEO, email, sales, image generation and more.",
+  ),
   component: LibraryPage,
 });
 
@@ -29,8 +29,24 @@ function LibraryPage() {
   const [limit, setLimit] = useState(PAGE);
   const [open, setOpen] = useState<Prompt | null>(null);
   const [unlockOpen, setUnlockOpen] = useState(false);
-  const { unlocked, setUnlocked } = useUnlock();
+  const { unlocked, user, markUnlockedLocal } = useAccess();
   const { saved, toggleSave } = useSavedPrompts();
+  const queryClient = useQueryClient();
+  const saveToAccount = useServerFn(savePromptToAccount);
+  const removeFromAccount = useServerFn(removeAccountSavedByPromptId);
+
+  // Bookmarking also syncs to the signed-in account so it appears on every device.
+  const onToggleSave = (p: Prompt) => {
+    const wasSaved = saved.includes(p.id);
+    toggleSave(p.id);
+    if (!user) return;
+    const done = () => void queryClient.invalidateQueries({ queryKey: ["account-saved"] });
+    if (wasSaved) void removeFromAccount({ data: { promptId: p.id } }).then(done).catch(() => {});
+    else
+      void saveToAccount({ data: { promptId: p.id, title: p.title, category: p.cat, promptText: p.prompt } })
+        .then(done)
+        .catch(() => {});
+  };
 
   const filtered = useMemo(() => {
     const qq = q.trim().toLowerCase();
@@ -97,7 +113,7 @@ function LibraryPage() {
             p={p}
             locked={!unlocked && !isFreePrompt(p.id)}
             saved={saved.includes(p.id)}
-            onToggleSave={() => toggleSave(p.id)}
+            onToggleSave={() => onToggleSave(p)}
             onUnlock={() => setUnlockOpen(true)}
             onOpen={() => setOpen(p)}
           />
@@ -126,7 +142,7 @@ function LibraryPage() {
         <PromptModal
           p={open}
           saved={saved.includes(open.id)}
-          onToggleSave={() => toggleSave(open.id)}
+          onToggleSave={() => onToggleSave(open)}
           onClose={() => setOpen(null)}
         />
       )}
@@ -134,7 +150,7 @@ function LibraryPage() {
         <UnlockModal
           unlocked={unlocked}
           onClose={() => setUnlockOpen(false)}
-          onUnlock={() => { setUnlocked(true); setUnlockOpen(false); }}
+          onUnlock={() => { markUnlockedLocal(); setUnlockOpen(false); }}
         />
       )}
     </div>
