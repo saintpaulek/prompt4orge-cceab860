@@ -1,0 +1,90 @@
+import { and, desc, eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/mysql2";
+import { InsertSavedPrompt, InsertUser, savedPrompts, unlockCodes, users } from "../drizzle/schema";
+import { ENV } from "./_core/env";
+
+let _db: ReturnType<typeof drizzle> | null = null;
+
+export async function getDb() {
+  if (!_db && process.env.DATABASE_URL) {
+    try { _db = drizzle(process.env.DATABASE_URL); } catch (error) { console.warn("[Database] Failed to connect:", error); _db = null; }
+  }
+  return _db;
+}
+
+export async function upsertUser(user: InsertUser): Promise<void> {
+  if (!user.openId) throw new Error("User openId is required for upsert");
+  const db = await getDb();
+  if (!db) return;
+  const values: InsertUser = { openId: user.openId };
+  const updateSet: Record<string, unknown> = {};
+  for (const field of ["name", "email", "loginMethod"] as const) {
+    if (user[field] !== undefined) { values[field] = user[field] ?? null; updateSet[field] = user[field] ?? null; }
+  }
+  if (user.lastSignedIn !== undefined) { values.lastSignedIn = user.lastSignedIn; updateSet.lastSignedIn = user.lastSignedIn; }
+  if (user.role !== undefined) { values.role = user.role; updateSet.role = user.role; }
+  else if (user.openId === ENV.ownerOpenId) { values.role = "admin"; updateSet.role = "admin"; }
+  if (user.isUnlocked !== undefined) { values.isUnlocked = user.isUnlocked; updateSet.isUnlocked = user.isUnlocked; }
+  if (!values.lastSignedIn) values.lastSignedIn = new Date();
+  if (Object.keys(updateSet).length === 0) updateSet.lastSignedIn = new Date();
+  await db.insert(users).values(values).onDuplicateKeyUpdate({ set: updateSet });
+}
+
+export async function getUserByOpenId(openId: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+  return result[0];
+}
+
+export async function redeemUnlockCode(userId: number, code: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const normalized = code.trim().toUpperCase();
+  const matches = await db.select().from(unlockCodes).where(and(eq(unlockCodes.code, normalized), eq(unlockCodes.isUsed, 0))).limit(1);
+  const found = matches[0];
+  if (!found) return false;
+  const updateResult = await db.update(unlockCodes).set({ isUsed: 1, usedBy: userId }).where(and(eq(unlockCodes.id, found.id), eq(unlockCodes.isUsed, 0)));
+  const affectedRows = (updateResult as { affectedRows?: number }).affectedRows ?? 0;
+  if (affectedRows !== 1) return false;
+  await db.update(users).set({ isUnlocked: 1 }).where(eq(users.id, userId));
+  return true;
+}
+
+export async function updateUserProfile(userId: number, name: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.update(users).set({ name }).where(eq(users.id, userId));
+}
+
+export async function getUserById(userId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+  return result[0];
+}
+
+export async function listSavedPrompts(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(savedPrompts).where(eq(savedPrompts.userId, userId)).orderBy(desc(savedPrompts.createdAt));
+}
+
+export async function createSavedPrompt(input: InsertSavedPrompt) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const result = await db.insert(savedPrompts).values(input).$returningId();
+  return result[0];
+}
+
+export async function deleteSavedPrompt(userId: number, id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.delete(savedPrompts).where(and(eq(savedPrompts.userId, userId), eq(savedPrompts.id, id)));
+}
+
+export async function setSavedPromptFavorite(userId: number, id: number, isFavorite: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.update(savedPrompts).set({ isFavorite }).where(and(eq(savedPrompts.userId, userId), eq(savedPrompts.id, id)));
+}
