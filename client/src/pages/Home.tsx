@@ -1,25 +1,78 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+/* Workshop Noir style: charcoal workbench surfaces, steel neutrals, ember-orange actions, and a split builder layout that makes the prompt feel forged in real time. */
+import { useMemo, useState } from "react";
+import type React from "react";
+import { Link, useLocation } from "wouter";
+import { Copy, RotateCcw, Save, Sparkles, ArrowRight, Check, LockKeyhole, Search, Menu, X, ChevronDown, Hammer, BookOpen, Mail, Info, UserRound, WandSparkles, Video, Image as ImageIcon, Code2, Megaphone, PenLine, BriefcaseBusiness } from "lucide-react";
+import { toast } from "sonner";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
- */
-export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+const logo = "/manus-storage/promptforgelogo_2c9cded3.png";
+const heroTexture = "/manus-storage/promptforge-forge-texture_b7ed497b.png";
+const builderArt = "/manus-storage/promptforge-builder-illustration_6de8044a.png";
+const symbol = "/manus-storage/promptforge-symbol_d8a66e25.png";
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+type Category = { name: string; icon: React.ElementType; blurb: string };
+const categories: Category[] = [
+  { name: "Social Media", icon: Megaphone, blurb: "Posts, threads & campaigns" },
+  { name: "Writing & Content", icon: PenLine, blurb: "Articles, scripts & stories" },
+  { name: "Marketing", icon: WandSparkles, blurb: "Copy that moves people" },
+  { name: "Code & Development", icon: Code2, blurb: "Ship clearer software" },
+  { name: "Image Generation", icon: ImageIcon, blurb: "Visuals with intention" },
+  { name: "Video Generation", icon: Video, blurb: "Scenes, scripts & shorts" },
+  { name: "Business & Strategy", icon: BriefcaseBusiness, blurb: "Decisions with direction" },
+];
+
+const imageModels = ["ChatGPT (DALL·E / image tools)", "Gemini", "Grok", "Midjourney", "Stable Diffusion / Flux", "Generic / Other"];
+const videoModels = ["HeyGen AI", "Kling AI", "Google Flow", "Grok", "Runway", "Pika", "Luma Dream Machine", "Generic / Other"];
+
+function Layout({ children, onUnlock }: { children: React.ReactNode; onUnlock: () => void }) {
+  const [open, setOpen] = useState(false);
+  const nav = [{ href: "/", label: "Builder" }, { href: "/library", label: "Library" }, { href: "/about", label: "About" }, { href: "/contact", label: "Contact" }];
+  return <div className="app-shell">
+    <header className="topbar">
+      <Link href="/" className="brand"><img src={logo} alt="PromptForge" /><span className="brand-fallback">Prompt<span>Forge</span></span></Link>
+      <button className="mobile-menu" onClick={() => setOpen(!open)} aria-label="Toggle navigation">{open ? <X size={20}/> : <Menu size={20}/>}</button>
+      <nav className={open ? "nav open" : "nav"}>{nav.map(n => <Link key={n.href} href={n.href} onClick={() => setOpen(false)}>{n.label}</Link>)}<button className="unlock-button" onClick={onUnlock}>Unlock full access <ArrowRight size={15}/></button><Link href="/auth" className="signin"><UserRound size={15}/> Sign in</Link></nav>
+    </header>
+    {children}
+    <footer className="footer"><div className="footer-brand"><img src={symbol} alt=""/><div><strong>PromptForge</strong><span>Craft production-ready AI prompts in 60 seconds.</span></div></div><div className="footer-links"><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/library">Library</Link><a href="#">Privacy</a><a href="#">Terms</a></div><small>© 2026 PromptForge. Built for better instructions.</small></footer>
+  </div>;
 }
+
+function Field({ label, value, onChange, placeholder, options }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; options?: string[] }) {
+  return <label className="field"><span>{label}</span>{options ? <div className="select-wrap"><select value={value} onChange={e => onChange(e.target.value)}>{options.map(o => <option key={o}>{o}</option>)}</select><ChevronDown size={15}/></div> : <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}/>}</label>;
+}
+
+function Builder() {
+  const [category, setCategory] = useState("Social Media");
+  const [model, setModel] = useState("ChatGPT");
+  const [topic, setTopic] = useState("A launch post for a new creator toolkit");
+  const [audience, setAudience] = useState("Creators and solo marketers");
+  const [platform, setPlatform] = useState("Instagram");
+  const [tone, setTone] = useState("Confident and useful");
+  const [goal, setGoal] = useState("Drive saves and sign-ups");
+  const [generated, setGenerated] = useState(true);
+  const [saved, setSaved] = useState(false);
+  const selected = categories.find(c => c.name === category) || categories[0];
+  const prompt = useMemo(() => {
+    const media = category === "Image Generation" ? `Model / Platform: ${model}\nVisual direction: Define the subject, composition, lens, lighting, materials, and a clear negative prompt.` : category === "Video Generation" ? `Model / Platform: ${model}\nVideo direction: Include a hook, scene beats, camera movement, dialogue or VO, sound design, and a final CTA.` : "";
+    return `ROLE\nYou are a senior ${category.toLowerCase()} strategist and editor.\n\nTASK\nCreate ${category.toLowerCase()} for: ${topic}.\n\nAUDIENCE\n${audience}.\n\nPLATFORM / FORMAT\n${platform}.\n\nTONE / VOICE\n${tone}.\n\nPRIMARY GOAL\n${goal}.\n\nDELIVERABLES\n1. Give me one strong, ready-to-use concept.\n2. Add a concise rationale and an optional variation.\n3. Use specific language, not generic filler.\n${media}\n\nCONSTRAINTS\nKeep it clear, practical, and native to the selected format. Avoid unsupported claims. Ask one focused question only if critical context is missing.`;
+  }, [category, model, topic, audience, platform, tone, goal]);
+  const set = (key: string, value: string) => { ({ topic: setTopic, audience: setAudience, platform: setPlatform, tone: setTone, goal: setGoal } as Record<string, (v:string)=>void>)[key]?.(value); setGenerated(false); };
+  const generate = () => { setGenerated(true); toast.success("Prompt forged", { description: "Your structured prompt is ready to use." }); };
+  const copy = async () => { await navigator.clipboard?.writeText(prompt); toast.success("Copied to clipboard"); };
+  return <main className="builder-page">
+    <section className="builder-hero" style={{ backgroundImage: `linear-gradient(90deg, rgba(8,9,8,.98) 0%, rgba(8,9,8,.82) 48%, rgba(8,9,8,.35) 100%), url(${heroTexture})` }}><div className="eyebrow"><span className="pulse"/> PROMPT WORKSHOP / 01</div><h1>Forge prompts<br/><em>that ship.</em></h1><p>Turn a rough idea into a production-ready AI instruction in under 60 seconds — no prompt theory required.</p><div className="hero-proof"><span>2,400+</span> creators, marketers & freelancers already building better.</div></section>
+    <section className="workbench">
+      <aside className="step-rail"><div className="rail-label">THE FORGE</div><div className="step active"><b>01</b><div><strong>Pick materials</strong><span>Tell us what you’re making</span></div></div><div className="rail-line"/><div className={generated ? "step active" : "step"}><b>02</b><div><strong>Watch it build</strong><span>See the structure take shape</span></div></div><div className="rail-line"/><div className="step"><b>03</b><div><strong>Take it with you</strong><span>Copy, save, or refine</span></div></div><div className="rail-note"><Hammer size={17}/><span>Good inputs make<br/><strong>great outputs.</strong></span></div></aside>
+      <div className="materials"><div className="section-kicker">MATERIALS TRAY <span>Choose a category to begin</span></div><div className="category-grid">{categories.map(c => <button key={c.name} className={category === c.name ? "category selected" : "category"} onClick={() => { setCategory(c.name); setGenerated(false); }}><c.icon size={18}/><span>{c.name}</span><small>{c.blurb}</small></button>)}</div><div className="fields-grid"><Field label="What are you making?" value={topic} onChange={v => set("topic", v)} placeholder="Describe your idea..."/><Field label="Who is it for?" value={audience} onChange={v => set("audience", v)} placeholder="Your audience..."/><Field label="Platform / format" value={platform} onChange={v => set("platform", v)} options={category === "Video Generation" ? ["TikTok", "Instagram Reels", "YouTube Shorts", "LinkedIn", "YouTube"] : ["Instagram", "LinkedIn", "X / Twitter", "Website", "Email"]}/><Field label="Tone / voice" value={tone} onChange={v => set("tone", v)} options={["Confident and useful", "Warm and conversational", "Bold and punchy", "Clear and educational", "Playful"]}/><Field label="Primary goal" value={goal} onChange={v => set("goal", v)} placeholder="What should this achieve?"/>{(category === "Image Generation" || category === "Video Generation") && <Field label="Model / platform" value={model} onChange={v => { setModel(v); setGenerated(false); }} options={category === "Image Generation" ? imageModels : videoModels}/>}</div><button className="forge-button" onClick={generate}><Sparkles size={17}/> {generated ? "Re-forge prompt" : "Forge my prompt"}<span>⌘ ↵</span></button></div>
+      <aside className="output-panel"><div className="output-head"><div><div className="section-kicker">FINISHED WORK ORDER</div><h2>Your prompt</h2></div><span className="status"><span className="status-dot"/> {generated ? "Ready" : "Draft"}</span></div><div className={generated ? "prompt-card reveal" : "prompt-card"}>{generated ? <pre>{prompt}</pre> : <div className="empty-output"><Sparkles size={26}/><strong>Your prompt will appear here.</strong><span>Fill the materials tray, then forge it.</span></div>}</div><div className="output-actions"><button onClick={copy} disabled={!generated}><Copy size={15}/> Copy</button><button onClick={() => { setSaved(true); toast.success("Saved to your library"); }} disabled={!generated}><Save size={15}/> {saved ? "Saved" : "Save"}</button><button onClick={() => { setGenerated(true); toast.info("Refined with a sharper outcome"); }} disabled={!generated}><Sparkles size={15}/> Refine</button><button onClick={() => { setTopic(""); setGenerated(false); }}><RotateCcw size={15}/> Reset</button></div><div className="output-tip"><Check size={15}/> Structured for clarity, specificity, and momentum.</div></aside>
+    </section>
+    <section className="builder-callout"><div className="callout-copy"><div className="eyebrow">THE PROMPTFORGE METHOD</div><h2>Less guessing.<br/><em>More making.</em></h2><p>Prompt engineering should feel like a useful tool in your hand, not another thing to study. PromptForge gives your ideas a clear role, task, audience, and finish line.</p><Link href="/library" className="text-link">Browse the prompt library <ArrowRight size={16}/></Link></div><img src={builderArt} alt="Abstract prompt-building workbench"/></section>
+  </main>;
+}
+
+const libraryItems = ["The 30-day content calendar", "Product launch announcement", "Client discovery questionnaire", "Short-form video hook machine", "SEO article brief", "Brand voice guide"];
+function Library() { const [query, setQuery] = useState(""); const filtered = libraryItems.filter(i => i.toLowerCase().includes(query.toLowerCase())); return <main className="simple-page"><div className="page-intro editorial-intro"><div className="intro-side">SHELF / 01<br/><span>CATALOGUED WORK ORDERS</span></div><div><div className="eyebrow">PROMPT LIBRARY / 03,000+</div><h1>Borrow a head start.</h1><p>Expert-crafted prompts for the work you do every week. Search the shelf, then make it yours.</p></div></div><div className="library-toolbar"><div className="search"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search prompts..."/></div><button className="filter-button">All categories <ChevronDown size={15}/></button></div><div className="library-grid">{filtered.map((item, i) => <article className={i > 1 ? "library-card locked-card" : "library-card"} key={item}><div className="card-stamp"><span>{i > 1 ? "LOCKED WORK ORDER" : "READY TO USE"}</span><span>PF-{String(i + 1).padStart(2, "0")}</span></div><div className="card-meta"><span>{i % 2 === 0 ? "CONTENT STRATEGY" : "CREATOR TOOLKIT"}</span><span>0{i+1} / 06</span></div><h3>{item}</h3><p>A flexible starting point with the right structure for a stronger result.</p><div className="card-bottom"><button className="card-action">{i > 1 ? "Unlock to view" : "View work order"} <ArrowRight size={14}/></button>{i > 1 && <LockKeyhole size={16} className="lock"/>}</div></article>)}</div><div className="unlock-banner"><div><div className="eyebrow">ONE-TIME UNLOCK</div><h2>3,000+ prompts. Yours for good.</h2><p>Unlock the full library and unlimited forging for ₦5,000 — one time, lifetime access.</p></div><button className="unlock-button" onClick={() => toast.info("Unlock flow coming next")}>Unlock full access <ArrowRight size={15}/></button></div></main> }
+function StaticPage({ type }: { type: "about" | "contact" | "auth" }) { const copy = { about: { kicker: "THE MISSION", title: "Professional prompt engineering, made human.", body: "PromptForge exists for the person with a good idea and no time for a 40-minute prompt tutorial. We turn the messy middle into a clear, repeatable workflow." }, contact: { kicker: "SAY HELLO", title: "Questions, ideas, partnerships?", body: "Tell us what you’re working on. The PromptForge team reads every message and replies when there’s a useful next step." }, auth: { kicker: "YOUR WORKSHOP", title: "Pick up where you left off.", body: "Sign in to keep saved prompts, unlock status, and your best materials synced across devices." } }[type]; return <main className="simple-page narrow"><div className="page-intro editorial-intro"><div className="intro-side">WORKSHOP / 02<br/><span>{type === "contact" ? "OPEN COMMISSION" : type === "auth" ? "MEMBER ACCESS" : "WHY WE FORGE"}</span></div><div><div className="eyebrow">{copy.kicker}</div><h1>{copy.title}</h1><p>{copy.body}</p></div></div>{type === "contact" ? <form className="form-card" onSubmit={e => { e.preventDefault(); toast.success("Message received", { description: "We’ll get back to you soon." }); }}><div className="form-head"><div className="section-kicker">INCOMING NOTE <span>We reply with a useful next step.</span></div><div className="form-rule"/></div><Field label="Name" value="" onChange={() => {}} placeholder="Your name"/><Field label="Email" value="" onChange={() => {}} placeholder="you@example.com"/><Field label="Subject" value="" onChange={() => {}} placeholder="What can we help with?"/><label className="field"><span>Message</span><textarea placeholder="Tell us a little more..." rows={6}/></label><button className="forge-button" type="submit"><Mail size={17}/> Send message</button></form> : <div className="info-card"><img src={symbol} alt=""/><h2>{type === "auth" ? "Email and password" : "Built for the work between the idea and the outcome."}</h2><p>{type === "auth" ? "Authentication is ready to connect. For now, explore the builder and library as a guest." : "From social posts to video scenes, PromptForge gives your thinking a useful shape — then gets out of the way."}</p><button className="forge-button" onClick={() => toast.info(type === "auth" ? "Sign-in connection coming next" : "Welcome to the workshop")}><ArrowRight size={17}/> {type === "auth" ? "Continue" : "Start forging"}</button></div>}</main> }
+
+export default function Home() { const [location] = useLocation(); const [unlockOpen, setUnlockOpen] = useState(false); const page = location === "/library" ? <Library/> : location === "/about" ? <StaticPage type="about"/> : location === "/contact" ? <StaticPage type="contact"/> : location === "/auth" ? <StaticPage type="auth"/> : <Builder/>; return <Layout onUnlock={() => setUnlockOpen(true)}>{page}{unlockOpen && <div className="modal-backdrop" onClick={() => setUnlockOpen(false)}><div className="unlock-modal" onClick={e => e.stopPropagation()}><button className="close-modal" onClick={() => setUnlockOpen(false)}><X size={18}/></button><div className="eyebrow">LIFETIME ACCESS</div><h2>Unlock the whole workshop.</h2><p>Get every prompt in the library plus unlimited forging for a one-time payment.</p><div className="price">₦5,000 <span>one time</span></div><button className="forge-button" onClick={() => toast.info("Payment connection coming next")}>Unlock PromptForge <ArrowRight size={16}/></button><div className="code-line">Have an unlock code? <button onClick={() => toast.info("Code redemption connection coming next")}>Redeem code</button></div></div></div>}</Layout> }
