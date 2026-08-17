@@ -12,7 +12,7 @@
 - [x] Implement guest prompt capture and post-login save handoff.
 - [x] Verify auth on desktop and save a fresh authenticated checkpoint.
 
-- [ ] Exercise the sign-in, sign-up, social, magic-link, forgot-password, and reset-password entry points in the browser where provider configuration permits.
+- [x] Exercise the sign-in, sign-up, social, magic-link, forgot-password, and reset-password entry points in the browser where provider configuration permits.
 - [x] Add a profile editing surface for display name and account settings.
 - [x] Add a redeemable unlock-code flow that updates persisted unlock state.
 - [x] Save a new checkpoint after the final authenticated verification pass.
