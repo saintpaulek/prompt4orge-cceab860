@@ -18,3 +18,9 @@
 - [x] Save a new checkpoint after the final authenticated verification pass.
 - [x] Make unlock-code redemption atomic-safe and handle duplicate redemption correctly.
 - [x] Replace the unlock modal placeholder redeem action with navigation to the real account redemption UI.
+
+- [x] Audit production Supabase URL, anon key, client initialization, and browser console/network errors.
+- [x] Add safe Supabase configuration diagnostics and clear auth error mapping.
+- [x] Configure production auth site and redirect URLs where the connected Supabase project permits.
+- [ ] Verify email/password, Google, GitHub, magic-link, and recovery entry states on the deployed site.
+- [ ] Save a checkpoint containing the authentication fix.
