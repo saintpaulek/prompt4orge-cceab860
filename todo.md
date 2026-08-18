@@ -70,3 +70,8 @@
 - [x] Expand Builder category, project-type, and primary-goal choices for beginners.
 - [x] Change the lifetime unlock price display to a rounded USD figure consistently across the Builder unlock UI.
 - [x] Verify desktop/mobile layouts and interactions, run tests/build, and publish the completed enhancement.
+
+# Lifetime access pricing and unlock CTA update
+- [x] Show lifetime access pricing as ₦10,000 and $10 side by side.
+- [x] Route the Unlock PromptForge action to https://wa.me/p/28447341561540526/2347069573528.
+- [ ] Verify the modal and published unlock destination, run tests/build, and publish a checkpoint.
