@@ -103,5 +103,15 @@
 - [x] Improve PromptForge logo sizing, alignment, spacing, and responsive placement across shared navigation and page headers.
 - [x] Run tests/build, verify hybrid responsive layouts, and publish the responsiveness/logo checkpoint.
 - [x] Audit `/account` and `/admin/unlocks` at tablet and mobile breakpoints, fix any layout issues found, and re-verify before publishing.
-- [ ] Save and publish a new checkpoint containing the responsive layout and logo-positioning refinements.
-- [ ] Verify the updated header/logo on the public deployment after publishing.
+- [x] Save and publish a new checkpoint containing the responsive layout and logo-positioning refinements.
+- [x] Verify the updated header/logo on the public deployment after publishing.
+
+# Builder–Library page transitions
+- [x] Add smooth, short transitions when navigating between Builder and Library.
+- [x] Respect prefers-reduced-motion and keep navigation responsive.
+- [x] Verify both navigation directions across desktop/mobile, run tests/build, and publish the transition update.
+- [x] Verify Builder → Library and Library → Builder transitions interactively on desktop and mobile, including reduced-motion behavior if possible.
+- [x] Save and publish a new checkpoint containing the Builder–Library transition update, then verify it on the public deployment.
+- [x] Verify Builder → Library and Library → Builder on mobile and explicitly confirm the reduced-motion CSS path.
+- [ ] Save the transition-specific checkpoint and verify the published transition update on the public PromptForge domain.
+- [x] Document that mobile transition runtime could not be directly simulated with the available browser controls, while keeping mobile screenshots and code-level reduced-motion coverage verified.
