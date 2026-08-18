@@ -48,5 +48,7 @@
 - [x] Add prompt catalog procedures with search, category, and FREE/locked access filtering.
 - [x] Wire the Library page to the database catalog and verify free/locked states, then save a checkpoint.
 - [x] Save a checkpoint containing the prompts table, seeded 3,000-record catalog, catalog procedures, and database-backed Library after the completed filter verification.
-- [ ] Re-open the published `/library` route after checkpointing to confirm the seeded catalog is available in production.
-- [ ] Force a fresh production publish of the current database-backed Library implementation and verify the public bundle is no longer the legacy static Library.
+- [x] Re-open the published `/library` route after checkpointing to confirm the seeded catalog is available in production.
+- [x] Force a fresh production publish of the current database-backed Library implementation and verify the public bundle is no longer the legacy static Library.
+- [x] Diagnose and fix the production catalog list query returning a connection-interrupted state while the total count succeeds.
+- [x] Add bounded catalog query retries, refetch-on-mount, and a visible retry action for transient production list failures.
