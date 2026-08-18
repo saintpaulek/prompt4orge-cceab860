@@ -34,3 +34,4 @@
 - [x] Test admin authorization, code generation, list refresh, responsive UI, and save a checkpoint.
 - [ ] Exercise `/admin/unlocks` as an authenticated admin: generate a batch, verify fresh codes and inventory refresh, and confirm non-admin/signed-out states.
 - [ ] Save the final admin unlock workspace checkpoint after authenticated verification.
+- [ ] Harden production matching for `/admin/unlocks` so direct navigation cannot fall through to the generic 404 route.

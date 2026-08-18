@@ -9,7 +9,7 @@ import Home from "./pages/Home";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
-  return <Switch><Route path="/" component={Home}/><Route path="/library" component={Home}/><Route path="/about" component={Home}/><Route path="/contact" component={Home}/><Route path="/auth" component={Home}/><Route path="/account" component={Home}/><Route path="/admin/unlocks" component={Home}/><Route path="/404" component={NotFound}/><Route component={NotFound}/></Switch>;
+  return <Switch><Route path="/" component={Home}/><Route path="/library" component={Home}/><Route path="/about" component={Home}/><Route path="/contact" component={Home}/><Route path="/auth" component={Home}/><Route path="/account" component={Home}/><Route path="/admin/unlocks*" component={Home}/><Route path="/404" component={NotFound}/><Route component={NotFound}/></Switch>;
 }
 
 export default function App() {
