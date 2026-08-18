@@ -160,5 +160,6 @@
 # Professional upgrade follow-up verification
 - [x] Tighten and verify user-facing copy on About, Contact, Auth, Account, and Admin pages.
 - [x] Apply page-specific polish to About, Contact, Auth, Account, and Admin beyond shared CSS overrides.
-- [ ] Save a fresh professional-upgrade checkpoint and verify the upgraded public deployment across major routes.
-- [ ] Apply explicit route-specific visual treatment to About, Contact, Auth, Account, and Admin components beyond shared styling.
+- [x] Save a fresh professional-upgrade checkpoint and verify the upgraded public deployment across major routes.
+- [x] Apply explicit route-specific visual treatment to About, Contact, Auth, Account, and Admin components beyond shared styling.
+- [x] Verify the published /auth, /account, and /admin/unlocks routes after checkpoint e9a11991.
