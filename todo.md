@@ -62,3 +62,11 @@
 
 # WhatsApp link update
 - [x] Replace every PromptForge WhatsApp Contact page destination with https://wa.me/message/L7XAALXFRYRWN1 and verify the published links.
+
+# Trust, discovery, and pricing enhancement
+- [x] Add a subtle pulse animation to the floating WhatsApp CTA.
+- [x] Add a concise FAQ section below the Contact form.
+- [x] Add a Success Stories or Testimonials section to About without fabricating customer reviews or ratings.
+- [x] Expand Builder category, project-type, and primary-goal choices for beginners.
+- [x] Change the lifetime unlock price display to a rounded USD figure consistently across the Builder unlock UI.
+- [x] Verify desktop/mobile layouts and interactions, run tests/build, and publish the completed enhancement.
