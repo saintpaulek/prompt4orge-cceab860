@@ -2,6 +2,8 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_core/trpc";
+import { notifyOwner } from "./_core/notification";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { countPrompts, createSavedPrompt, createUnlockCodes, deleteSavedPrompt, getUserById, listPrompts, listSavedPrompts, listUnlockCodes, redeemUnlockCode, setSavedPromptFavorite, updateUserProfile } from "./db";
 
@@ -19,6 +21,16 @@ export const appRouter = router({
     }),
   }),
 
+  contact: router({
+    submit: publicProcedure.input(z.object({ name: z.string().trim().min(2).max(120), email: z.string().trim().email().max(254), subject: z.string().trim().min(3).max(180), message: z.string().trim().min(10).max(5000) })).mutation(async ({ input }) => {
+      const delivered = await notifyOwner({
+        title: `PromptForge contact: ${input.subject}`,
+        content: `From: ${input.name} <${input.email}>\\n\\n${input.message}`,
+      });
+      if (!delivered) throw new TRPCError({ code: "SERVICE_UNAVAILABLE", message: "We could not deliver your message right now. Please email saintpaulek@gmail.com directly." });
+      return { success: true } as const;
+    }),
+  }),
   catalog: router({
     list: publicProcedure.input(z.object({ search: z.string().optional(), category: z.string().optional(), access: z.enum(["ALL", "FREE", "LOCKED"]).default("ALL"), limit: z.number().int().min(1).max(100).default(60), offset: z.number().int().min(0).default(0) })).query(async ({ ctx, input }) => {
       const [items, total] = await Promise.all([listPrompts(input, ctx.user ?? undefined), countPrompts()]);

@@ -52,3 +52,10 @@
 - [x] Force a fresh production publish of the current database-backed Library implementation and verify the public bundle is no longer the legacy static Library.
 - [x] Diagnose and fix the production catalog list query returning a connection-interrupted state while the total count succeeds.
 - [x] Add bounded catalog query retries, refetch-on-mount, and a visible retry action for transient production list failures.
+
+# About and Contact page upgrade
+- [x] Redesign `/about` with mission, origin story, differentiators, audience, founder note, and Builder/Contact CTAs in Workshop Noir style.
+- [x] Redesign `/contact` with real email, phone, WhatsApp details, responsive contact cards, and direct WhatsApp chat CTA.
+- [x] Add validated contact form submission to the owner notification/email channel with loading, success, and error states.
+- [x] Add automated coverage for contact submission validation and notification behavior.
+- [x] Verify About and Contact routes, responsive layouts, WhatsApp link, and contact form states in browser; run tests/build and publish a checkpoint.
