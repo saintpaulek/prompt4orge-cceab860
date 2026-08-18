@@ -75,3 +75,4 @@
 - [x] Show lifetime access pricing as ₦10,000 and $10 side by side.
 - [x] Route the Unlock PromptForge action to https://wa.me/p/28447341561540526/2347069573528.
 - [ ] Verify the modal and published unlock destination, run tests/build, and publish a checkpoint.
+- [ ] Force fresh production propagation of the pricing and unlock CTA bundle, then verify the public modal shows ₦10,000 / $10 and the WhatsApp Business product link.

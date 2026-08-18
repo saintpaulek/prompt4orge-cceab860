@@ -1,4 +1,5 @@
 /* Workshop Noir style: charcoal workbench surfaces, steel neutrals, ember-orange actions, and a split builder layout that makes the prompt feel forged in real time. */
+/* Pricing and WhatsApp Business CTA publish marker. */
 import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 import { Link, useLocation } from "wouter";
