@@ -144,3 +144,4 @@
 # PromptForge favicon update
 - [x] Convert the supplied PromptForge logo into a browser-friendly favicon asset and wire it into the app metadata.
 - [ ] Verify favicon metadata and browser preview behavior, run tests/build, and publish the branding update.
+- [ ] Force fresh production propagation of the favicon metadata and verify the public document exposes the new icon links and PromptForge favicon asset.
