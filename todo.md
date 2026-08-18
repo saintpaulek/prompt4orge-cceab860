@@ -143,5 +143,22 @@
 
 # PromptForge favicon update
 - [x] Convert the supplied PromptForge logo into a browser-friendly favicon asset and wire it into the app metadata.
-- [ ] Verify favicon metadata and browser preview behavior, run tests/build, and publish the branding update.
-- [ ] Force fresh production propagation of the favicon metadata and verify the public document exposes the new icon links and PromptForge favicon asset.
+- [x] Verify favicon metadata and browser preview behavior, run tests/build, and publish the branding update.
+- [x] Force fresh production propagation of the favicon metadata and verify the public document exposes the new icon links and PromptForge favicon asset.
+
+# Site-wide professional upgrade
+- [x] Audit copy, typography, contrast, spacing, and responsive behavior across all routes.
+- [x] Tighten redundant and filler copy while preserving clear user benefits.
+- [x] Improve global legibility with stronger type scale, weight, line height, and contrast.
+- [x] Add clear active and hover states to all shared header navigation actions.
+- [x] Refine shared Workshop Noir surfaces, cards, buttons, textures, and micro-interactions.
+- [x] Polish Home and Builder hierarchy, controls, preview, and responsive density.
+- [x] Polish Library, About, Contact, Auth, Account, and Admin surfaces for consistency and clarity.
+- [x] Verify every route at desktop, tablet, and mobile breakpoints; run tests, typecheck, and production build.
+- [x] Publish the completed site-wide professional upgrade.
+
+# Professional upgrade follow-up verification
+- [x] Tighten and verify user-facing copy on About, Contact, Auth, Account, and Admin pages.
+- [x] Apply page-specific polish to About, Contact, Auth, Account, and Admin beyond shared CSS overrides.
+- [ ] Save a fresh professional-upgrade checkpoint and verify the upgraded public deployment across major routes.
+- [ ] Apply explicit route-specific visual treatment to About, Contact, Auth, Account, and Admin components beyond shared styling.
