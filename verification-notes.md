@@ -23,3 +23,11 @@ The published Builder route at `promptforge-onsswa7f.manus.space/?transition=f0d
 # Public interactive transition verification
 
 On the published domain, clicking the Library navigation link from Builder loaded `/library`, and clicking the Builder navigation link from Library returned to `/`. Both route transitions completed without errors and the destination content remained populated. Direct runtime reduced-motion emulation was not available through the browser controls; the CSS fallback remains explicitly verified in source.
+
+# Walkthrough video review
+
+The final 73.88-second MP4 was reviewed through representative frames and file-integrity checks. The scene order is clear: branded intro, Builder categories, live work order, Library, account access, lifetime unlock, and closing CTA. The title cards use readable white and ember-orange typography on charcoal surfaces, while the captured UI frames preserve the real PromptForge visual language. The first frame fades in from black as intended. The built-in AI video-generation attempt was quota-limited, so the final delivery uses deterministic verified product captures, branded title cards, and generated narration rather than hallucinated UI footage.
+
+# Social walkthrough enhancement review
+
+The final social export is a 720×1280 portrait MP4 with AAC narration/music audio. The Builder and Library scenes use full-page mobile captures animated from top to bottom, while About and Contact show their full mobile pages; the Contact scene visibly includes email/phone/WhatsApp details and the chat button. Timed captions are rendered in white and ember orange with a dark outline for mobile readability. Original instrumental background music is mixed beneath the narration at a reduced level so the voice remains primary.

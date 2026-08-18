@@ -1,0 +1,26 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 720
+PlayResY: 1280
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,DejaVu Sans,34,&H00F4EFE8,&H00F97316,&H00101010,&H99000000,1,0,0,0,100,100,0,0,1,3,1,2,44,44,110,1
+Style: Accent,DejaVu Sans,36,&H00F97316,&H00F97316,&H00101010,&H99000000,1,0,0,0,100,100,0,0,1,3,1,2,44,44,110,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:05.80,Accent,,0,0,110,,WELCOME TO PROMPTFORGE
+Dialogue: 0,0:00:06.00,0:00:11.50,Caption,,0,0,110,,1. CHOOSE WHAT YOU ARE MAKING
+Dialogue: 0,0:00:11.50,0:00:17.80,Caption,,0,0,110,,Scroll the Builder and pick a category.
+Dialogue: 0,0:00:18.00,0:00:23.50,Caption,,0,0,110,,2. BUILD YOUR PROMPT
+Dialogue: 0,0:00:23.50,0:00:29.80,Caption,,0,0,110,,Watch the live work order take shape.
+Dialogue: 0,0:00:30.00,0:00:34.50,Caption,,0,0,110,,3. SEE THE BIGGER PICTURE
+Dialogue: 0,0:00:34.50,0:00:39.80,Caption,,0,0,110,,About explains the mission and method.
+Dialogue: 0,0:00:40.00,0:00:44.80,Caption,,0,0,110,,4. GET HELP WHEN YOU NEED IT
+Dialogue: 0,0:00:44.80,0:00:49.80,Caption,,0,0,110,,Email, phone, WhatsApp, and the message form.
+Dialogue: 0,0:00:50.00,0:00:56.80,Caption,,0,0,110,,Create an account to save your best work.
+Dialogue: 0,0:00:58.00,0:01:04.80,Accent,,0,0,110,,Unlock the full workshop when you are ready.
+Dialogue: 0,0:01:06.00,0:01:12.00,Accent,,0,0,110,,Start building in PromptForge.

@@ -115,3 +115,32 @@
 - [x] Verify Builder → Library and Library → Builder on mobile and explicitly confirm the reduced-motion CSS path.
 - [x] Save the transition-specific checkpoint and verify the published transition update on the public PromptForge domain.
 - [x] Document that mobile transition runtime could not be directly simulated with the available browser controls, while keeping mobile screenshots and code-level reduced-motion coverage verified.
+
+# New-user walkthrough video
+- [x] Create a concise guided walkthrough storyboard covering Builder, live preview, Library, account access, and lifetime unlock flow.
+- [x] Generate the branded walkthrough video and review pacing, clarity, and Workshop Noir consistency.
+- [x] Deliver the walkthrough video with a short placement recommendation for onboarding or the landing page.
+- [x] Add explicit account access and lifetime-unlock guidance scenes to the walkthrough.
+- [x] Review the completed MP4’s scene pacing, caption clarity, and Workshop Noir consistency, then export the final asset.
+- [x] Deliver the final MP4 with a concise placement recommendation for the landing page or first-login onboarding.
+
+# Portrait mobile walkthrough video
+- [x] Create a 9:16 portrait walkthrough using mobile PromptForge frames and readable vertical title cards.
+- [x] Preserve the guided narration, account/unlock scenes, and Workshop Noir styling in the portrait export.
+- [x] Verify portrait dimensions, duration, framing, and MP4 integrity, then deliver the final asset.
+
+# Social walkthrough enhancement
+- [x] Add original background music and dynamic timed captions to the 9:16 walkthrough.
+- [x] Replace static mobile Builder and Library scenes with visible top-to-bottom scroll sequences.
+- [x] Add clear mobile About and Contact scenes, including the requested contact details.
+- [x] Review and deliver the final captioned, music-backed portrait export with verified dimensions and audio integrity.
+
+# Square social launch package
+- [x] Export a square 1:1 PromptForge walkthrough optimized for LinkedIn and Twitter/X feeds.
+- [x] Create a high-resolution poster or thumbnail from the strongest verified walkthrough key frame.
+- [x] Write a short TikTok/Instagram Reels launch caption and platform-appropriate hashtag list.
+- [x] Verify square dimensions, poster resolution, and deliver the complete social package.
+
+# PromptForge favicon update
+- [x] Convert the supplied PromptForge logo into a browser-friendly favicon asset and wire it into the app metadata.
+- [ ] Verify favicon metadata and browser preview behavior, run tests/build, and publish the branding update.
