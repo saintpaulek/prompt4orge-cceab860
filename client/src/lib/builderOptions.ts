@@ -1,0 +1,16 @@
+export const platformOptions: Record<string, string[]> = {
+  "Social Media": ["Instagram", "TikTok", "X / Twitter", "LinkedIn", "Facebook", "Threads", "Pinterest", "YouTube Community", "Snapchat", "Reddit", "Telegram", "WhatsApp Channels"],
+  "Writing & Content": ["Blog / Website", "Medium", "Substack", "Ghost", "LinkedIn Articles", "Google Docs", "Notion", "Newsletter", "Ebook", "Press release", "Case study", "White paper"],
+  "Marketing": ["Landing page", "Email campaign", "Google Ads", "Meta Ads", "LinkedIn Ads", "TikTok Ads", "Product page", "Marketing brief", "Campaign deck", "Webinar", "Lead magnet", "Sales funnel"],
+  "Code & Development": ["VS Code", "GitHub", "GitLab", "Stack Overflow", "Postman", "Replit", "Cursor", "Jira", "Linear", "Technical docs", "API reference", "Code review"],
+  "Image Generation": ["Midjourney", "DALL·E", "Flux", "Stable Diffusion", "Adobe Firefly", "Ideogram", "Leonardo AI", "Canva", "Krea", "Playground AI", "Gemini Imagen", "ChatGPT Images"],
+  "Video Generation": ["YouTube", "TikTok", "Instagram Reels", "YouTube Shorts", "LinkedIn", "Vimeo", "Kling", "Runway", "Pika", "HeyGen", "Luma", "Google Flow"],
+  "Business & Strategy": ["Notion", "Google Docs", "Google Sheets", "Google Slides", "Airtable", "Asana", "Trello", "ClickUp", "Slack", "Microsoft Teams", "Miro", "Strategy memo"],
+  "Customer Service": ["Email support", "Live chat", "WhatsApp", "Instagram DM", "Facebook Messenger", "Zendesk", "Intercom", "Help Scout", "Freshdesk", "Phone script", "FAQ page", "Review response"],
+  "Sales & Copywriting": ["Sales page", "Cold email", "Follow-up email", "LinkedIn DM", "WhatsApp pitch", "Product description", "Proposal", "Case study", "Brochure", "Sales deck", "Call script", "Checkout page"],
+  "SEO & Blogging": ["WordPress", "Webflow", "Shopify", "Medium", "Ghost", "Google Search", "Ahrefs", "Semrush", "Surfer SEO", "Bing", "Blog brief", "Pillar page"],
+  "Automation & Workflows": ["Zapier", "Make", "n8n", "Airtable", "Notion", "Google Sheets", "Slack", "Microsoft Teams", "HubSpot", "Webhooks", "API workflow", "SOP"],
+  "Freelancing & Clients": ["Upwork", "Fiverr", "Contra", "LinkedIn", "Email", "WhatsApp", "Zoom", "Google Meet", "Notion", "Proposal PDF", "Client portal", "Discovery call"],
+  "Education & Learning": ["Google Classroom", "Canvas", "Moodle", "Teachable", "Thinkific", "YouTube", "Notion", "Google Docs", "Quiz", "Lesson plan", "Workshop", "Course module"],
+  "Personal Productivity": ["Notion", "Todoist", "TickTick", "Google Calendar", "Microsoft To Do", "Apple Notes", "Obsidian", "Evernote", "Trello", "Daily plan", "Weekly review", "Personal system"],
+};

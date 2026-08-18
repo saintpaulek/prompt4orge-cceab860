@@ -76,3 +76,9 @@
 - [x] Route the Unlock PromptForge action to https://wa.me/p/28447341561540526/2347069573528.
 - [x] Verify the modal and published unlock destination, run tests/build, and publish a checkpoint.
 - [x] Force fresh production propagation of the pricing and unlock CTA bundle, then verify the public modal shows ₦10,000 / $10 and the WhatsApp Business product link.
+
+# Builder live preview and platform expansion
+- [x] Make the live prompt preview render meaningful content for every Builder category, not only Social Media.
+- [x] Add at least 10 relevant platform or format choices for every Builder category.
+- [x] Verify category switching, preview output, option lists, responsive layout, tests, build, and production publication.
+- [ ] Include the Builder platform unit test in Vitest, publish the Builder update, and verify the public category preview and platform options.
