@@ -82,3 +82,4 @@
 - [x] Add at least 10 relevant platform or format choices for every Builder category.
 - [x] Verify category switching, preview output, option lists, responsive layout, tests, build, and production publication.
 - [ ] Include the Builder platform unit test in Vitest, publish the Builder update, and verify the public category preview and platform options.
+- [ ] Force fresh propagation of the Builder preview/platform bundle after the public domain served the stale five-platform version, then re-verify production category switching.
