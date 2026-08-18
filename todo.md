@@ -113,5 +113,5 @@
 - [x] Verify Builder → Library and Library → Builder transitions interactively on desktop and mobile, including reduced-motion behavior if possible.
 - [x] Save and publish a new checkpoint containing the Builder–Library transition update, then verify it on the public deployment.
 - [x] Verify Builder → Library and Library → Builder on mobile and explicitly confirm the reduced-motion CSS path.
-- [ ] Save the transition-specific checkpoint and verify the published transition update on the public PromptForge domain.
+- [x] Save the transition-specific checkpoint and verify the published transition update on the public PromptForge domain.
 - [x] Document that mobile transition runtime could not be directly simulated with the available browser controls, while keeping mobile screenshots and code-level reduced-motion coverage verified.

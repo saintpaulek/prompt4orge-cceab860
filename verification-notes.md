@@ -15,3 +15,11 @@ The mobile screenshots for both `/` and `/library` show stable layouts and the s
 # Mobile runtime note
 
 The available browser navigation control did not expose a mobile viewport toggle for interactive clicks. Mobile Builder and Library layouts were verified with responsive screenshots, while the transition behavior was verified through local route navigation and the explicit reduced-motion stylesheet rule. The reduced-motion fallback is therefore code-verified rather than OS-preference-simulated in the browser.
+
+# Published transition verification
+
+The published Builder route at `promptforge-onsswa7f.manus.space/?transition=f0de001c` loaded the updated app bundle and shared navigation. The published Library route at `/library?transition=f0de001c` also loaded successfully with its catalog controls and member-access state. Both public routes are available after the transition checkpoint.
+
+# Public interactive transition verification
+
+On the published domain, clicking the Library navigation link from Builder loaded `/library`, and clicking the Builder navigation link from Library returned to `/`. Both route transitions completed without errors and the destination content remained populated. Direct runtime reduced-motion emulation was not available through the browser controls; the CSS fallback remains explicitly verified in source.
