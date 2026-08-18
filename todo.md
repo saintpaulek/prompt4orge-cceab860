@@ -47,5 +47,6 @@
 - [x] Seed all attached prompt records into the database with duplicate-safe import behavior.
 - [x] Add prompt catalog procedures with search, category, and FREE/locked access filtering.
 - [x] Wire the Library page to the database catalog and verify free/locked states, then save a checkpoint.
-- [ ] Save a checkpoint containing the prompts table, seeded 3,000-record catalog, catalog procedures, and database-backed Library after the completed filter verification.
+- [x] Save a checkpoint containing the prompts table, seeded 3,000-record catalog, catalog procedures, and database-backed Library after the completed filter verification.
 - [ ] Re-open the published `/library` route after checkpointing to confirm the seeded catalog is available in production.
+- [ ] Force a fresh production publish of the current database-backed Library implementation and verify the public bundle is no longer the legacy static Library.

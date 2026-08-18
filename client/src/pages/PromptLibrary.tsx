@@ -1,3 +1,4 @@
+// Production catalog marker: this page is the database-backed prompt library.
 import { useMemo, useState } from "react";
 import { ArrowRight, BookOpen, ChevronDown, LockKeyhole, Search, Sparkles } from "lucide-react";
 import { Link } from "wouter";
