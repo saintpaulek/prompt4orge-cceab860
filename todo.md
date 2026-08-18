@@ -41,3 +41,11 @@
 - [x] Verify the admin navigation and protected unlock workspace access.
 - [x] Verify `/admin/unlocks` in-browser with a temporary non-admin role rollback, then restore the promoted account to admin.
 - [x] Save a checkpoint after the completed admin and non-admin verification pass.
+
+- [x] Inspect and validate the attached prompt JSON structure and record counts by category/access.
+- [x] Add the `prompts` table with id, title, category, role, tags, access, and prompt_body columns.
+- [x] Seed all attached prompt records into the database with duplicate-safe import behavior.
+- [x] Add prompt catalog procedures with search, category, and FREE/locked access filtering.
+- [x] Wire the Library page to the database catalog and verify free/locked states, then save a checkpoint.
+- [ ] Save a checkpoint containing the prompts table, seeded 3,000-record catalog, catalog procedures, and database-backed Library after the completed filter verification.
+- [ ] Re-open the published `/library` route after checkpointing to confirm the seeded catalog is available in production.

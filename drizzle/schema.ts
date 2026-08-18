@@ -21,6 +21,17 @@ export const unlockCodes = mysqlTable("unlock_codes", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const prompts = mysqlTable("prompts", {
+  id: varchar("id", { length: 8 }).primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  category: varchar("category", { length: 120 }).notNull(),
+  role: varchar("role", { length: 255 }).notNull(),
+  tags: varchar("tags", { length: 255 }).notNull(),
+  access: mysqlEnum("access", ["FREE", "LOCKED"]).notNull(),
+  promptBody: text("prompt_body").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const savedPrompts = mysqlTable("saved_prompts", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(),
@@ -35,5 +46,7 @@ export const savedPrompts = mysqlTable("saved_prompts", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type UnlockCode = typeof unlockCodes.$inferSelect;
+export type Prompt = typeof prompts.$inferSelect;
+export type InsertPrompt = typeof prompts.$inferInsert;
 export type SavedPrompt = typeof savedPrompts.$inferSelect;
 export type InsertSavedPrompt = typeof savedPrompts.$inferInsert;

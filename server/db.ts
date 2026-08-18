@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertSavedPrompt, InsertUser, savedPrompts, unlockCodes, users } from "../drizzle/schema";
+import { InsertSavedPrompt, InsertUser, prompts, savedPrompts, unlockCodes, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -83,6 +83,28 @@ export async function getUserById(userId: number) {
   if (!db) return undefined;
   const result = await db.select().from(users).where(eq(users.id, userId)).limit(1);
   return result[0];
+}
+
+export async function listPrompts(input: { search?: string; category?: string; access?: "ALL" | "FREE" | "LOCKED"; limit: number; offset: number }, viewer?: { role?: string; isUnlocked?: number }) {
+  const db = await getDb();
+  if (!db) return [];
+  const conditions = [];
+  if (input.category && input.category !== "ALL") conditions.push(eq(prompts.category, input.category));
+  if (input.access && input.access !== "ALL") conditions.push(eq(prompts.access, input.access));
+  if (input.search?.trim()) {
+    const term = `%${input.search.trim()}%`;
+    conditions.push(or(like(prompts.title, term), like(prompts.category, term), like(prompts.tags, term)));
+  }
+  const rows = await db.select().from(prompts).where(conditions.length ? and(...conditions) : undefined).orderBy(prompts.id).limit(input.limit).offset(input.offset);
+  const canViewLocked = viewer?.role === "admin" || viewer?.isUnlocked === 1;
+  return rows.map(row => canViewLocked || row.access === "FREE" ? row : { ...row, promptBody: "" });
+}
+
+export async function countPrompts() {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db.select({ id: prompts.id }).from(prompts);
+  return result.length;
 }
 
 export async function listSavedPrompts(userId: number) {
