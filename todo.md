@@ -59,3 +59,6 @@
 - [x] Add validated contact form submission to the owner notification/email channel with loading, success, and error states.
 - [x] Add automated coverage for contact submission validation and notification behavior.
 - [x] Verify About and Contact routes, responsive layouts, WhatsApp link, and contact form states in browser; run tests/build and publish a checkpoint.
+
+# WhatsApp link update
+- [x] Replace every PromptForge WhatsApp Contact page destination with https://wa.me/message/L7XAALXFRYRWN1 and verify the published links.
