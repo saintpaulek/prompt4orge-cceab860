@@ -1,9 +1,9 @@
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
+import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { createSavedPrompt, deleteSavedPrompt, getUserById, listSavedPrompts, redeemUnlockCode, setSavedPromptFavorite, updateUserProfile } from "./db";
+import { createSavedPrompt, createUnlockCodes, deleteSavedPrompt, getUserById, listSavedPrompts, listUnlockCodes, redeemUnlockCode, setSavedPromptFavorite, updateUserProfile } from "./db";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -23,6 +23,12 @@ export const appRouter = router({
     me: protectedProcedure.query(({ ctx }) => getUserById(ctx.user.id)),
     update: protectedProcedure.input(z.object({ name: z.string().min(1).max(120) })).mutation(async ({ ctx, input }) => { await updateUserProfile(ctx.user.id, input.name); return getUserById(ctx.user.id); }),
     redeemCode: protectedProcedure.input(z.object({ code: z.string().min(4).max(80) })).mutation(async ({ ctx, input }) => ({ success: await redeemUnlockCode(ctx.user.id, input.code) })),
+  }),
+  admin: router({
+    unlocks: router({
+      list: adminProcedure.input(z.object({ limit: z.number().int().min(1).max(200).default(100) }).optional()).query(({ input }) => listUnlockCodes(input?.limit ?? 100)),
+      generate: adminProcedure.input(z.object({ count: z.number().int().min(1).max(50).default(1) })).mutation(async ({ input }) => ({ codes: await createUnlockCodes(input.count) })),
+    }),
   }),
   prompts: router({
     list: protectedProcedure.query(({ ctx }) => listSavedPrompts(ctx.user.id)),

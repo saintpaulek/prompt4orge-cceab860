@@ -27,3 +27,10 @@
 - [x] Detect disabled Supabase social providers before redirecting and show an inline unavailable-provider message instead of the raw Supabase 400 page.
 - [x] Add visible inline guidance when Google or GitHub is disabled and verify it on the deployed auth page.
 - [x] Re-test the deployed auth page after the social-provider guard change.
+
+- [x] Add admin-only unlock-code generation and list procedures with secure role checks.
+- [x] Build the protected `/admin/unlocks` workspace for generating, copying, and reviewing unlock codes.
+- [x] Add admin navigation from the authenticated account area and a non-admin access state.
+- [x] Test admin authorization, code generation, list refresh, responsive UI, and save a checkpoint.
+- [ ] Exercise `/admin/unlocks` as an authenticated admin: generate a batch, verify fresh codes and inventory refresh, and confirm non-admin/signed-out states.
+- [ ] Save the final admin unlock workspace checkpoint after authenticated verification.

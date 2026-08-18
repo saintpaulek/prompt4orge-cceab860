@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertSavedPrompt, InsertUser, savedPrompts, unlockCodes, users } from "../drizzle/schema";
@@ -35,6 +36,26 @@ export async function getUserByOpenId(openId: string) {
   if (!db) return undefined;
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
   return result[0];
+}
+
+function makeUnlockCode() {
+  const left = randomBytes(3).toString("hex").toUpperCase();
+  const right = randomBytes(3).toString("hex").toUpperCase();
+  return `PF-${left}-${right}`;
+}
+
+export async function createUnlockCodes(count: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const values = Array.from({ length: count }, () => ({ code: makeUnlockCode(), isUsed: 0, usedBy: null }));
+  await db.insert(unlockCodes).values(values);
+  return values.map(value => value.code);
+}
+
+export async function listUnlockCodes(limit = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({ id: unlockCodes.id, code: unlockCodes.code, isUsed: unlockCodes.isUsed, usedBy: unlockCodes.usedBy, createdAt: unlockCodes.createdAt }).from(unlockCodes).orderBy(desc(unlockCodes.createdAt)).limit(limit);
 }
 
 export async function redeemUnlockCode(userId: number, code: string) {
