@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
-import { supabase, supabaseConfig } from "@/lib/supabase";
+import { getSupabaseProviderStatus, supabase, supabaseConfig, type SupabaseProviderStatus } from "@/lib/supabase";
 
 type AuthContextValue = {
   session: Session | null;
@@ -14,6 +14,7 @@ type AuthContextValue = {
   sendPasswordReset: (email: string) => Promise<{ error?: string }>;
   updatePassword: (password: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
+  providers: SupabaseProviderStatus;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -34,10 +35,12 @@ const configError = () => supabaseConfig.configured ? undefined : "Connection to
 export function SupabaseAuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [providers, setProviders] = useState<SupabaseProviderStatus>({ google: false, github: false, email: true });
 
   useEffect(() => {
     let mounted = true;
     if (!supabaseConfig.configured) { setLoading(false); return () => { mounted = false; }; }
+    getSupabaseProviderStatus().then(nextProviders => { if (mounted) setProviders(nextProviders); });
     supabase.auth.getSession().then(({ data, error }) => {
       if (!mounted) return;
       if (error) console.error("[Supabase] Session initialization failed", { message: error.message, ...supabaseConfig });
@@ -52,16 +55,16 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
   }, []);
 
   const value = useMemo<AuthContextValue>(() => ({
-    session, user: session?.user ?? null, loading,
+    session, user: session?.user ?? null, loading, providers,
     async signIn(email, password) { const missing = configError(); if (missing) return { error: missing }; try { const { error } = await supabase.auth.signInWithPassword({ email, password }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
     async signUp(email, password, displayName) { const missing = configError(); if (missing) return { error: missing }; try { const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { display_name: displayName || undefined } } }); return error ? { error: friendlyError(error.message) } : { needsVerification: !data.session }; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
-    async signInWithGoogle() { const missing = configError(); if (missing) return { error: missing }; try { const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/auth` } }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
-    async signInWithGitHub() { const missing = configError(); if (missing) return { error: missing }; try { const { error } = await supabase.auth.signInWithOAuth({ provider: "github", options: { redirectTo: `${window.location.origin}/auth` } }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
+    async signInWithGoogle() { const missing = configError(); if (missing) return { error: missing }; if (!providers.google) return { error: "Google sign-in is not enabled for this project yet. Use email/password or enable Google in Supabase Auth Providers." }; try { const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/auth` } }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
+    async signInWithGitHub() { const missing = configError(); if (missing) return { error: missing }; if (!providers.github) return { error: "GitHub sign-in is not enabled for this project yet. Use email/password or enable GitHub in Supabase Auth Providers." }; try { const { error } = await supabase.auth.signInWithOAuth({ provider: "github", options: { redirectTo: `${window.location.origin}/auth` } }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
     async sendMagicLink(email) { const missing = configError(); if (missing) return { error: missing }; try { const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: `${window.location.origin}/auth` } }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
     async sendPasswordReset(email) { const missing = configError(); if (missing) return { error: missing }; try { const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/auth` }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
     async updatePassword(password) { const missing = configError(); if (missing) return { error: missing }; try { const { error } = await supabase.auth.updateUser({ password }); return error ? { error: friendlyError(error.message) } : {}; } catch (error) { return { error: friendlyError(error instanceof Error ? error.message : String(error)) }; } },
     async signOut() { if (supabaseConfig.configured) await supabase.auth.signOut(); },
-  }), [session, loading]);
+  }), [session, loading, providers]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

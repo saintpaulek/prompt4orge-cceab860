@@ -26,3 +26,18 @@ const safeAnonKey = supabaseAnonKey || "placeholder-anon-key";
 export const supabase = createClient(safeUrl, safeAnonKey, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
 });
+
+export type SupabaseProviderStatus = { google: boolean; github: boolean; email: boolean };
+
+export async function getSupabaseProviderStatus(): Promise<SupabaseProviderStatus> {
+  if (!supabaseConfig.configured) return { google: false, github: false, email: false };
+  try {
+    const response = await fetch(`${supabaseUrl}/auth/v1/settings`, { headers: { apikey: supabaseAnonKey } });
+    if (!response.ok) throw new Error(`settings:${response.status}`);
+    const body = await response.json() as { external?: Record<string, boolean> };
+    return { google: body.external?.google === true, github: body.external?.github === true, email: true };
+  } catch (error) {
+    console.warn("[Supabase] Provider capability check failed", { message: error instanceof Error ? error.message : String(error), ...supabaseConfig });
+    return { google: false, github: false, email: true };
+  }
+}
