@@ -2,6 +2,7 @@
 /* Pricing and WhatsApp Business CTA publish marker. */
 /* Builder preview and platform catalog publish marker: final propagation check. */
 /* Favicon refresh marker: PromptForge emblem metadata. */
+/* Site-wide professional upgrade propagation marker: aa9f4022-refresh. */
 import { useEffect, useMemo, useState } from "react";
 import type React from "react";
 import { Link, useLocation } from "wouter";
