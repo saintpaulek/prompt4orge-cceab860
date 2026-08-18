@@ -22,8 +22,8 @@
 - [x] Audit production Supabase URL, anon key, client initialization, and browser console/network errors.
 - [x] Add safe Supabase configuration diagnostics and clear auth error mapping.
 - [x] Configure production auth site and redirect URLs where the connected Supabase project permits.
-- [ ] Verify email/password, Google, GitHub, magic-link, and recovery entry states on the deployed site.
-- [ ] Save a checkpoint containing the authentication fix.
+- [x] Verify email/password, Google, GitHub, magic-link, and recovery entry states on the deployed site.
+- [x] Save a checkpoint containing the authentication fix.
 - [x] Detect disabled Supabase social providers before redirecting and show an inline unavailable-provider message instead of the raw Supabase 400 page.
 - [x] Add visible inline guidance when Google or GitHub is disabled and verify it on the deployed auth page.
-- [ ] Re-test the deployed auth page after the social-provider guard change.
+- [x] Re-test the deployed auth page after the social-provider guard change.
