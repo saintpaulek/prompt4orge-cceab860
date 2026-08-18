@@ -32,6 +32,12 @@
 - [x] Build the protected `/admin/unlocks` workspace for generating, copying, and reviewing unlock codes.
 - [x] Add admin navigation from the authenticated account area and a non-admin access state.
 - [x] Test admin authorization, code generation, list refresh, responsive UI, and save a checkpoint.
-- [ ] Exercise `/admin/unlocks` as an authenticated admin: generate a batch, verify fresh codes and inventory refresh, and confirm non-admin/signed-out states.
-- [ ] Save the final admin unlock workspace checkpoint after authenticated verification.
-- [ ] Harden production matching for `/admin/unlocks` so direct navigation cannot fall through to the generic 404 route.
+- [x] Exercise `/admin/unlocks` as an authenticated admin: generate a batch, verify fresh codes and inventory refresh, and confirm non-admin/signed-out states.
+- [x] Save the final admin unlock workspace checkpoint after authenticated verification.
+- [x] Harden production matching for `/admin/unlocks` so direct navigation cannot fall through to the generic 404 route.
+
+- [x] Identify the currently signed-in PromptForge account without requesting credentials.
+- [x] Promote only that account to `admin` in the application database.
+- [x] Verify the admin navigation and protected unlock workspace access.
+- [x] Verify `/admin/unlocks` in-browser with a temporary non-admin role rollback, then restore the promoted account to admin.
+- [x] Save a checkpoint after the completed admin and non-admin verification pass.
