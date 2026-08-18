@@ -83,3 +83,25 @@
 - [x] Verify category switching, preview output, option lists, responsive layout, tests, build, and production publication.
 - [x] Include the Builder platform unit test in Vitest, publish the Builder update, and verify the public category preview and platform options.
 - [x] Force fresh propagation of the Builder preview/platform bundle after the public domain served the stale five-platform version, then re-verify production category switching.
+
+# Custom domain connection
+- [ ] Bind www.promptforge.com.ng to the live PromptForge deployment through Manus custom-domain settings.
+- [ ] Provide or apply the required Truhost DNS record(s), then verify DNS propagation and HTTPS routing.
+
+# Vercel custom-domain assessment
+- [ ] Inspect the existing Vercel-served www.promptforge.com.ng deployment and determine whether it is the current PromptForge app.
+- [ ] Document the compatible Vercel deployment and DNS setup path, including any required environment variables or user inputs.
+
+# Confirmed Vercel migration
+- [ ] Back up the existing saintpaulek/prompt4orge GitHub source before replacement.
+- [ ] Prepare the current PromptForge build for the linked Vercel project and preserve required environment configuration.
+- [ ] Deploy the current build through Vercel and verify www.promptforge.com.ng, promptforge.com.ng, Builder, Library, About, and Contact routes.
+
+# Responsive layout and logo refinement
+- [x] Pause the Vercel migration without changing the existing Vercel project or domain.
+- [x] Audit Builder, Library, About, Contact, Auth, and account/admin surfaces across desktop, tablet, and mobile breakpoints.
+- [x] Improve PromptForge logo sizing, alignment, spacing, and responsive placement across shared navigation and page headers.
+- [x] Run tests/build, verify hybrid responsive layouts, and publish the responsiveness/logo checkpoint.
+- [x] Audit `/account` and `/admin/unlocks` at tablet and mobile breakpoints, fix any layout issues found, and re-verify before publishing.
+- [ ] Save and publish a new checkpoint containing the responsive layout and logo-positioning refinements.
+- [ ] Verify the updated header/logo on the public deployment after publishing.
