@@ -192,4 +192,4 @@
 - [x] Publish the Library discovery and feedback upgrade.
 - [x] Add focused coverage for catalog input filtering and no-results rendering.
 - [x] Add focused coverage for retry success/failure feedback and verify a shareable no-results URL.
-- [ ] Save a fresh checkpoint and verify the deployed Library discovery upgrade.
+- [x] Save a fresh checkpoint and verify the deployed Library discovery upgrade.
