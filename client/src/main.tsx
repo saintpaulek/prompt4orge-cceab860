@@ -7,6 +7,7 @@ import superjson from "superjson";
 import App from "./App";
 import { SupabaseAuthProvider } from "./contexts/SupabaseAuthContext";
 import { startLogin } from "./const";
+import { fetchJsonApi } from "./lib/trpcTransport";
 import "./index.css";
 
 const queryClient = new QueryClient();
@@ -76,7 +77,7 @@ const trpcClient = trpc.createClient({
         return {};
       },
       fetch(input, init) {
-        return globalThis.fetch(input, {
+        return fetchJsonApi(input, {
           ...(init ?? {}),
           credentials: "include",
         });

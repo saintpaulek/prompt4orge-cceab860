@@ -44,6 +44,19 @@ async function startServer() {
       createContext,
     })
   );
+  // Never let an unmatched API request fall through to the SPA HTML document.
+  // This keeps client-side API failures JSON-shaped and actionable.
+  app.use("/api", (_req, res) => {
+    res.status(404).json({
+      error: {
+        json: {
+          message: "API route not found",
+          code: "NOT_FOUND",
+          data: { httpStatus: 404 },
+        },
+      },
+    });
+  });
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);

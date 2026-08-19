@@ -163,3 +163,9 @@
 - [x] Save a fresh professional-upgrade checkpoint and verify the upgraded public deployment across major routes.
 - [x] Apply explicit route-specific visual treatment to About, Contact, Auth, Account, and Admin components beyond shared styling.
 - [x] Verify the published /auth, /account, and /admin/unlocks routes after checkpoint e9a11991.
+
+# Library API parsing error
+- [x] Diagnose why the `/library` tRPC query receives an HTML document instead of JSON.
+- [x] Fix the Library API transport or route handling without regressing catalog behavior.
+- [ ] Add or update Vitest coverage for the failure path and verify the Library page and API response.
+- [ ] Publish the Library error fix.
