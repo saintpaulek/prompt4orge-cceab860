@@ -1,4 +1,5 @@
 // Production catalog marker: this page is the database-backed prompt library.
+// Library discovery upgrade propagation marker: c837bcd7-refresh-2.
 import React, { useMemo, useState } from "react";
 import { ArrowRight, BookOpen, ChevronDown, LockKeyhole, Search, X } from "lucide-react";
 import { Link } from "wouter";
