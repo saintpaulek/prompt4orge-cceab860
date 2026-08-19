@@ -303,3 +303,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .commission-desk .contact-layout::before, .workshop-door::before { position: static; margin: 0 0 18px; }
   .personal-shelf .settings-card::after { top: 14px; right: -34px; }
 }
+
+
+/* Library loading and recovery states */
+.catalog-skeleton { align-items: stretch; }
+.skeleton-card { pointer-events: none; overflow: hidden; }
+.skeleton-line { position: relative; overflow: hidden; background: rgba(255,255,255,.08); border-radius: 3px; }
+.skeleton-line::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(243,107,33,.16), transparent); animation: catalog-shimmer 1.4s ease-in-out infinite; }
+.skeleton-stamp { width: 76%; height: 10px; margin-bottom: 22px; }
+.skeleton-meta { width: 48%; height: 9px; margin-bottom: 28px; }
+.skeleton-title { width: 88%; height: 25px; margin-bottom: 17px; }
+.skeleton-copy { width: 92%; height: 11px; margin-bottom: 9px; }
+.skeleton-copy.short { width: 64%; }
+.skeleton-action { width: 92px; height: 28px; margin-top: auto; }
+.catalog-error { border-color: rgba(243,107,33,.34); background: linear-gradient(135deg, rgba(243,107,33,.08), rgba(17,19,17,.92)); }
+.retry-catalog { padding: 10px 13px; border: 1px solid rgba(243,107,33,.38); border-radius: 5px; background: rgba(243,107,33,.08); }
+.retry-catalog:hover { background: var(--orange); color: #1b0d06; border-color: var(--orange); }
+.retry-catalog:disabled { opacity: .6; cursor: wait; }
+@keyframes catalog-shimmer { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .skeleton-line::after { animation: none; transform: none; opacity: .35; } }

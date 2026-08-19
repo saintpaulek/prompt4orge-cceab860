@@ -171,3 +171,15 @@
 - [x] Publish the Library error fix.
 - [x] Verify the published `/library` page in-browser after checkpoint d72cf82f and confirm it loads the catalog without the `Unexpected token '<'` tRPC error.
 - [x] Capture explicit evidence that the live user-facing Library experience no longer redirects unexpectedly and no longer triggers the JSON parse failure.
+
+# Library loading and retry UX
+- [x] Add a Workshop Noir loading skeleton while catalog data is fetching.
+- [x] Add a clear retry button and loading state for catalog request failures.
+- [x] Add or update tests and verify loading, error, retry, and populated Library states.
+- [x] Publish the Library loading and retry UX update.
+- [x] Add a Library-focused Vitest or component test covering the loading skeleton and retry-button/error-state rendering.
+- [x] Exercise a forced Library loading/error scenario and verify the skeleton and retry behavior before final publication.
+- [x] Add a Library UI test for the actual error-state component, including retry text and disabled fetching state.
+- [x] Capture explicit loading-skeleton evidence and exercise retry recovery before final publication.
+- [ ] Save a fresh checkpoint containing the Library loading skeleton, retry UI, PromptLibrary tests, and Vitest discovery update.
+- [ ] Capture explicit loading and retry-state evidence for the Library before final delivery.
