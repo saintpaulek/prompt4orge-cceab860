@@ -322,3 +322,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .retry-catalog:disabled { opacity: .6; cursor: wait; }
 @keyframes catalog-shimmer { to { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { .skeleton-line::after { animation: none; transform: none; opacity: .35; } }
+
+
+/* Library discovery and empty shelf states */
+.search { min-width: 0; }
+.search-count { color:#6f756f; font-size:10px; letter-spacing:.08em; white-space:nowrap; }
+.clear-search { display:grid; place-items:center; padding:4px; color:#8d938d; background:transparent; border-radius:50%; }
+.clear-search:hover { color:var(--orange); background:rgba(243,107,33,.1); }
+.catalog-select { flex:0 0 270px; position:relative; display:flex; flex-direction:column; gap:6px; color:#858b84; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+.catalog-select select { width:100%; appearance:none; background:#0d0f0d; color:#e8e7e2; border:1px solid rgba(255,255,255,.12); border-radius:6px; padding:13px 36px 13px 13px; outline:none; font-size:13px; letter-spacing:0; text-transform:none; }
+.catalog-select select:focus { border-color:var(--orange); box-shadow:0 0 0 3px rgba(243,107,33,.1); }
+.catalog-select > svg { position:absolute; right:12px; bottom:13px; pointer-events:none; color:#777d77; }
+.catalog-no-results { min-height:310px; border:1px dashed rgba(243,107,33,.3); background:radial-gradient(circle at 50% 25%, rgba(243,107,33,.1), transparent 34%), #111311; }
+.empty-illustration { width:116px; height:96px; display:grid; place-items:center; margin-bottom:5px; color:var(--orange); }
+.empty-illustration svg { width:116px; height:96px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; opacity:.9; }
+.catalog-no-results strong { font-family:'Space Grotesk'; font-size:18px; color:#ecebe6; }
+.catalog-no-results span { max-width:340px; line-height:1.55; }
+.catalog-no-results .card-action { margin-top:4px; padding:10px 13px; border:1px solid rgba(243,107,33,.34); border-radius:5px; background:rgba(243,107,33,.07); }
+.catalog-no-results .card-action:hover { background:var(--orange); color:#1b0d06; }
+@media (max-width:720px) { .catalog-toolbar { gap:14px; }.catalog-select { flex-basis:auto; }.search-count { display:none; }.clear-search { margin-right:2px; } }

@@ -1,7 +1,7 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
-import { CATALOG_SKELETON_COUNT, CatalogErrorState, CatalogSkeleton, getCatalogRetryLabel } from "./PromptLibrary";
+import { CATALOG_SKELETON_COUNT, CatalogEmptyState, CatalogErrorState, CatalogSkeleton, buildCatalogInput, getCatalogRetryLabel, getRetryFeedback } from "./PromptLibrary";
 
 describe("PromptLibrary loading and retry states", () => {
   it("renders the expected accessible skeleton card count", () => {
@@ -28,6 +28,33 @@ describe("PromptLibrary loading and retry states", () => {
     expect(fetchingMarkup).toContain("Retrying…");
     expect(fetchingMarkup).toContain("disabled");
     expect(fetchingMarkup).toContain('aria-busy="true"');
+  });
+
+  it("renders a useful empty shelf state and clear-filters action when filtered", () => {
+    const onClear = vi.fn();
+    const markup = renderToStaticMarkup(<CatalogEmptyState hasFilters onClear={onClear} />);
+    const element = CatalogEmptyState({ hasFilters: true, onClear });
+    const children = React.Children.toArray(element.props.children);
+    const clearButton = children.find(child => React.isValidElement(child) && child.type === "button");
+
+    expect(markup).toContain("No work orders match this search.");
+    expect(markup).toContain("Clear filters");
+    expect(markup).toContain("empty-illustration");
+    if (React.isValidElement(clearButton)) {
+      const typedButton = clearButton as React.ReactElement<{ onClick?: () => void }>;
+      typedButton.props.onClick?.();
+    }
+    expect(onClear).toHaveBeenCalledTimes(1);
+  });
+
+  it("builds trimmed search and category filters for the catalog query", () => {
+    expect(buildCatalogInput("  carousel  ", "SMM", "FREE")).toEqual({ search: "carousel", category: "SMM", access: "FREE", limit: 60, offset: 0 });
+    expect(buildCatalogInput("   ", "ALL", "ALL").search).toBeUndefined();
+  });
+
+  it("formats clear retry feedback for success and failure outcomes", () => {
+    expect(getRetryFeedback(true, 12)).toEqual({ title: "Catalog refreshed", description: "12 work orders are ready." });
+    expect(getRetryFeedback(false)).toEqual({ title: "Catalog refresh failed", description: "Check your connection and try again." });
   });
 
   it("wires the idle retry button to the supplied recovery callback", () => {

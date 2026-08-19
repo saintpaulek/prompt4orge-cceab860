@@ -183,3 +183,13 @@
 - [x] Capture explicit loading-skeleton evidence and exercise retry recovery before final publication.
 - [x] Save a fresh checkpoint containing the Library loading skeleton, retry UI, PromptLibrary tests, and Vitest discovery update.
 - [x] Capture explicit loading and retry-state evidence for the Library before final delivery.
+
+# Library discovery and feedback upgrade
+- [x] Add a responsive search bar and category filters for catalog discovery.
+- [x] Add a branded empty-catalog illustration and useful no-results message.
+- [x] Add success and failure toast feedback for retry actions.
+- [x] Add focused tests and verify populated, filtered, empty, retry, and responsive states.
+- [x] Publish the Library discovery and feedback upgrade.
+- [x] Add focused coverage for catalog input filtering and no-results rendering.
+- [x] Add focused coverage for retry success/failure feedback and verify a shareable no-results URL.
+- [ ] Save a fresh checkpoint and verify the deployed Library discovery upgrade.
