@@ -1,6 +1,6 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { CATALOG_SKELETON_COUNT, CatalogErrorState, CatalogSkeleton, getCatalogRetryLabel } from "./PromptLibrary";
 
 describe("PromptLibrary loading and retry states", () => {
@@ -28,5 +28,19 @@ describe("PromptLibrary loading and retry states", () => {
     expect(fetchingMarkup).toContain("Retrying…");
     expect(fetchingMarkup).toContain("disabled");
     expect(fetchingMarkup).toContain('aria-busy="true"');
+  });
+
+  it("wires the idle retry button to the supplied recovery callback", () => {
+    const onRetry = vi.fn();
+    const element = CatalogErrorState({ isFetching: false, onRetry });
+    const children = React.Children.toArray(element.props.children);
+    const retryButton = children.find(child => React.isValidElement(child) && child.type === "button");
+
+    expect(retryButton).toBeTruthy();
+    if (React.isValidElement(retryButton)) {
+      const typedButton = retryButton as React.ReactElement<{ onClick?: () => void }>;
+      typedButton.props.onClick?.();
+    }
+    expect(onRetry).toHaveBeenCalledTimes(1);
   });
 });

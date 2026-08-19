@@ -181,5 +181,5 @@
 - [x] Exercise a forced Library loading/error scenario and verify the skeleton and retry behavior before final publication.
 - [x] Add a Library UI test for the actual error-state component, including retry text and disabled fetching state.
 - [x] Capture explicit loading-skeleton evidence and exercise retry recovery before final publication.
-- [ ] Save a fresh checkpoint containing the Library loading skeleton, retry UI, PromptLibrary tests, and Vitest discovery update.
-- [ ] Capture explicit loading and retry-state evidence for the Library before final delivery.
+- [x] Save a fresh checkpoint containing the Library loading skeleton, retry UI, PromptLibrary tests, and Vitest discovery update.
+- [x] Capture explicit loading and retry-state evidence for the Library before final delivery.
