@@ -193,3 +193,9 @@
 - [x] Add focused coverage for catalog input filtering and no-results rendering.
 - [x] Add focused coverage for retry success/failure feedback and verify a shareable no-results URL.
 - [x] Save a fresh checkpoint and verify the deployed Library discovery upgrade.
+
+# Library sorting and scalable browsing upgrade
+- [x] Add catalog sorting options for date added and popularity while preserving existing filters.
+- [x] Implement paginated or infinite catalog browsing with loading-more feedback and stable filtering.
+- [x] Add focused tests and verify sorting, browsing, filtering, empty, retry, and responsive states.
+- [x] Publish and verify the Library sorting and scalable browsing upgrade.

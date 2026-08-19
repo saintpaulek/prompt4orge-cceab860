@@ -18,4 +18,16 @@ describe("catalog.list", () => {
     const caller = appRouter.createCaller(publicContext);
     await expect(caller.catalog.list({ access: "ALL", limit: 101, offset: 0 })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
+
+  it("rejects unsupported sort modes", async () => {
+    const caller = appRouter.createCaller(publicContext);
+    await expect(caller.catalog.list({ access: "ALL", sort: "TRENDING" as never, limit: 10, offset: 0 })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
+  it("accepts supported sort modes and non-zero offsets", async () => {
+    const caller = appRouter.createCaller(publicContext);
+    for (const sort of ["NEWEST", "OLDEST", "POPULAR"] as const) {
+      await expect(caller.catalog.list({ access: "ALL", sort, limit: 10, offset: 60 })).resolves.toBeDefined();
+    }
+  });
 });

@@ -48,8 +48,10 @@ describe("PromptLibrary loading and retry states", () => {
   });
 
   it("builds trimmed search and category filters for the catalog query", () => {
-    expect(buildCatalogInput("  carousel  ", "SMM", "FREE")).toEqual({ search: "carousel", category: "SMM", access: "FREE", limit: 60, offset: 0 });
+    expect(buildCatalogInput("  carousel  ", "SMM", "FREE")).toEqual({ search: "carousel", category: "SMM", access: "FREE", sort: "NEWEST", limit: 60, offset: 0 });
     expect(buildCatalogInput("   ", "ALL", "ALL").search).toBeUndefined();
+    expect(buildCatalogInput("", "ALL", "ALL", "OLDEST", 60).sort).toBe("OLDEST");
+    expect(buildCatalogInput("", "ALL", "ALL", "POPULAR", 120).offset).toBe(120);
   });
 
   it("formats clear retry feedback for success and failure outcomes", () => {

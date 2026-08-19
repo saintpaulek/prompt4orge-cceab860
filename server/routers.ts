@@ -32,8 +32,8 @@ export const appRouter = router({
     }),
   }),
   catalog: router({
-    list: publicProcedure.input(z.object({ search: z.string().optional(), category: z.string().optional(), access: z.enum(["ALL", "FREE", "LOCKED"]).default("ALL"), limit: z.number().int().min(1).max(100).default(60), offset: z.number().int().min(0).default(0) })).query(async ({ ctx, input }) => {
-      const [items, total] = await Promise.all([listPrompts(input, ctx.user ?? undefined), countPrompts()]);
+    list: publicProcedure.input(z.object({ search: z.string().optional(), category: z.string().optional(), access: z.enum(["ALL", "FREE", "LOCKED"]).default("ALL"), sort: z.enum(["NEWEST", "OLDEST", "POPULAR"]).default("NEWEST"), limit: z.number().int().min(1).max(100).default(60), offset: z.number().int().min(0).default(0) })).query(async ({ ctx, input }) => {
+      const [items, total] = await Promise.all([listPrompts(input, ctx.user ?? undefined), countPrompts(input)]);
       return { items, total };
     }),
   }),

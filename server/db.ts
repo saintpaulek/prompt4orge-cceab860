@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { and, desc, eq, like, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertSavedPrompt, InsertUser, prompts, savedPrompts, unlockCodes, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
@@ -85,9 +85,9 @@ export async function getUserById(userId: number) {
   return result[0];
 }
 
-export async function listPrompts(input: { search?: string; category?: string; access?: "ALL" | "FREE" | "LOCKED"; limit: number; offset: number }, viewer?: { role?: string; isUnlocked?: number }) {
-  const db = await getDb();
-  if (!db) return [];
+type CatalogInput = { search?: string; category?: string; access?: "ALL" | "FREE" | "LOCKED"; sort?: "NEWEST" | "OLDEST" | "POPULAR"; limit: number; offset: number };
+
+function catalogConditions(input: CatalogInput) {
   const conditions = [];
   if (input.category && input.category !== "ALL") conditions.push(eq(prompts.category, input.category));
   if (input.access && input.access !== "ALL") conditions.push(eq(prompts.access, input.access));
@@ -95,16 +95,25 @@ export async function listPrompts(input: { search?: string; category?: string; a
     const term = `%${input.search.trim()}%`;
     conditions.push(or(like(prompts.title, term), like(prompts.category, term), like(prompts.tags, term)));
   }
-  const rows = await db.select().from(prompts).where(conditions.length ? and(...conditions) : undefined).orderBy(prompts.id).limit(input.limit).offset(input.offset);
+  return conditions;
+}
+
+export async function listPrompts(input: CatalogInput, viewer?: { role?: string; isUnlocked?: number }) {
+  const db = await getDb();
+  if (!db) return [];
+  const conditions = catalogConditions(input);
+  const order = input.sort === "OLDEST" ? [asc(prompts.createdAt), asc(prompts.id)] : input.sort === "POPULAR" ? [desc(prompts.access), desc(prompts.createdAt), asc(prompts.id)] : [desc(prompts.createdAt), desc(prompts.id)];
+  const rows = await db.select().from(prompts).where(conditions.length ? and(...conditions) : undefined).orderBy(...order).limit(input.limit).offset(input.offset);
   const canViewLocked = viewer?.role === "admin" || viewer?.isUnlocked === 1;
   return rows.map(row => canViewLocked || row.access === "FREE" ? row : { ...row, promptBody: "" });
 }
 
-export async function countPrompts() {
+export async function countPrompts(input?: CatalogInput) {
   const db = await getDb();
   if (!db) return 0;
-  const result = await db.select({ id: prompts.id }).from(prompts);
-  return result.length;
+  const conditions = input ? catalogConditions(input) : [];
+  const result = await db.select({ value: count() }).from(prompts).where(conditions.length ? and(...conditions) : undefined);
+  return Number(result[0]?.value ?? 0);
 }
 
 export async function listSavedPrompts(userId: number) {
