@@ -167,5 +167,7 @@
 # Library API parsing error
 - [x] Diagnose why the `/library` tRPC query receives an HTML document instead of JSON.
 - [x] Fix the Library API transport or route handling without regressing catalog behavior.
-- [ ] Add or update Vitest coverage for the failure path and verify the Library page and API response.
-- [ ] Publish the Library error fix.
+- [x] Add or update Vitest coverage for the failure path and verify the Library page and API response.
+- [x] Publish the Library error fix.
+- [x] Verify the published `/library` page in-browser after checkpoint d72cf82f and confirm it loads the catalog without the `Unexpected token '<'` tRPC error.
+- [x] Capture explicit evidence that the live user-facing Library experience no longer redirects unexpectedly and no longer triggers the JSON parse failure.
