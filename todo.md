@@ -199,3 +199,9 @@
 - [x] Implement paginated or infinite catalog browsing with loading-more feedback and stable filtering.
 - [x] Add focused tests and verify sorting, browsing, filtering, empty, retry, and responsive states.
 - [x] Publish and verify the Library sorting and scalable browsing upgrade.
+
+# Builder ChatGPT and Gemini connections
+- [x] Add direct ChatGPT and Gemini actions for the generated prompt preview.
+- [x] Add a safe copy-to-clipboard fallback and accessible success/error feedback.
+- [x] Add focused tests and verify the launch URLs, Builder states, and responsive controls.
+- [x] Publish and verify the ChatGPT/Gemini preview connection.

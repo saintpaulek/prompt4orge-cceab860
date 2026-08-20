@@ -351,3 +351,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .catalog-load-more .load-more:disabled { cursor:wait; opacity:.62; }
 .catalog-load-more > span { color:#747b74; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
 @media (max-width:720px) { .sort-select { flex-basis:auto; } .catalog-load-more { margin-top:22px; } .catalog-load-more .load-more { width:100%; justify-content:center; } }
+
+
+/* Builder assistant launch actions */
+.assistant-action { border-color: rgba(243,107,33,.42) !important; color: #f7a36d; }
+.assistant-action:hover:not(:disabled) { background: rgba(243,107,33,.14) !important; border-color: var(--orange) !important; color: #ffd5bd; }
+.assistant-action:disabled { opacity: .45; }
+@media (max-width:720px) { .output-actions .assistant-action { flex: 1 1 calc(50% - 6px); } }
