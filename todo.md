@@ -279,3 +279,9 @@
 - [x] Update the shared header to use the visible logo asset on the homepage and core routes.
 - [x] Verify the logo on the paid-domain homepage at desktop and mobile widths.
 - [x] Publish the logo visibility fix without regressing the existing deployment.
+
+# Production authentication configuration fix
+- [x] Inspect the live authentication configuration and identify the missing or mismatched production variable.
+- [x] Correct the production auth configuration and preserve safe diagnostics without exposing secrets.
+- [x] Add or update regression coverage for the configured and unconfigured auth states.
+- [x] Verify the deployed login flow and publish the authentication fix.

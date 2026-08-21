@@ -1,13 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 
+export const resolveSupabaseBrowserKey = (env: Record<string, unknown>) => String(env.VITE_SUPABASE_ANON_KEY ?? env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "").trim();
+
 const rawSupabaseUrl = String(import.meta.env.VITE_SUPABASE_URL ?? "").trim();
 const supabaseUrl = rawSupabaseUrl.replace(/\/+$/, "");
-const supabaseAnonKey = String(import.meta.env.VITE_SUPABASE_ANON_KEY ?? "").trim();
+const supabaseAnonKey = resolveSupabaseBrowserKey(import.meta.env);
 
 export const supabaseConfig = {
   configured: Boolean(supabaseUrl && supabaseAnonKey),
   hasUrl: Boolean(supabaseUrl),
   hasAnonKey: Boolean(supabaseAnonKey),
+  keySource: import.meta.env.VITE_SUPABASE_ANON_KEY ? "anon" : import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ? "publishable" : "missing",
   origin: typeof window !== "undefined" ? window.location.origin : "server",
   urlHost: (() => {
     try { return supabaseUrl ? new URL(supabaseUrl).host : "missing"; } catch { return "invalid"; }
