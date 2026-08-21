@@ -62,23 +62,32 @@ export async function redeemUnlockCode(userId: number, code: string) {
   const db = await getDb();
   if (!db) throw new Error("Database unavailable");
   const normalized = code.trim().toUpperCase();
-  if (!normalized) return false;
+  if (!normalized) return { status: "invalid" as const };
 
   return db.transaction(async tx => {
+    const matches = await tx.select({ id: unlockCodes.id, isUsed: unlockCodes.isUsed })
+      .from(unlockCodes)
+      .where(eq(unlockCodes.code, normalized))
+      .limit(1);
+    const found = matches[0];
+    if (!found) return { status: "invalid" as const };
+    if (found.isUsed) return { status: "already_used" as const };
+
     // The conditional update is the single-use guard. Concurrent attempts for
     // the same code can never both claim it because only the first update can
     // change isUsed from 0 to 1.
     const updateResult = await tx.update(unlockCodes)
       .set({ isUsed: 1, usedBy: userId })
-      .where(and(eq(unlockCodes.code, normalized), eq(unlockCodes.isUsed, 0)));
+      .where(and(eq(unlockCodes.id, found.id), eq(unlockCodes.isUsed, 0)));
     const affectedRows = (updateResult as { affectedRows?: number }).affectedRows ?? 0;
-    if (affectedRows !== 1) return false;
+    if (affectedRows !== 1) return { status: "already_used" as const };
 
-    // Persist access on the authenticated account. Since the profile is keyed
-    // by the account id, the unlock follows that account on every device after
-    // the user signs in again.
-    await tx.update(users).set({ isUnlocked: 1 }).where(eq(users.id, userId));
-    return true;
+    const unlockedAt = new Date();
+    // Persist access and redemption history on the authenticated account. The
+    // profile is keyed by account id, so access follows that account across
+    // devices after the user signs in again.
+    await tx.update(users).set({ isUnlocked: 1, unlockedAt, unlockCode: normalized }).where(eq(users.id, userId));
+    return { status: "success" as const, redeemedCode: normalized, unlockedAt };
   });
 }
 

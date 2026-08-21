@@ -8,6 +8,8 @@ export const users = mysqlTable("users", {
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
   isUnlocked: int("isUnlocked").default(0).notNull(),
+  unlockedAt: timestamp("unlockedAt"),
+  unlockCode: varchar("unlockCode", { length: 80 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),

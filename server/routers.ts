@@ -40,7 +40,7 @@ export const appRouter = router({
   profile: router({
     me: protectedProcedure.query(({ ctx }) => getUserById(ctx.user.id)),
     update: protectedProcedure.input(z.object({ name: z.string().min(1).max(120) })).mutation(async ({ ctx, input }) => { await updateUserProfile(ctx.user.id, input.name); return getUserById(ctx.user.id); }),
-    redeemCode: protectedProcedure.input(z.object({ code: z.string().min(4).max(80) })).mutation(async ({ ctx, input }) => ({ success: await redeemUnlockCode(ctx.user.id, input.code) })),
+    redeemCode: protectedProcedure.input(z.object({ code: z.string().min(4).max(80) })).mutation(({ ctx, input }) => redeemUnlockCode(ctx.user.id, input.code)),
   }),
   admin: router({
     unlocks: router({

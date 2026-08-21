@@ -303,4 +303,11 @@
 - [x] Enforce atomic one-time code redemption and bind the redeemed code to the signed-in account.
 - [x] Ensure unlocked access is read from the account on other devices after sign-in.
 - [x] Add or update tests for signed-out, successful, duplicate, and cross-device redemption states.
-- [ ] Verify the live redemption flow and publish the hardened implementation.
+- [x] Verify the live redemption flow and publish the hardened implementation.
+
+# Redemption feedback and unlock history
+- [x] Add persistent unlock timestamp and redeemed-code metadata to the account record.
+- [x] Return specific redemption outcomes for invalid, already-used, and successful codes.
+- [x] Add a success animation and clear error messages to the account redemption UI.
+- [x] Display the unlock date/time and specific redeemed code on the account page.
+- [x] Add tests, verify responsive states, and publish the updated redemption experience.
