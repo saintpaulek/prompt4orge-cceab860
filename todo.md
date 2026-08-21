@@ -285,3 +285,9 @@
 - [x] Correct the production auth configuration and preserve safe diagnostics without exposing secrets.
 - [x] Add or update regression coverage for the configured and unconfigured auth states.
 - [x] Verify the deployed login flow and publish the authentication fix.
+
+# Text-only PROMPTFORGE wordmark replacement
+- [x] Replace the image-based header logo with a text-only PROMPTFORGE wordmark using the site theme colors.
+- [x] Replace the footer logo image with the same text-only wordmark across all shared routes.
+- [x] Verify the wordmark in day/night modes and desktop/mobile layouts on the paid-domain deployment.
+- [x] Publish the text-only wordmark replacement.

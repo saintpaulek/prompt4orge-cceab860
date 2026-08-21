@@ -486,3 +486,12 @@ html[data-theme="light"] .pricing-benefits div { color:#4f5d54; }
 @media (max-width:720px) { .pricing-feature-grid { grid-template-columns:1fr; margin-top:38px; }.pricing-benefits { grid-template-columns:1fr; }.pricing-card { min-height:280px; }.pricing-note { align-items:flex-start; }.output-actions { max-height:none; } }
 html[data-theme="light"] .pricing-card .price strong, html[data-theme="light"] .pricing-card .price span, html[data-theme="light"] .pricing-card .price small { color:#1d241f; }
 html[data-theme="light"] .pricing-card .price strong { color:#c95118; }
+
+/* Text-only PromptForge wordmarks: no image dependency for shared branding. */
+.brand-wordmark, .footer-wordmark { display:inline-flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; font-weight:700; letter-spacing:-.055em; white-space:nowrap; }
+.brand-wordmark { font-size:22px; line-height:1; }
+.brand-wordmark span, .footer-wordmark span { color:var(--foreground); }
+.brand-wordmark b, .footer-wordmark b { color:var(--orange); font-weight:700; }
+.footer-wordmark { flex:0 0 auto; font-size:18px; letter-spacing:-.045em; }
+.info-mark { width:52px; height:52px; display:grid; place-items:center; border:1px solid rgba(243,107,33,.55); border-radius:8px; color:var(--orange); font:700 17px 'Space Grotesk'; letter-spacing:-.06em; background:rgba(243,107,33,.08); }
+@media (max-width:720px) { .brand-wordmark { font-size:18px; } .footer-wordmark { font-size:17px; } }
