@@ -212,3 +212,8 @@
 - [x] Add fillable Builder variables for campaign, use case, audience, goal, and channel context.
 - [x] Add a compliance-first cue for regulated Banking/Fintech selections.
 - [x] Add focused tests, verify Library/Builder responsive flows, and publish the upgrade.
+
+# Banking & Fintech 65-template expansion
+- [x] Add exactly 5 FREE and 60 LOCKED templates under Banking & Fintech Engagement.
+- [x] Verify exact access counts, category filtering, responsive Library rendering, and regression checks.
+- [x] Publish the Banking & Fintech 65-template expansion.
