@@ -291,3 +291,9 @@
 - [x] Replace the footer logo image with the same text-only wordmark across all shared routes.
 - [x] Verify the wordmark in day/night modes and desktop/mobile layouts on the paid-domain deployment.
 - [x] Publish the text-only wordmark replacement.
+
+# Super-admin promotion request
+- [x] Verify saintpaulek@gmail.com maps to the intended PromptForge user account.
+- [x] Promote saintpaulek@gmail.com to the highest supported administrator role.
+- [ ] Verify protected admin unlock-code access on the paid domain.
+- [x] Record the promotion result and any required sign-out/sign-in step.
