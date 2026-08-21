@@ -236,3 +236,8 @@
 - [x] Add regression coverage and verify public, authenticated, responsive, and day/night flows.
 - [ ] Publish the attached-brief upgrade.
 - [x] Fix daytime Pricing card lifetime price contrast and re-verify both themes.
+
+# WhatsApp Business chat link update
+- [x] Replace every “Chat with us” and WhatsApp action with https://wa.me/p/28447341561540526/2347069573528.
+- [x] Add link regression coverage and verify desktop/mobile destinations.
+- [x] Publish the WhatsApp Business chat-link update.
