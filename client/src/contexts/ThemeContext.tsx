@@ -23,14 +23,17 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (switchable) {
-      const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
+      const requested = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("theme") : null;
+      if (requested === "light" || requested === "dark") return requested;
+      const stored = localStorage.getItem("promptforge-theme");
+      return stored === "light" || stored === "dark" ? stored : defaultTheme;
     }
     return defaultTheme;
   });
 
   useEffect(() => {
     const root = document.documentElement;
+    root.dataset.theme = theme;
     if (theme === "dark") {
       root.classList.add("dark");
     } else {
@@ -38,7 +41,7 @@ export function ThemeProvider({
     }
 
     if (switchable) {
-      localStorage.setItem("theme", theme);
+      localStorage.setItem("promptforge-theme", theme);
     }
   }, [theme, switchable]);
 

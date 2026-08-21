@@ -217,3 +217,9 @@
 - [x] Add exactly 5 FREE and 60 LOCKED templates under Banking & Fintech Engagement.
 - [x] Verify exact access counts, category filtering, responsive Library rendering, and regression checks.
 - [x] Publish the Banking & Fintech 65-template expansion.
+
+# Day/night theme upgrade
+- [x] Add a persistent day/night theme switcher to the shared PromptForge layout.
+- [x] Align global backgrounds, text, borders, cards, controls, forms, Builder output, Library states, and route-specific surfaces for both themes.
+- [x] Add theme regression coverage and verify major routes at desktop and mobile breakpoints in both modes.
+- [x] Publish the day/night theme upgrade.

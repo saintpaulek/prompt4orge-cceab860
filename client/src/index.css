@@ -367,3 +367,96 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .compliance-note strong { color:#fff0e5; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
 .compliance-note span { color:#c4b5aa; font-size:12px; line-height:1.55; }
 @media (max-width:720px) { .compliance-note { padding:12px; } .compliance-note span { font-size:11px; } }
+
+
+/* Day/night theme system */
+.theme-toggle { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:36px; padding:8px 11px; border:1px solid rgba(255,255,255,.14); border-radius:6px; background:rgba(255,255,255,.04); color:#d9ddd6; font-size:11px; font-weight:700; transition:background .18s, color .18s, border-color .18s, transform .16s; }
+.theme-toggle:hover { color:var(--orange); border-color:rgba(243,107,33,.55); background:rgba(243,107,33,.1); }
+.theme-toggle:active { transform:scale(.97); }
+html[data-theme="light"] { --background:#f4f1eb; --foreground:#1e2420; --card:#ffffff; --card-foreground:#1e2420; --primary:#d95a18; --primary-foreground:#fff8f1; --border:rgba(24,29,25,.14); --input:rgba(24,29,25,.16); --steel:#59625c; --muted:#68736b; --paper:#262d28; --orange:#d95a18; color-scheme:light; }
+html[data-theme="light"] body { background:var(--background); color:var(--foreground); }
+html[data-theme="light"] .app-shell { background:radial-gradient(circle at 78% -10%, rgba(217,90,24,.12), transparent 30%), #f4f1eb; }
+html[data-theme="light"] .topbar { background:rgba(255,255,255,.88); border-bottom-color:rgba(24,29,25,.12); }
+html[data-theme="light"] .nav { color:#5c675f; }
+html[data-theme="light"] .nav a:hover, html[data-theme="light"] .nav-link.active { color:#1e2420; }
+html[data-theme="light"] .theme-toggle { background:#fff; color:#4d5a50; border-color:rgba(24,29,25,.18); }
+html[data-theme="light"] .mobile-menu { color:#263129; }
+html[data-theme="light"] .builder-hero { background-image:linear-gradient(90deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.84) 50%, rgba(255,255,255,.25) 100%), url('/manus-storage/promptforge-forge-texture_b7ed497b.png') !important; border-bottom-color:rgba(24,29,25,.12); }
+html[data-theme="light"] .builder-hero p, html[data-theme="light"] .page-intro p { color:#536057; }
+html[data-theme="light"] .hero-proof { color:#68736b; }
+html[data-theme="light"] .hero-proof span { color:#1e2420; }
+html[data-theme="light"] .workbench { border-left-color:rgba(24,29,25,.12); border-right-color:rgba(24,29,25,.12); }
+html[data-theme="light"] .step-rail, html[data-theme="light"] .materials { border-color:rgba(24,29,25,.12); }
+html[data-theme="light"] .rail-label, html[data-theme="light"] .intro-side span { color:#7a857c; }
+html[data-theme="light"] .step { color:#738077; }
+html[data-theme="light"] .step b { color:#6e7a71; }
+html[data-theme="light"] .step strong, html[data-theme="light"] .rail-note strong { color:#29342d; }
+html[data-theme="light"] .rail-note { color:#68736b; }
+html[data-theme="light"] .section-kicker { color:#29342d; }
+html[data-theme="light"] .section-kicker span { color:#738077; }
+html[data-theme="light"] .category { background:#fff; border-color:rgba(24,29,25,.14); color:#5f6c63; }
+html[data-theme="light"] .category span { color:#263129; }
+html[data-theme="light"] .category small { color:#738077; }
+html[data-theme="light"] .category svg { color:#728075; }
+html[data-theme="light"] .category.selected { background:linear-gradient(135deg, rgba(217,90,24,.13), #fff 66%); }
+html[data-theme="light"] .field > span { color:#637067; }
+html[data-theme="light"] .field input, html[data-theme="light"] .field select, html[data-theme="light"] .field textarea { background:#fff; color:#202a23; border-color:rgba(24,29,25,.17); }
+html[data-theme="light"] .field input::placeholder, html[data-theme="light"] .field textarea::placeholder { color:#89938b; }
+html[data-theme="light"] .select-wrap svg { color:#6e7b72; }
+html[data-theme="light"] .output-panel { background:#e9e5dc; }
+html[data-theme="light"] .status { color:#637067; }
+html[data-theme="light"] .prompt-card { background:#fffdf8; border-color:rgba(24,29,25,.16); }
+html[data-theme="light"] .prompt-card pre { color:#29342d; }
+html[data-theme="light"] .empty-output { color:#718077; }
+html[data-theme="light"] .empty-output strong { color:#334039; }
+html[data-theme="light"] .output-actions button, html[data-theme="light"] .card-action, html[data-theme="light"] .filter-button { color:#5f6c63; border-color:rgba(24,29,25,.18); }
+html[data-theme="light"] .output-actions button:hover, html[data-theme="light"] .card-action:hover, html[data-theme="light"] .filter-button:hover { color:#263129; }
+html[data-theme="light"] .output-tip { color:#6c796f; }
+html[data-theme="light"] .callout-copy p, html[data-theme="light"] .info-card p { color:#5f6c63; }
+html[data-theme="light"] .builder-callout img { border-color:rgba(24,29,25,.14); }
+html[data-theme="light"] .intro-side { color:#637067; }
+html[data-theme="light"] .search { background:#fff; border-color:rgba(24,29,25,.17); color:#728075; }
+html[data-theme="light"] .search input { color:#263129; }
+html[data-theme="light"] .library-card { background:#fff; border-color:rgba(24,29,25,.14); }
+html[data-theme="light"] .locked-card { border-left-color:rgba(24,29,25,.22); }
+html[data-theme="light"] .card-stamp { color:#718077; border-bottom-color:rgba(24,29,25,.16); }
+html[data-theme="light"] .card-meta span:last-child { color:#748078; }
+html[data-theme="light"] .library-card p { color:#66736a; }
+html[data-theme="light"] .lock { color:#78847b; }
+html[data-theme="light"] .unlock-banner { background:linear-gradient(110deg, rgba(217,90,24,.13), rgba(255,255,255,.94)); border-color:rgba(217,90,24,.32); }
+html[data-theme="light"] .unlock-banner p { color:#617067; }
+html[data-theme="light"] .form-card, html[data-theme="light"] .info-card { background:linear-gradient(135deg, rgba(217,90,24,.06), transparent 30%), #fff; border-color:rgba(24,29,25,.14); }
+html[data-theme="light"] .footer { border-top-color:rgba(24,29,25,.12); color:#718077; }
+html[data-theme="light"] .footer-brand strong { color:#29342d; }
+html[data-theme="light"] .footer-links a:hover { color:#263129; }
+html[data-theme="light"] .modal-backdrop { background:rgba(20,25,21,.42); }
+html[data-theme="light"] .unlock-modal { background:#fffdf8; border-color:rgba(217,90,24,.4); box-shadow:0 24px 80px rgba(35,42,36,.22); }
+html[data-theme="light"] .close-modal { color:#657269; }
+html[data-theme="light"] .unlock-modal p { color:#617067; }
+html[data-theme="light"] .price { color:#263129; }
+html[data-theme="light"] .price span, html[data-theme="light"] .code-line { color:#718077; }
+html[data-theme="light"] .account-trigger { color:#29342d; }
+html[data-theme="light"] .account-menu { background:#fff; border-color:rgba(217,90,24,.35); box-shadow:0 14px 36px rgba(35,42,36,.18); }
+html[data-theme="light"] .account-menu a, html[data-theme="light"] .account-menu button { color:#627067; }
+html[data-theme="light"] .account-menu a:hover, html[data-theme="light"] .account-menu button:hover { color:#263129; }
+html[data-theme="light"] .saved-shelf { background:linear-gradient(110deg,rgba(217,90,24,.08),transparent),#fff; border-color:rgba(217,90,24,.28); }
+html[data-theme="light"] .saved-item { background:#f7f4ee; }
+html[data-theme="light"] .saved-item strong { color:#29342d; }
+html[data-theme="light"] .shelf-empty, html[data-theme="light"] .shelf-loading { color:#718077; }
+html[data-theme="light"] .auth-copy > p, html[data-theme="light"] .auth-page .auth-subtitle { color:#5f6c63; }
+html[data-theme="light"] .benefit-list strong { color:#29342d; }
+html[data-theme="light"] .benefit-list small { color:#718077; }
+html[data-theme="light"] .nav.open { background:#fff; border-bottom-color:rgba(24,29,25,.14); }
+html[data-theme="light"] .compliance-note { background:linear-gradient(135deg, rgba(217,90,24,.1), rgba(255,255,255,.88)); color:#8c431d; }
+html[data-theme="light"] .compliance-note strong { color:#713313; }
+html[data-theme="light"] .compliance-note span { color:#627067; }
+@media (max-width:720px) { .theme-toggle { align-self:center; } .nav .theme-toggle { width:100%; } }
+
+
+/* Daytime workbench correction: keep the full Builder canvas light, not only the output panel. */
+html[data-theme="light"] .workbench { background:#f7f4ee; }
+html[data-theme="light"] .step-rail, html[data-theme="light"] .materials { background:#f7f4ee; }
+html[data-theme="light"] .step-rail { border-right-color:rgba(24,29,25,.12); }
+html[data-theme="light"] .materials { border-right-color:rgba(24,29,25,.12); }
+html[data-theme="light"] .output-panel { border-left:1px solid rgba(24,29,25,.1); }
+html[data-theme="light"] .output-head h2, html[data-theme="light"] .library-card h3, html[data-theme="light"] .unlock-banner h2, html[data-theme="light"] .info-card h2, html[data-theme="light"] .auth-card h2 { color:#263129; }
