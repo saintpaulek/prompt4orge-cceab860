@@ -14,3 +14,23 @@ export const platformOptions: Record<string, string[]> = {
   "Education & Learning": ["Google Classroom", "Canvas", "Moodle", "Teachable", "Thinkific", "YouTube", "Notion", "Google Docs", "Quiz", "Lesson plan", "Workshop", "Course module"],
   "Personal Productivity": ["Notion", "Todoist", "TickTick", "Google Calendar", "Microsoft To Do", "Apple Notes", "Obsidian", "Evernote", "Trello", "Daily plan", "Weekly review", "Personal system"],
 };
+
+export const projectTypesByCategory: Record<string, string[]> = {
+  "Social Media": ["A launch post", "A carousel sequence", "A short-form video script", "A content calendar", "A community engagement post", "A social campaign concept"],
+  "Writing & Content": ["A blog article", "A newsletter issue", "A thought-leadership essay", "A case study", "A white paper outline", "A long-form content brief"],
+  "Marketing": ["A campaign brief", "A landing page", "An email campaign", "A lead magnet", "A product launch plan", "A conversion funnel"],
+  "Code & Development": ["A code feature", "An API integration", "A debugging plan", "A technical specification", "A test suite", "A code review"],
+  "Image Generation": ["A product image prompt", "A brand illustration prompt", "A social graphic prompt", "A cinematic concept prompt", "A character design prompt", "A visual moodboard prompt"],
+  "Video Generation": ["A short-form video script", "A product demo video", "A talking-head video", "A storyboard", "A video ad concept", "A YouTube episode outline"],
+  "Business & Strategy": ["A strategy memo", "A market-entry plan", "A quarterly roadmap", "A decision brief", "A business case", "A meeting action plan"],
+  "Customer Service": ["A customer reply", "A support macro", "An escalation response", "An FAQ entry", "A service recovery message", "A help-centre article"],
+  "Sales & Copywriting": ["A sales page", "A cold outreach sequence", "A follow-up message", "A product description", "A sales proposal", "A discovery call script"],
+  "SEO & Blogging": ["A keyword-led article", "A topic cluster", "A pillar page", "A meta title and description", "An SEO content brief", "An internal-linking plan"],
+  "Automation & Workflows": ["An automation workflow", "A no-code integration", "A webhook specification", "A standard operating procedure", "A lead-routing system", "A process audit"],
+  "Freelancing & Clients": ["A client proposal", "A discovery call plan", "A project scope", "A freelance profile", "A client update", "A testimonial request"],
+  "Education & Learning": ["A lesson plan", "A course module", "A learner activity", "A quiz", "A workshop outline", "A study guide"],
+  "Personal Productivity": ["A weekly plan", "A daily focus system", "A decision framework", "A meeting-notes workflow", "A habit plan", "A personal review"],
+  "Banking & Fintech Engagement": ["A KYC onboarding sequence", "A payment reminder campaign", "A fraud-alert response", "A financial-literacy series", "A product cross-sell campaign", "A customer-retention journey"],
+};
+
+export const projectTypes = Object.values(projectTypesByCategory).flat();

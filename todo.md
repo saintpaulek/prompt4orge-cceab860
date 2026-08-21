@@ -234,10 +234,16 @@
 - [x] Audit the attached brief against existing PromptForge routes and capabilities.
 - [x] Close the highest-value brief gaps without duplicating already-shipped features.
 - [x] Add regression coverage and verify public, authenticated, responsive, and day/night flows.
-- [ ] Publish the attached-brief upgrade.
+- [x] Publish the attached-brief upgrade.
 - [x] Fix daytime Pricing card lifetime price contrast and re-verify both themes.
 
 # WhatsApp Business chat link update
 - [x] Replace every “Chat with us” and WhatsApp action with https://wa.me/p/28447341561540526/2347069573528.
 - [x] Add link regression coverage and verify desktop/mobile destinations.
 - [x] Publish the WhatsApp Business chat-link update.
+
+# Category-specific Builder making options
+- [x] Replace the generic “What are you making?” list with relevant sub-topics per Builder category.
+- [x] Preserve safe defaults, generated prompt behavior, and Banking/Fintech-specific options.
+- [x] Add mapping coverage and verify category switching on desktop and mobile.
+- [x] Publish the category-specific Builder option refinement.
