@@ -205,3 +205,10 @@
 - [x] Add a safe copy-to-clipboard fallback and accessible success/error feedback.
 - [x] Add focused tests and verify the launch URLs, Builder states, and responsive controls.
 - [x] Publish and verify the ChatGPT/Gemini preview connection.
+
+# Banking & Fintech Engagement upgrade
+- [x] Add structured Banking/Fintech, WhatsApp, SMS, AI video, and Marcom prompt entries from the supplied prompt pack.
+- [x] Add Banking & Fintech taxonomy/filter support and relevant tags.
+- [x] Add fillable Builder variables for campaign, use case, audience, goal, and channel context.
+- [x] Add a compliance-first cue for regulated Banking/Fintech selections.
+- [x] Add focused tests, verify Library/Builder responsive flows, and publish the upgrade.
