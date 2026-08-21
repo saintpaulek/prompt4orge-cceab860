@@ -62,14 +62,24 @@ export async function redeemUnlockCode(userId: number, code: string) {
   const db = await getDb();
   if (!db) throw new Error("Database unavailable");
   const normalized = code.trim().toUpperCase();
-  const matches = await db.select().from(unlockCodes).where(and(eq(unlockCodes.code, normalized), eq(unlockCodes.isUsed, 0))).limit(1);
-  const found = matches[0];
-  if (!found) return false;
-  const updateResult = await db.update(unlockCodes).set({ isUsed: 1, usedBy: userId }).where(and(eq(unlockCodes.id, found.id), eq(unlockCodes.isUsed, 0)));
-  const affectedRows = (updateResult as { affectedRows?: number }).affectedRows ?? 0;
-  if (affectedRows !== 1) return false;
-  await db.update(users).set({ isUnlocked: 1 }).where(eq(users.id, userId));
-  return true;
+  if (!normalized) return false;
+
+  return db.transaction(async tx => {
+    // The conditional update is the single-use guard. Concurrent attempts for
+    // the same code can never both claim it because only the first update can
+    // change isUsed from 0 to 1.
+    const updateResult = await tx.update(unlockCodes)
+      .set({ isUsed: 1, usedBy: userId })
+      .where(and(eq(unlockCodes.code, normalized), eq(unlockCodes.isUsed, 0)));
+    const affectedRows = (updateResult as { affectedRows?: number }).affectedRows ?? 0;
+    if (affectedRows !== 1) return false;
+
+    // Persist access on the authenticated account. Since the profile is keyed
+    // by the account id, the unlock follows that account on every device after
+    // the user signs in again.
+    await tx.update(users).set({ isUnlocked: 1 }).where(eq(users.id, userId));
+    return true;
+  });
 }
 
 export async function updateUserProfile(userId: number, name: string) {

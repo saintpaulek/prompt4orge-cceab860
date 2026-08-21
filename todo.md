@@ -295,5 +295,12 @@
 # Super-admin promotion request
 - [x] Verify saintpaulek@gmail.com maps to the intended PromptForge user account.
 - [x] Promote saintpaulek@gmail.com to the highest supported administrator role.
-- [ ] Verify protected admin unlock-code access on the paid domain.
+- [x] Verify protected admin unlock-code access on the paid domain.
 - [x] Record the promotion result and any required sign-out/sign-in step.
+
+# Unlock redemption security hardening
+- [x] Require authentication before any unlock-code redemption attempt.
+- [x] Enforce atomic one-time code redemption and bind the redeemed code to the signed-in account.
+- [x] Ensure unlocked access is read from the account on other devices after sign-in.
+- [x] Add or update tests for signed-out, successful, duplicate, and cross-device redemption states.
+- [ ] Verify the live redemption flow and publish the hardened implementation.
