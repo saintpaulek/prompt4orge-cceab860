@@ -223,3 +223,9 @@
 - [x] Align global backgrounds, text, borders, cards, controls, forms, Builder output, Library states, and route-specific surfaces for both themes.
 - [x] Add theme regression coverage and verify major routes at desktop and mobile breakpoints in both modes.
 - [x] Publish the day/night theme upgrade.
+
+# System theme preference
+- [x] Add a System option that follows the OS light/dark preference.
+- [x] Persist the selected theme mode and synchronize System mode with OS preference changes.
+- [x] Add regression coverage and verify the three theme modes on desktop and mobile.
+- [x] Publish the System theme option.

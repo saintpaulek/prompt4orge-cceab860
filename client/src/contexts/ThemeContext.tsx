@@ -1,9 +1,27 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
+export type ThemePreference = Theme | "system";
+
+export function getSystemTheme(): Theme {
+  return typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+export function resolveThemePreference(preference: ThemePreference, systemTheme: Theme): Theme {
+  return preference === "system" ? systemTheme : preference;
+}
+
+export function readThemePreference(search: string, stored: string | null, fallback: ThemePreference): ThemePreference {
+  const requested = new URLSearchParams(search).get("theme");
+  if (requested === "light" || requested === "dark" || requested === "system") return requested;
+  if (stored === "light" || stored === "dark" || stored === "system") return stored;
+  return fallback;
+}
 
 interface ThemeContextType {
   theme: Theme;
+  themePreference: ThemePreference;
+  setThemePreference?: (preference: ThemePreference) => void;
   toggleTheme?: () => void;
   switchable: boolean;
 }
@@ -12,7 +30,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 interface ThemeProviderProps {
   children: React.ReactNode;
-  defaultTheme?: Theme;
+  defaultTheme?: ThemePreference;
   switchable?: boolean;
 }
 
@@ -21,38 +39,41 @@ export function ThemeProvider({
   defaultTheme = "light",
   switchable = false,
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [themePreference, setThemePreference] = useState<ThemePreference>(() => {
     if (switchable) {
-      const requested = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("theme") : null;
-      if (requested === "light" || requested === "dark") return requested;
-      const stored = localStorage.getItem("promptforge-theme");
-      return stored === "light" || stored === "dark" ? stored : defaultTheme;
+      const search = typeof window !== "undefined" ? window.location.search : "";
+      const stored = typeof window !== "undefined" ? localStorage.getItem("promptforge-theme") : null;
+      return readThemePreference(search, stored, defaultTheme);
     }
     return defaultTheme;
   });
+  const [systemTheme, setSystemTheme] = useState<Theme>(getSystemTheme);
+  const theme = resolveThemePreference(themePreference, systemTheme);
+
+  useEffect(() => {
+    if (!switchable || themePreference !== "system" || typeof window === "undefined") return;
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const sync = (event?: MediaQueryListEvent) => setSystemTheme(event ? (event.matches ? "dark" : "light") : getSystemTheme());
+    sync();
+    media.addEventListener?.("change", sync);
+    return () => media.removeEventListener?.("change", sync);
+  }, [switchable, themePreference]);
 
   useEffect(() => {
     const root = document.documentElement;
     root.dataset.theme = theme;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    if (theme === "dark") root.classList.add("dark");
+    else root.classList.remove("dark");
+    if (switchable) localStorage.setItem("promptforge-theme", themePreference);
+  }, [theme, themePreference, switchable]);
 
-    if (switchable) {
-      localStorage.setItem("promptforge-theme", theme);
-    }
-  }, [theme, switchable]);
-
+  const setPreference = switchable ? setThemePreference : undefined;
   const toggleTheme = switchable
-    ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-      }
+    ? () => setThemePreference(prev => (prev === "dark" ? "light" : prev === "light" ? "system" : "dark"))
     : undefined;
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
+    <ThemeContext.Provider value={{ theme, themePreference, setThemePreference: setPreference, toggleTheme, switchable }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -60,8 +81,6 @@ export function ThemeProvider({
 
 export function useTheme() {
   const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within ThemeProvider");
-  }
+  if (!context) throw new Error("useTheme must be used within ThemeProvider");
   return context;
 }
