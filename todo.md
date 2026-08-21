@@ -85,8 +85,8 @@
 - [x] Force fresh propagation of the Builder preview/platform bundle after the public domain served the stale five-platform version, then re-verify production category switching.
 
 # Custom domain connection
-- [ ] Bind www.promptforge.com.ng to the live PromptForge deployment through Manus custom-domain settings.
-- [ ] Provide or apply the required Truhost DNS record(s), then verify DNS propagation and HTTPS routing.
+- [x] Bind www.promptforge.com.ng to the live PromptForge deployment through the confirmed Vercel project path (the active migration path superseded the Manus custom-domain route).
+- [x] Verify Truhost DNS propagation and HTTPS routing; no additional DNS record change was required because the existing Vercel routing was already active.
 
 # Vercel custom-domain assessment
 - [x] Inspect the existing Vercel-served www.promptforge.com.ng deployment and determine whether it is the current PromptForge app.
