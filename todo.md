@@ -89,13 +89,13 @@
 - [ ] Provide or apply the required Truhost DNS record(s), then verify DNS propagation and HTTPS routing.
 
 # Vercel custom-domain assessment
-- [ ] Inspect the existing Vercel-served www.promptforge.com.ng deployment and determine whether it is the current PromptForge app.
-- [ ] Document the compatible Vercel deployment and DNS setup path, including any required environment variables or user inputs.
+- [x] Inspect the existing Vercel-served www.promptforge.com.ng deployment and determine whether it is the current PromptForge app.
+- [x] Document the compatible Vercel deployment and DNS setup path, including any required environment variables or user inputs.
 
 # Confirmed Vercel migration
-- [ ] Back up the existing saintpaulek/prompt4orge GitHub source before replacement.
-- [ ] Prepare the current PromptForge build for the linked Vercel project and preserve required environment configuration.
-- [ ] Deploy the current build through Vercel and verify www.promptforge.com.ng, promptforge.com.ng, Builder, Library, About, and Contact routes.
+- [x] Back up the existing saintpaulek/prompt4orge GitHub source before replacement.
+- [x] Prepare the current PromptForge build for the linked Vercel project and preserve required environment configuration.
+- [x] Deploy the current build through Vercel and verify www.promptforge.com.ng, promptforge.com.ng, Builder, Library, About, and Contact routes.
 
 # Responsive layout and logo refinement
 - [x] Pause the Vercel migration without changing the existing Vercel project or domain.
@@ -247,3 +247,29 @@
 - [x] Preserve safe defaults, generated prompt behavior, and Banking/Fintech-specific options.
 - [x] Add mapping coverage and verify category switching on desktop and mobile.
 - [x] Publish the category-specific Builder option refinement.
+
+# Confirmed Option A custom-domain migration
+- [x] Back up the existing saintpaulek/prompt4orge GitHub source before replacement.
+- [x] Prepare the current PromptForge build and deployment configuration for the existing Vercel/domain path.
+- [x] Replace the legacy deployment only after the backup and deployment target are verified.
+- [x] Verify www.promptforge.com.ng, promptforge.com.ng, Builder, Library, About, and Contact after migration.
+- [x] Document any DNS or HTTPS action still required from Truhost.
+
+# New Vercel account deployment switch
+- [x] Identify the new authenticated Vercel account and PromptForge project.
+- [x] Verify the project environment variables and domain/deployment compatibility.
+- [x] Redeploy the current PromptForge build through the new Vercel project.
+- [x] Verify the custom domains and confirm the Library catalog loads with the configured runtime environment.
+- [x] Update the Vercel migration handoff with the new account/project details.
+
+# Explicit Vercel project target
+- [x] Inspect https://vercel.com/pbatmedic/promptforge permissions and environment variables.
+- [x] Deploy the current PromptForge source to the explicitly provided project.
+- [x] Verify production domains, deep routes, and the loaded Library catalog.
+- [x] Add the application’s MySQL/TiDB `DATABASE_URL` to the pbatmedic/promptforge Vercel Production environment; Supabase variables alone do not populate the catalog.
+- [x] Redeploy after DATABASE_URL is added and verify the 3,000-prompt Library response.
+
+# DATABASE_URL verification and deployment test
+- [x] Verify whether `DATABASE_URL` exists in pbatmedic/promptforge Production without revealing its value.
+- [x] Redeploy after the variable is confirmed so the runtime receives it.
+- [x] Test the live catalog API and Library route on www.promptforge.com.ng.
