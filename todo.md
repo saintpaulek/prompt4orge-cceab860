@@ -229,3 +229,10 @@
 - [x] Persist the selected theme mode and synchronize System mode with OS preference changes.
 - [x] Add regression coverage and verify the three theme modes on desktop and mobile.
 - [x] Publish the System theme option.
+
+# Attached product brief upgrade
+- [x] Audit the attached brief against existing PromptForge routes and capabilities.
+- [x] Close the highest-value brief gaps without duplicating already-shipped features.
+- [x] Add regression coverage and verify public, authenticated, responsive, and day/night flows.
+- [ ] Publish the attached-brief upgrade.
+- [x] Fix daytime Pricing card lifetime price contrast and re-verify both themes.

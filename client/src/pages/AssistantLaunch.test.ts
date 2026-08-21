@@ -16,8 +16,15 @@ describe("Builder assistant launch actions", () => {
     expect(decodeURIComponent(url.split("?prompt=")[1])).toBe(prompt);
   });
 
+  it("builds a Claude URL with an encoded prompt", () => {
+    const url = getAssistantLaunchUrl("claude", prompt);
+    expect(url.startsWith("https://claude.ai/new?q=")).toBe(true);
+    expect(decodeURIComponent(url.split("?q=")[1])).toBe(prompt);
+  });
+
   it("keeps assistant destinations distinct", () => {
     expect(getAssistantLaunchUrl("chatgpt", prompt)).not.toBe(getAssistantLaunchUrl("gemini", prompt));
+    expect(getAssistantLaunchUrl("gemini", prompt)).not.toBe(getAssistantLaunchUrl("claude", prompt));
   });
 });
 
