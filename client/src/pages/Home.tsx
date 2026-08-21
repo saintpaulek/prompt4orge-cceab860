@@ -18,7 +18,7 @@ import PromptLibrary from "@/pages/PromptLibrary";
 import { platformOptions, projectTypesByCategory } from "@/lib/builderOptions";
 import { useTheme } from "@/contexts/ThemeContext";
 
-const logo = "/manus-storage/promptforgelogo_2c9cded3.png";
+const logo = "/manus-storage/promptforge-logo-wide_9abc7474.png";
 const heroTexture = "/manus-storage/promptforge-forge-texture_b7ed497b.png";
 const builderArt = "/manus-storage/promptforge-builder-illustration_6de8044a.png";
 const symbol = "/manus-storage/promptforge-symbol_d8a66e25.png";

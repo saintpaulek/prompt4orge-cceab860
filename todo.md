@@ -273,3 +273,9 @@
 - [x] Verify whether `DATABASE_URL` exists in pbatmedic/promptforge Production without revealing its value.
 - [x] Redeploy after the variable is confirmed so the runtime receives it.
 - [x] Test the live catalog API and Library route on www.promptforge.com.ng.
+
+# Paid-domain logo visibility fix
+- [x] Create a tightly cropped, high-contrast PromptForge logo asset from the uploaded PNG.
+- [x] Update the shared header to use the visible logo asset on the homepage and core routes.
+- [x] Verify the logo on the paid-domain homepage at desktop and mobile widths.
+- [x] Publish the logo visibility fix without regressing the existing deployment.
