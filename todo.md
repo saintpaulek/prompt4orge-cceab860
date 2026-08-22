@@ -311,3 +311,11 @@
 - [x] Add a success animation and clear error messages to the account redemption UI.
 - [x] Display the unlock date/time and specific redeemed code on the account page.
 - [x] Add tests, verify responsive states, and publish the updated redemption experience.
+
+# SEO and Google visibility
+- [x] Audit current title, description, canonical, Open Graph, and structured data metadata.
+- [x] Audit robots.txt, sitemap.xml, route coverage, and noindex/indexing directives.
+- [x] Add production-domain SEO metadata and JSON-LD where appropriate.
+- [x] Add or correct robots.txt and sitemap.xml for public routes only.
+- [x] Validate SEO endpoints, build output, and live paid-domain responses.
+- [x] Document the Google Search Console submission steps and indexing limitations.
