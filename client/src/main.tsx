@@ -10,6 +10,14 @@ import { startLogin } from "./const";
 import { fetchJsonApi } from "./lib/trpcTransport";
 import "./index.css";
 
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    void navigator.serviceWorker.register("/sw.js").catch(() => {
+      // Installation remains optional; the web app continues normally without a worker.
+    });
+  });
+}
+
 const queryClient = new QueryClient();
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
