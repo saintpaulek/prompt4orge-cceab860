@@ -27,6 +27,18 @@ describe("PromptForge SEO metadata", () => {
     expect(getSeoRoute("/contact").description).toContain("email or WhatsApp");
   });
 
+  it("marks all guide pages as indexable articles with dedicated canonicals", () => {
+    const guidePaths = ["/guides/prompt-engineering-basics", "/guides/prompt-engineering-for-marketing", "/guides/evaluate-and-improve-ai-prompts"];
+    for (const path of guidePaths) {
+      const seo = getSeoDocument(path);
+      expect(seo.indexable).toBe(true);
+      expect(seo.ogType).toBe("article");
+      expect(seo.canonical).toBe(`https://www.promptforge.com.ng${path}`);
+    }
+    expect(getSeoRoute("/guides/prompt-engineering-basics").title).toContain("Prompt Engineering Basics");
+    expect(getSeoRoute("/guides/prompt-engineering-for-marketing").description).toContain("marketing prompts");
+  });
+
   it("creates accurate Organization and Contact FAQ structured data", () => {
     const organization = createOrganizationJsonLd();
     expect(organization["@type"]).toBe("Organization");

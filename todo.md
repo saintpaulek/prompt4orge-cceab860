@@ -352,3 +352,12 @@
 - [x] Add supporting content URLs to the sitemap and route metadata where appropriate.
 - [x] Validate structured data and publish the SEO/content update.
 - [x] Prepare a credible backlink outreach foundation without placing unauthorized external links.
+
+# Prompt-engineering guide pages and Nigerian outreach
+- [x] Create three dedicated, crawlable prompt-engineering guide pages with distinct search intent.
+- [x] Add route-specific SEO metadata and sitemap entries for the guide pages.
+- [x] Add internal links between the guides, Builder, Library, About, and Contact pages.
+- [x] Draft a personalized outreach email template for Nigerian technology and AI communities seeking editorially appropriate backlinks.
+- [x] Add backlink outreach guidance that avoids spam, paid-link claims, or fabricated endorsements.
+- [x] Add regression tests for guide routes and generated SEO documents.
+- [x] Run tests, TypeScript validation, production build, and publish the completed content update.

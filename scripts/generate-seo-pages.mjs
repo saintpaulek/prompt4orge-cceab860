@@ -38,6 +38,33 @@ const pages = [
     indexable: true,
   },
   {
+    path: "guides/prompt-engineering-basics",
+    title: "Prompt Engineering Basics: Write Clearer AI Prompts | PromptForge",
+    description: "Learn prompt engineering basics with a practical framework for writing clearer AI instructions for ChatGPT, Gemini, Claude, and other assistants.",
+    heading: "Prompt engineering basics",
+    summary: "Learn a practical framework for writing clearer AI instructions with useful context, format, tone, and constraints.",
+    content: ["Start with the result you need, then add the audience, format, tone, context, and constraints that change the quality of the answer.", "A good prompt is not the longest prompt. It is a clear brief that gives an AI assistant enough direction to make a useful first draft.", "Use the PromptForge Builder to turn a rough idea into a structured prompt, then browse the Library for ready-to-adapt work orders."],
+    indexable: true,
+  },
+  {
+    path: "guides/prompt-engineering-for-marketing",
+    title: "Prompt Engineering for Marketing Workflows | PromptForge",
+    description: "Build reusable AI marketing prompts for social media, email, SEO, ads, and customer engagement with a clearer campaign brief.",
+    heading: "Prompt engineering for marketing",
+    summary: "Build reusable AI marketing prompts by connecting campaign goals, audience action, channel format, and brand voice.",
+    content: ["Connect the campaign goal to the audience action, channel format, and brand voice so the model understands what the work needs to achieve.", "Separate strategy from copy, name the channel, and request a primary draft, rationale, and testable variation.", "For customer engagement, include consent, privacy, claims, opt-out, and human-review requirements in the brief."],
+    indexable: true,
+  },
+  {
+    path: "guides/evaluate-and-improve-ai-prompts",
+    title: "How to Evaluate and Improve AI Prompts | PromptForge",
+    description: "Use a practical testing and review method to improve AI prompts for clarity, consistency, usefulness, and safer reuse.",
+    heading: "Evaluate and improve AI prompts",
+    summary: "Test prompts against realistic inputs, inspect failure modes, and keep the revisions that improve the work.",
+    content: ["A prompt is not finished when it produces one good answer. Test it against realistic inputs and define observable success criteria.", "Try incomplete context, competing constraints, sensitive information, and different audiences to expose failure modes before reuse.", "Keep a small evaluation set, fix the highest-impact ambiguity first, and record the strongest version for the next workflow."],
+    indexable: true,
+  },
+  {
     path: "auth",
     title: "Sign in — PromptForge",
     description: "Sign in to your PromptForge account.",
@@ -79,7 +106,8 @@ for (const page of pages) {
   const description = escapeHtml(page.description);
   const canonicalEscaped = escapeHtml(canonical);
   const robots = page.indexable ? "index, follow" : "noindex, nofollow";
-  const fallback = `<noscript><main><h1>${escapeHtml(page.heading)}</h1><p>${escapeHtml(page.summary)}</p><p><a href="${canonicalEscaped}">Open PromptForge</a></p></main></noscript>`;
+  const content = (page.content ?? []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
+  const fallback = `<noscript><main><h1>${escapeHtml(page.heading)}</h1><p>${escapeHtml(page.summary)}</p>${content}<p><a href="${canonicalEscaped}">Open PromptForge</a></p></main></noscript>`;
   let html = template;
   html = replaceTag(html, /<title>[^<]*<\/title>/, `<title>${title}</title>`);
   html = replaceTag(html, /<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${description}" />`);

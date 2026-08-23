@@ -42,6 +42,27 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/contact",
     indexable: true,
   },
+  "/guides/prompt-engineering-basics": {
+    title: "Prompt Engineering Basics: Write Clearer AI Prompts | PromptForge",
+    description: "Learn prompt engineering basics with a practical framework for writing clearer AI instructions for ChatGPT, Gemini, Claude, and other assistants.",
+    canonicalPath: "/guides/prompt-engineering-basics",
+    indexable: true,
+    ogType: "article",
+  },
+  "/guides/prompt-engineering-for-marketing": {
+    title: "Prompt Engineering for Marketing Workflows | PromptForge",
+    description: "Build reusable AI marketing prompts for social media, email, SEO, ads, and customer engagement with a clearer campaign brief.",
+    canonicalPath: "/guides/prompt-engineering-for-marketing",
+    indexable: true,
+    ogType: "article",
+  },
+  "/guides/evaluate-and-improve-ai-prompts": {
+    title: "How to Evaluate and Improve AI Prompts | PromptForge",
+    description: "Use a practical testing and review method to improve AI prompts for clarity, consistency, usefulness, and safer reuse.",
+    canonicalPath: "/guides/evaluate-and-improve-ai-prompts",
+    indexable: true,
+    ogType: "article",
+  },
   "/auth": {
     title: "Sign in — PromptForge",
     description: "Sign in to your PromptForge account.",
