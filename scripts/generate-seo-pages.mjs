@@ -46,7 +46,10 @@ const pages = [
     author: "PromptForge Editorial Team",
     published: "2026-08-23",
     updated: "2026-08-23",
-    ogImage: `${origin}/manus-storage/promptforge-og-basics_7e652282.png`,
+    ogImage: `${origin}/manus-storage/promptforge-social-basics-1200_53b2e6c1.webp`,
+    twitterImage: `${origin}/manus-storage/promptforge-social-basics-640_edea80c9.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
     content: ["Start with the result you need, then add the audience, format, tone, context, and constraints that change the quality of the answer.", "A good prompt is not the longest prompt. It is a clear brief that gives an AI assistant enough direction to make a useful first draft.", "Use the PromptForge Builder to turn a rough idea into a structured prompt, then browse the Library for ready-to-adapt work orders."],
     indexable: true,
   },
@@ -59,7 +62,10 @@ const pages = [
     author: "PromptForge Editorial Team",
     published: "2026-08-23",
     updated: "2026-08-23",
-    ogImage: `${origin}/manus-storage/promptforge-og-marketing_ba2f2edd.png`,
+    ogImage: `${origin}/manus-storage/promptforge-social-marketing-1200_a0a0987b.webp`,
+    twitterImage: `${origin}/manus-storage/promptforge-social-marketing-640_25bba206.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
     content: ["Connect the campaign goal to the audience action, channel format, and brand voice so the model understands what the work needs to achieve.", "Separate strategy from copy, name the channel, and request a primary draft, rationale, and testable variation.", "For customer engagement, include consent, privacy, claims, opt-out, and human-review requirements in the brief."],
     indexable: true,
   },
@@ -72,7 +78,10 @@ const pages = [
     author: "PromptForge Editorial Team",
     published: "2026-08-23",
     updated: "2026-08-23",
-    ogImage: `${origin}/manus-storage/promptforge-og-evaluation_23415810.png`,
+    ogImage: `${origin}/manus-storage/promptforge-social-evaluation-1200_b9569cec.webp`,
+    twitterImage: `${origin}/manus-storage/promptforge-social-evaluation-640_b197fd9d.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
     content: ["A prompt is not finished when it produces one good answer. Test it against realistic inputs and define observable success criteria.", "Try incomplete context, competing constraints, sensitive information, and different audiences to expose failure modes before reuse.", "Keep a small evaluation set, fix the highest-impact ambiguity first, and record the strongest version for the next workflow."],
     indexable: true,
   },
@@ -85,7 +94,10 @@ const pages = [
     author: "PromptForge Editorial Team",
     published: "2026-08-23",
     updated: "2026-08-23",
-    ogImage: `${origin}/manus-storage/promptforge-og-case-study_7c12e77a.png`,
+    ogImage: `${origin}/manus-storage/promptforge-social-case-study-1200_b7433e9e.webp`,
+    twitterImage: `${origin}/manus-storage/promptforge-social-case-study-640_7a5ce97d.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
     content: ["Imagine a small Nigerian skincare business preparing to announce an affordable product bundle.", "PromptForge turns the rough request into a channel-specific brief with audience, voice, constraints, and a clear call to action.", "Review the result for supportable claims and audience fit before publishing, then save the strongest version for reuse."],
     indexable: true,
   },
@@ -140,7 +152,10 @@ for (const page of pages) {
   const description = escapeHtml(page.description);
   const canonicalEscaped = escapeHtml(canonical);
   const robots = page.indexable ? "index, follow" : "noindex, nofollow";
-  const ogImage = page.ogImage ?? `${origin}/manus-storage/promptforge-builder-illustration_6de8044a.png`;
+  const ogImage = page.ogImage ?? `${origin}/manus-storage/promptforge-builder-illustration-desktop_1bdd6b30.webp`;
+  const twitterImage = page.twitterImage ?? ogImage;
+  const ogImageWidth = page.ogImageWidth ?? 1440;
+  const ogImageHeight = page.ogImageHeight ?? 960;
   const ogType = page.author ? "article" : "website";
   const content = (page.content ?? []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
   const article = page.author ? { "@context": "https://schema.org", "@type": "Article", "@id": `${canonical}#article`, headline: page.title, description: page.description, datePublished: page.published, dateModified: page.updated ?? page.published, mainEntityOfPage: { "@type": "WebPage", "@id": canonical }, author: { "@type": "Organization", name: page.author, url: `${origin}/author/promptforge-editorial-team` }, publisher: { "@type": "Organization", name: "PromptForge", url: origin } } : null;
@@ -155,9 +170,12 @@ for (const page of pages) {
   html = replaceTag(html, /<meta property="og:type" content="[^"]*" \/>/, `<meta property="og:type" content="${ogType}" />`);
   html = replaceTag(html, /<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${canonicalEscaped}" />`);
   html = replaceTag(html, /<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${escapeHtml(ogImage)}" />`);
+  html = replaceTag(html, /<meta property="og:image:width" content="[^"]*" \/>/, `<meta property="og:image:width" content="${ogImageWidth}" />`);
+  html = replaceTag(html, /<meta property="og:image:height" content="[^"]*" \/>/, `<meta property="og:image:height" content="${ogImageHeight}" />`);
   html = replaceTag(html, /<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${title}" />`);
   html = replaceTag(html, /<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${description}" />`);
-  html = replaceTag(html, /<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${escapeHtml(ogImage)}" />`);
+  html = replaceTag(html, /<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${escapeHtml(twitterImage)}" />`);
+  html = replaceTag(html, /<meta name="twitter:image:src" content="[^"]*" \/>/, `<meta name="twitter:image:src" content="${escapeHtml(twitterImage)}" />`);
   const organization = { "@context": "https://schema.org", "@type": "Organization", "@id": `${origin}/#organization`, name: "PromptForge", url: origin, logo: `${origin}/favicon-512.png`, description: "A practical AI prompt builder and searchable prompt library for creators, marketers, freelancers, developers, and teams.", email: "saintpaulek@gmail.com", telephone: "+2347069573528", contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: "saintpaulek@gmail.com", telephone: "+2347069573528", availableLanguage: "English" } };
   const faq = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [
     { "@type": "Question", name: "How quickly will I hear back?", acceptedAnswer: { "@type": "Answer", text: "Messages are read personally, and the usual response time is within 24 hours." } },

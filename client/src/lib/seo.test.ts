@@ -42,7 +42,12 @@ describe("PromptForge SEO metadata", () => {
     expect(getSeoDocument("/guides/promptforge-workflow-case-study").canonical).toBe("https://www.promptforge.com.ng/guides/promptforge-workflow-case-study");
     const previews = guidePaths.map((path) => getSeoDocument(path).ogImage);
     expect(new Set(previews).size).toBe(4);
-    expect(previews.every((image) => image.includes("/manus-storage/promptforge-og-"))).toBe(true);
+    expect(previews.every((image) => image.includes("/manus-storage/promptforge-social-") && image.includes("-1200_"))).toBe(true);
+    const twitterPreviews = guidePaths.map((path) => getSeoDocument(path).twitterImage);
+    expect(new Set(twitterPreviews).size).toBe(4);
+    expect(twitterPreviews.every((image) => image.includes("-640_"))).toBe(true);
+    expect(getSeoDocument("/guides/prompt-engineering-basics").ogImageWidth).toBe(1280);
+    expect(getSeoDocument("/").ogImageHeight).toBe(960);
     expect(createGuideArticleJsonLd("/guides/prompt-engineering-basics")?.["@type"]).toBe("Article");
   });
 
