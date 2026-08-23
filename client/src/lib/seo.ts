@@ -4,6 +4,9 @@ export type SeoRoute = {
   canonicalPath: string;
   indexable: boolean;
   ogType?: "website" | "article";
+  author?: string;
+  published?: string;
+  updated?: string;
 };
 
 export const SITE_NAME = "PromptForge";
@@ -44,6 +47,9 @@ const routes: Record<string, SeoRoute> = {
   },
   "/guides/prompt-engineering-basics": {
     title: "Prompt Engineering Basics: Write Clearer AI Prompts | PromptForge",
+    author: "PromptForge Editorial Team",
+    published: "2026-08-23",
+    updated: "2026-08-23",
     description: "Learn prompt engineering basics with a practical framework for writing clearer AI instructions for ChatGPT, Gemini, Claude, and other assistants.",
     canonicalPath: "/guides/prompt-engineering-basics",
     indexable: true,
@@ -51,6 +57,9 @@ const routes: Record<string, SeoRoute> = {
   },
   "/guides/prompt-engineering-for-marketing": {
     title: "Prompt Engineering for Marketing Workflows | PromptForge",
+    author: "PromptForge Editorial Team",
+    published: "2026-08-23",
+    updated: "2026-08-23",
     description: "Build reusable AI marketing prompts for social media, email, SEO, ads, and customer engagement with a clearer campaign brief.",
     canonicalPath: "/guides/prompt-engineering-for-marketing",
     indexable: true,
@@ -58,10 +67,23 @@ const routes: Record<string, SeoRoute> = {
   },
   "/guides/evaluate-and-improve-ai-prompts": {
     title: "How to Evaluate and Improve AI Prompts | PromptForge",
+    author: "PromptForge Editorial Team",
+    published: "2026-08-23",
+    updated: "2026-08-23",
     description: "Use a practical testing and review method to improve AI prompts for clarity, consistency, usefulness, and safer reuse.",
     canonicalPath: "/guides/evaluate-and-improve-ai-prompts",
     indexable: true,
     ogType: "article",
+  },
+  "/guides/promptforge-workflow-case-study": {
+    title: "PromptForge Workflow Case Study: From Idea to AI Brief",
+    description: "Follow a practical PromptForge workflow that turns a rough campaign idea into a clear, reviewable, and reusable AI brief.",
+    canonicalPath: "/guides/promptforge-workflow-case-study",
+    indexable: true,
+    ogType: "article",
+    author: "PromptForge Editorial Team",
+    published: "2026-08-23",
+    updated: "2026-08-23",
   },
   "/auth": {
     title: "Sign in — PromptForge",
@@ -166,6 +188,24 @@ export function createContactFaqJsonLd() {
         acceptedAnswer: { "@type": "Answer", text: "A little context, your goal, and any deadline or constraint will help us reply with a useful next step." },
       },
     ],
+  };
+}
+
+export function createGuideArticleJsonLd(pathname: string) {
+  const route = getSeoRoute(pathname);
+  if (!route.author || !route.published) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${SITE_ORIGIN}${route.canonicalPath}#article`,
+    headline: route.title,
+    description: route.description,
+    datePublished: route.published,
+    dateModified: route.updated ?? route.published,
+    mainEntityOfPage: { "@type": "WebPage", "@id": absoluteCanonical(route.canonicalPath) },
+    author: { "@type": "Organization", name: route.author, url: `${SITE_ORIGIN}/about` },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_ORIGIN, logo: { "@type": "ImageObject", url: `${SITE_ORIGIN}/favicon-512.png` } },
+    image: SHARE_IMAGE,
   };
 }
 

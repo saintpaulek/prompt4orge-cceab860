@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
-import { createContactFaqJsonLd, createOrganizationJsonLd, createWebApplicationJsonLd, getSeoDocument } from "@/lib/seo";
+import { createContactFaqJsonLd, createGuideArticleJsonLd, createOrganizationJsonLd, createWebApplicationJsonLd, getSeoDocument } from "@/lib/seo";
 
 function setMeta(name: string, content: string, property = false) {
   const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
@@ -58,6 +58,7 @@ export default function SeoHead() {
     setJsonLd("application", createWebApplicationJsonLd());
     setJsonLd("organization", location === "/" || location === "/about" ? createOrganizationJsonLd() : null);
     setJsonLd("faq", location === "/contact" ? createContactFaqJsonLd() : null);
+    setJsonLd("article", createGuideArticleJsonLd(location));
   }, [location]);
 
   return null;

@@ -552,3 +552,38 @@ html[data-theme="light"] .guide-aside, html[data-theme="light"] .guide-related-c
 html[data-theme="light"] .guide-aside p, html[data-theme="light"] .guide-check, html[data-theme="light"] .guide-related-card strong { color:#29342d; }
 @media (max-width:760px) { .guide-body,.guide-next { grid-template-columns:1fr; padding:48px 20px; } .guide-aside { position:static; } .guide-related { padding:42px 20px 64px; } .guide-related-grid { grid-template-columns:1fr; } .guide-hero h1 { font-size:clamp(38px,11vw,60px); } .guide-hero p { font-size:16px; } }
 @media (prefers-reduced-motion: reduce) { .guide-related-card { transition:none; } .guide-related-card:hover { transform:none; } }
+
+/* Guide credibility, navigation, and case-study interaction */
+.guide-byline { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; margin-top:24px; color:#aeb5ad; font-size:12px; }
+.guide-byline > div:nth-child(2) { display:grid; gap:2px; }
+.guide-byline strong { color:#f1f0eb; font:600 13px 'Space Grotesk'; }
+.guide-byline span { color:#8e978f; font-size:11px; }
+.guide-byline time { padding-left:14px; border-left:1px solid rgba(255,255,255,.18); }
+.guide-author-mark { display:grid; place-items:center; width:34px; height:34px; border:1px solid rgba(243,107,33,.6); border-radius:50%; color:var(--orange); font:700 11px 'Space Grotesk'; }
+.guide-aside { display:grid; gap:28px; }
+.guide-toc { display:grid; gap:10px; }
+.guide-toc-title { margin-bottom:4px; color:var(--orange); font:700 10px 'Space Grotesk'; letter-spacing:.14em; }
+.guide-toc a { color:#98a099; font-size:12px; line-height:1.35; text-decoration:none; transition:color .18s ease, transform .18s ease; }
+.guide-toc a:hover { color:#f1f0eb; transform:translateX(3px); }
+.guide-note { padding-top:24px; border-top:1px solid rgba(255,255,255,.12); }
+.case-study-interactive { margin-top:46px; padding:25px; border:1px solid rgba(243,107,33,.38); background:linear-gradient(120deg,rgba(243,107,33,.1),transparent 60%); }
+.case-study-grid { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:22px; margin-top:22px; }
+.case-inputs { display:grid; gap:15px; align-content:start; }
+.case-inputs textarea { min-height:78px; resize:vertical; }
+.case-hint { margin:0; color:#9da69e; font-size:12px; line-height:1.55; }
+.case-output { min-width:0; border:1px solid rgba(255,255,255,.12); background:#090b09; }
+.case-output-head { display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.1); color:var(--orange); font:700 10px 'Space Grotesk'; letter-spacing:.13em; }
+.case-output-head button { display:flex; align-items:center; gap:6px; border:0; background:transparent; color:#c7ccc5; font-size:11px; cursor:pointer; }
+.case-output-head button:hover { color:var(--orange); }
+.case-output pre { max-height:330px; overflow:auto; margin:0; padding:18px; color:#e6e8e2; white-space:pre-wrap; font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace; }
+html[data-theme="light"] .guide-byline strong { color:#29342d; }
+html[data-theme="light"] .guide-byline, html[data-theme="light"] .guide-byline span, html[data-theme="light"] .guide-toc a, html[data-theme="light"] .case-hint { color:#627067; }
+html[data-theme="light"] .guide-byline time { border-color:rgba(24,29,25,.16); }
+html[data-theme="light"] .guide-toc a:hover { color:#263129; }
+html[data-theme="light"] .guide-note { border-color:rgba(24,29,25,.13); }
+html[data-theme="light"] .case-output { background:#f6f3ed; border-color:rgba(24,29,25,.15); }
+html[data-theme="light"] .case-output-head { border-color:rgba(24,29,25,.12); }
+html[data-theme="light"] .case-output-head button { color:#4f5d54; }
+html[data-theme="light"] .case-output pre { color:#29342d; }
+@media (min-width:761px) { .guide-aside { position:sticky; top:26px; align-self:start; } }
+@media (max-width:760px) { .guide-byline { align-items:flex-start; } .guide-byline time { padding-left:0; border-left:0; width:100%; } .case-study-interactive { padding:18px; } .case-study-grid { grid-template-columns:1fr; } .case-output pre { max-height:360px; } }

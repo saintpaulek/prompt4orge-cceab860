@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { absoluteCanonical, createContactFaqJsonLd, createOrganizationJsonLd, getSeoDocument, getSeoRoute, normalizeSeoPath } from "./seo";
+import { absoluteCanonical, createContactFaqJsonLd, createGuideArticleJsonLd, createOrganizationJsonLd, getSeoDocument, getSeoRoute, normalizeSeoPath } from "./seo";
 
 describe("PromptForge SEO metadata", () => {
   it("normalizes trailing slashes and query strings", () => {
@@ -37,6 +37,10 @@ describe("PromptForge SEO metadata", () => {
     }
     expect(getSeoRoute("/guides/prompt-engineering-basics").title).toContain("Prompt Engineering Basics");
     expect(getSeoRoute("/guides/prompt-engineering-for-marketing").description).toContain("marketing prompts");
+    expect(getSeoRoute("/guides/prompt-engineering-basics").author).toBe("PromptForge Editorial Team");
+    expect(getSeoRoute("/guides/prompt-engineering-basics").published).toBe("2026-08-23");
+    expect(getSeoDocument("/guides/promptforge-workflow-case-study").canonical).toBe("https://www.promptforge.com.ng/guides/promptforge-workflow-case-study");
+    expect(createGuideArticleJsonLd("/guides/prompt-engineering-basics")?.["@type"]).toBe("Article");
   });
 
   it("creates accurate Organization and Contact FAQ structured data", () => {
