@@ -4,6 +4,7 @@ export type SeoRoute = {
   canonicalPath: string;
   indexable: boolean;
   ogType?: "website" | "article";
+  ogImage?: string;
   author?: string;
   published?: string;
   updated?: string;
@@ -54,6 +55,7 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/prompt-engineering-basics",
     indexable: true,
     ogType: "article",
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-basics_7e652282.png`,
   },
   "/guides/prompt-engineering-for-marketing": {
     title: "Prompt Engineering for Marketing Workflows | PromptForge",
@@ -64,6 +66,7 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/prompt-engineering-for-marketing",
     indexable: true,
     ogType: "article",
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-marketing_ba2f2edd.png`,
   },
   "/guides/evaluate-and-improve-ai-prompts": {
     title: "How to Evaluate and Improve AI Prompts | PromptForge",
@@ -74,6 +77,7 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/evaluate-and-improve-ai-prompts",
     indexable: true,
     ogType: "article",
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-evaluation_23415810.png`,
   },
   "/guides/promptforge-workflow-case-study": {
     title: "PromptForge Workflow Case Study: From Idea to AI Brief",
@@ -81,6 +85,7 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/promptforge-workflow-case-study",
     indexable: true,
     ogType: "article",
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-case-study_7c12e77a.png`,
     author: "PromptForge Editorial Team",
     published: "2026-08-23",
     updated: "2026-08-23",
@@ -143,7 +148,7 @@ export function getSeoDocument(routePath: string) {
     canonical: absoluteCanonical(route.canonicalPath),
     robots: route.indexable ? "index, follow" : "noindex, nofollow",
     ogType: route.ogType ?? "website",
-    ogImage: SHARE_IMAGE,
+    ogImage: route.ogImage ?? SHARE_IMAGE,
   };
 }
 

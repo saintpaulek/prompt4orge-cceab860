@@ -28,7 +28,7 @@ describe("PromptForge SEO metadata", () => {
   });
 
   it("marks all guide pages as indexable articles with dedicated canonicals", () => {
-    const guidePaths = ["/guides/prompt-engineering-basics", "/guides/prompt-engineering-for-marketing", "/guides/evaluate-and-improve-ai-prompts"];
+    const guidePaths = ["/guides/prompt-engineering-basics", "/guides/prompt-engineering-for-marketing", "/guides/evaluate-and-improve-ai-prompts", "/guides/promptforge-workflow-case-study"];
     for (const path of guidePaths) {
       const seo = getSeoDocument(path);
       expect(seo.indexable).toBe(true);
@@ -40,6 +40,9 @@ describe("PromptForge SEO metadata", () => {
     expect(getSeoRoute("/guides/prompt-engineering-basics").author).toBe("PromptForge Editorial Team");
     expect(getSeoRoute("/guides/prompt-engineering-basics").published).toBe("2026-08-23");
     expect(getSeoDocument("/guides/promptforge-workflow-case-study").canonical).toBe("https://www.promptforge.com.ng/guides/promptforge-workflow-case-study");
+    const previews = guidePaths.map((path) => getSeoDocument(path).ogImage);
+    expect(new Set(previews).size).toBe(4);
+    expect(previews.every((image) => image.includes("/manus-storage/promptforge-og-"))).toBe(true);
     expect(createGuideArticleJsonLd("/guides/prompt-engineering-basics")?.["@type"]).toBe("Article");
   });
 

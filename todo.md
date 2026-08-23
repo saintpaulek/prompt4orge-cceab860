@@ -388,3 +388,11 @@
 - [x] Add accessible feedback and analytics-safe sharing interaction states.
 - [x] Add regression tests for sharing helpers and author visual labels.
 - [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Guide social previews, discovery, and copy polish
+- [x] Create distinct, branded Open Graph social preview assets for all four guide pages.
+- [x] Wire each guide to a unique Open Graph and Twitter image in runtime and prerendered metadata.
+- [x] Strengthen the related-guides section on every guide page with clear editorial recommendations.
+- [x] Make the case-study interactive example copy action explicit, reliable, and accessible.
+- [x] Add regression tests for per-guide social preview metadata and copy behavior.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
