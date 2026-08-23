@@ -552,3 +552,36 @@ html[data-theme="light"] .guide-aside, html[data-theme="light"] .guide-related-c
 html[data-theme="light"] .guide-aside p, html[data-theme="light"] .guide-check, html[data-theme="light"] .guide-related-card strong { color:#29342d; }
 @media (max-width:760px) { .guide-body,.guide-next { grid-template-columns:1fr; padding:48px 20px; } .guide-aside { position:static; } .guide-related { padding:42px 20px 64px; } .guide-related-grid { grid-template-columns:1fr; } .guide-hero h1 { font-size:clamp(38px,11vw,60px); } .guide-hero p { font-size:16px; } }
 @media (prefers-reduced-motion: reduce) { .guide-related-card { transition:none; } .guide-related-card:hover { transform:none; } }
+
+/* Compact, thumb-reachable app navigation for the mobile PromptForge experience. */
+.mobile-app-nav { display:none; }
+@media (max-width:720px) {
+  .app-shell { padding-bottom:calc(80px + env(safe-area-inset-bottom)); }
+  .mobile-app-nav { position:fixed; z-index:80; right:12px; bottom:calc(10px + env(safe-area-inset-bottom)); left:12px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); align-items:stretch; min-height:62px; overflow:hidden; border:1px solid rgba(255,255,255,.14); border-radius:20px; background:rgba(16,19,16,.94); box-shadow:0 16px 36px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.04); backdrop-filter:blur(16px); }
+  .mobile-app-nav-item { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-width:0; min-height:61px; padding:7px 4px; border:0; border-right:1px solid rgba(255,255,255,.07); background:transparent; color:#91988f; font:700 9px/1 "Space Grotesk",sans-serif; letter-spacing:.045em; text-decoration:none; transition:color .16s cubic-bezier(.23,1,.32,1),background .16s cubic-bezier(.23,1,.32,1),transform .16s cubic-bezier(.23,1,.32,1); }
+  .mobile-app-nav-item:last-child { border-right:0; }
+  .mobile-app-nav-item svg { transition:transform .16s cubic-bezier(.23,1,.32,1); }
+  .mobile-app-nav-item.active { color:#fff7ed; background:linear-gradient(180deg,rgba(243,107,33,.23),rgba(243,107,33,.06)); box-shadow:inset 0 2px 0 var(--orange); }
+  .mobile-app-nav-item.active svg { color:var(--orange); transform:translateY(-1px); }
+  .mobile-app-nav-item:active { transform:scale(.96); }
+  .mobile-unlock-nav { color:#e9aa80; cursor:pointer; }
+  .whatsapp-float { bottom:92px; }
+}
+html[data-theme="light"] .mobile-app-nav { border-color:rgba(24,29,25,.14); background:rgba(255,253,248,.94); box-shadow:0 14px 32px rgba(50,40,25,.16), inset 0 1px 0 rgba(255,255,255,.8); }
+html[data-theme="light"] .mobile-app-nav-item { border-color:rgba(24,29,25,.09); color:#657064; }
+html[data-theme="light"] .mobile-app-nav-item.active { color:#263129; background:linear-gradient(180deg,rgba(243,107,33,.17),rgba(243,107,33,.05)); }
+@media (prefers-reduced-motion: reduce) { .mobile-app-nav-item,.mobile-app-nav-item svg { transition:none; } .mobile-app-nav-item:active { transform:none; } }
+
+/* Make the two primary app surfaces efficient to operate one-handed on smaller screens. */
+@media (max-width:720px) {
+  .builder-page .materials .forge-button { position:sticky; z-index:12; bottom:88px; width:100%; min-height:52px; margin-top:22px; box-shadow:0 12px 26px rgba(0,0,0,.28); }
+  .builder-page .output-panel { scroll-margin-top:84px; }
+  .library-data-page .page-intro { margin-bottom:24px; }
+  .library-data-page .catalog-toolbar { position:sticky; z-index:24; top:68px; display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 -20px 12px; padding:12px 20px; background:rgba(12,14,12,.97); border-top:1px solid rgba(255,255,255,.08); border-bottom:1px solid rgba(255,255,255,.11); box-shadow:0 12px 22px rgba(0,0,0,.18); }
+  .library-data-page .catalog-toolbar .search { grid-column:1 / -1; }
+  .library-data-page .catalog-select { min-width:0; }
+  .library-data-page .access-tabs { flex-wrap:nowrap; overflow-x:auto; margin:10px -20px 16px; padding:0 20px 3px; scrollbar-width:none; }
+  .library-data-page .access-tabs::-webkit-scrollbar { display:none; }
+  .library-data-page .access-tabs button { flex:0 0 auto; min-height:38px; }
+}
+html[data-theme="light"] .library-data-page .catalog-toolbar { background:rgba(255,253,248,.97); border-color:rgba(24,29,25,.12); box-shadow:0 10px 22px rgba(55,45,28,.1); }

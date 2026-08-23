@@ -18,6 +18,7 @@ import GuidePages from "@/pages/GuidePages";
 import PromptLibrary from "@/pages/PromptLibrary";
 import { platformOptions, projectTypesByCategory } from "@/lib/builderOptions";
 import { useTheme } from "@/contexts/ThemeContext";
+import { getMobileNavActiveItem } from "@/lib/mobileNavigation";
 
 const heroTexture = "/manus-storage/promptforge-forge-texture_b7ed497b.png";
 const builderArt = "/manus-storage/promptforge-builder-illustration_6de8044a.png";
@@ -49,6 +50,16 @@ export const bankingChannels = ["WhatsApp Business API", "SMS campaign", "WhatsA
 const imageModels = ["ChatGPT (DALL·E / image tools)", "Gemini", "Grok", "Midjourney", "Stable Diffusion / Flux", "Generic / Other"];
 const videoModels = ["HeyGen AI", "Kling AI", "Google Flow", "Grok", "Runway", "Pika", "Luma Dream Machine", "Generic / Other"];
 
+function MobileAppNavigation({ location, hasAccount, onUnlock }: { location: string; hasAccount: boolean; onUnlock: () => void }) {
+  const activeItem = getMobileNavActiveItem(location);
+  return <nav className="mobile-app-nav" aria-label="Primary app navigation">
+    <Link href="/" className={`mobile-app-nav-item${activeItem === "forge" ? " active" : ""}`} aria-current={activeItem === "forge" ? "page" : undefined}><Hammer size={18}/><span>Forge</span></Link>
+    <Link href="/library" className={`mobile-app-nav-item${activeItem === "library" ? " active" : ""}`} aria-current={activeItem === "library" ? "page" : undefined}><BookOpen size={18}/><span>Library</span></Link>
+    <button className={`mobile-app-nav-item mobile-unlock-nav${activeItem === "access" ? " active" : ""}`} onClick={onUnlock} type="button"><LockKeyhole size={18}/><span>Access</span></button>
+    <Link href={hasAccount ? "/account" : "/auth"} className={`mobile-app-nav-item${activeItem === "account" ? " active" : ""}`} aria-current={activeItem === "account" ? "page" : undefined}><UserRound size={18}/><span>{hasAccount ? "Account" : "Sign in"}</span></Link>
+  </nav>;
+}
+
 function Layout({ children, onUnlock }: { children: React.ReactNode; onUnlock: () => void }) {
   const [open, setOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
@@ -65,6 +76,7 @@ function Layout({ children, onUnlock }: { children: React.ReactNode; onUnlock: (
     </header>
     {children}
     <footer className="footer"><div className="footer-brand"><span className="footer-wordmark" aria-label="PromptForge"><span>PROMPT</span><b>FORGE</b></span><div><strong>PromptForge</strong><span>Production-ready prompts, without the blank page.</span></div></div><div className="footer-links"><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/library">Library</Link></div><small>© 2026 PromptForge.</small></footer>
+    <MobileAppNavigation location={location} hasAccount={!!user} onUnlock={onUnlock}/>
   </div>;
 }
 
