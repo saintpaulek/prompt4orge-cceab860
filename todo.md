@@ -407,3 +407,9 @@
 - [x] Keep the unlock call-to-action available for locked and signed-out users on desktop and mobile.
 - [x] Add regression coverage for the access-aware navigation state.
 - [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Full access account tooltip
+- [x] Add a subtle hover and keyboard-focus tooltip to the green Full access status control.
+- [x] Display only safe account-access details and provide an account-settings destination.
+- [x] Add regression coverage for tooltip content and accessible behavior.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
