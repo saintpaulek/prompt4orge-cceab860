@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
-import { createWebApplicationJsonLd, getSeoDocument } from "@/lib/seo";
+import { createContactFaqJsonLd, createGuideArticleJsonLd, createOrganizationJsonLd, createWebApplicationJsonLd, getSeoDocument } from "@/lib/seo";
 
 function setMeta(name: string, content: string, property = false) {
   const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
@@ -45,12 +45,20 @@ export default function SeoHead() {
     setMeta("twitter:image", seo.ogImage);
     setLink("canonical", seo.canonical);
 
-    const existing = document.head.querySelector<HTMLScriptElement>('script[data-promptforge-jsonld="application"]');
-    const script = existing ?? document.createElement("script");
-    script.type = "application/ld+json";
-    script.dataset.promptforgeJsonld = "application";
-    script.textContent = JSON.stringify(createWebApplicationJsonLd());
-    if (!existing) document.head.appendChild(script);
+    const setJsonLd = (kind: string, value: object | null) => {
+      const selector = `script[data-promptforge-jsonld="${kind}"]`;
+      const existing = document.head.querySelector<HTMLScriptElement>(selector);
+      if (!value) { existing?.remove(); return; }
+      const script = existing ?? document.createElement("script");
+      script.type = "application/ld+json";
+      script.dataset.promptforgeJsonld = kind;
+      script.textContent = JSON.stringify(value);
+      if (!existing) document.head.appendChild(script);
+    };
+    setJsonLd("application", createWebApplicationJsonLd());
+    setJsonLd("organization", location === "/" || location === "/about" ? createOrganizationJsonLd() : null);
+    setJsonLd("faq", location === "/contact" ? createContactFaqJsonLd() : null);
+    setJsonLd("article", createGuideArticleJsonLd(location));
   }, [location]);
 
   return null;

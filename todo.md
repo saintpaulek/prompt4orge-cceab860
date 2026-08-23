@@ -321,18 +321,83 @@
 - [x] Document the Google Search Console submission steps and indexing limitations.
 
 # Google Search Console submission
-- [ ] Inspect Search Console access and existing PromptForge property status.
-- [ ] Verify promptforge.com.ng ownership if required.
-- [ ] Submit https://www.promptforge.com.ng/sitemap.xml.
-- [ ] Request indexing for the homepage, Library, Pricing, About, and Contact URLs.
-- [ ] Record Google’s confirmation or the exact user action still required.
+- [x] Inspect Search Console access and existing PromptForge property status.
+- [x] Verify promptforge.com.ng ownership if required.
+- [x] Submit https://www.promptforge.com.ng/sitemap.xml.
+- [x] Request indexing for the homepage, Library, Pricing, About, and Contact URLs.
+- [x] Record Google’s confirmation or the exact user action still required.
 
 # Search Console URL-prefix fallback
 - [x] Create the URL-prefix property for https://www.promptforge.com.ng/.
 - [x] Obtain Google’s HTML verification meta tag.
 - [x] Add the verification tag to the production entry HTML and publish it.
-- [ ] Verify the URL-prefix property, submit the sitemap, and request indexing for the five public URLs.
+- [x] Verify the URL-prefix property, submit the sitemap, and request indexing for the five public URLs.
 
 # Production SEO deployment routing fix
-- [ ] Correct Vercel output routing so dist/public serves the HTML, robots.txt, sitemap.xml, and verification tag instead of the server bundle.
-- [ ] Redeploy the Vercel-linked GitHub project and re-verify the live paid-domain SEO endpoints.
+- [x] Correct Vercel output routing so dist/public serves the HTML, robots.txt, sitemap.xml, and verification tag instead of the server bundle.
+- [x] Redeploy the Vercel-linked GitHub project and re-verify the live paid-domain SEO endpoints.
+
+# Search Console status and SEO metadata optimization
+- [x] Check current sitemap status and indexing state for the five public URLs in Google Search Console.
+- [x] Audit current titles, descriptions, canonical tags, social metadata, and structured data for Home, Library, Pricing, About, and Contact.
+- [x] Optimize five public-page metadata around clear search intent without keyword stuffing.
+- [x] Validate generated metadata and publish the SEO updates.
+- [x] Report indexing status, noting that Google controls final crawl and ranking timing.
+
+# Organization schema, FAQ schema, and supporting SEO content
+- [x] Audit existing Organization facts, visible FAQ copy, public routes, and sitemap entries.
+- [x] Add accurate Organization JSON-LD without inventing social profiles or claims.
+- [x] Add FAQPage JSON-LD only for questions and answers visibly present on the public Contact page.
+- [x] Create supporting educational content and internal links for AI prompt-building search intent.
+- [x] Add supporting content URLs to the sitemap and route metadata where appropriate.
+- [x] Validate structured data and publish the SEO/content update.
+- [x] Prepare a credible backlink outreach foundation without placing unauthorized external links.
+
+# Prompt-engineering guide pages and Nigerian outreach
+- [x] Create three dedicated, crawlable prompt-engineering guide pages with distinct search intent.
+- [x] Add route-specific SEO metadata and sitemap entries for the guide pages.
+- [x] Add internal links between the guides, Builder, Library, About, and Contact pages.
+- [x] Draft a personalized outreach email template for Nigerian technology and AI communities seeking editorially appropriate backlinks.
+- [x] Add backlink outreach guidance that avoids spam, paid-link claims, or fabricated endorsements.
+- [x] Add regression tests for guide routes and generated SEO documents.
+- [x] Run tests, TypeScript validation, production build, and publish the completed content update.
+
+# Guide credibility, case study, and navigation upgrade
+- [x] Add accurate author profiles and publication/update date metadata to all guide pages.
+- [x] Add Article JSON-LD and visible author/date bylines where appropriate.
+- [x] Create a practical case-study tutorial route demonstrating a real PromptForge workflow.
+- [x] Add interactive prompt examples with editable inputs and copyable outputs.
+- [x] Add a sticky table of contents sidebar for guides with accessible mobile behavior.
+- [x] Add the case-study route to metadata, generated SEO documents, sitemap, and internal links.
+- [x] Add regression tests for guide metadata, case-study content, and interactive examples.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Compact controls, author credibility, and guide analytics
+- [x] Add accessible interactive tooltips to the updated compact mobile controls.
+- [x] Create a formal PromptForge Editorial Team author bio page and link it from guide bylines.
+- [x] Replace static guide dates with explicit publication and revision metadata maintained per article.
+- [x] Add privacy-conscious guide scroll-depth analytics without collecting prompt text or personal data.
+- [x] Track interactive-example views and copy actions with stable event names.
+- [x] Add regression tests for tooltips, author route, revision metadata, and analytics events.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Author visuals and guide sharing
+- [x] Add clearly labeled placeholder organization logo and author avatar visuals to the author bio page.
+- [x] Add a responsive Share this guide action to every guide page.
+- [x] Support native Web Share where available and clipboard fallback elsewhere.
+- [x] Add accessible feedback and analytics-safe sharing interaction states.
+- [x] Add regression tests for sharing helpers and author visual labels.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Guide social previews, discovery, and copy polish
+- [x] Create distinct, branded Open Graph social preview assets for all four guide pages.
+- [x] Wire each guide to a unique Open Graph and Twitter image in runtime and prerendered metadata.
+- [x] Strengthen the related-guides section on every guide page with clear editorial recommendations.
+- [x] Make the case-study interactive example copy action explicit, reliable, and accessible.
+- [x] Add regression tests for per-guide social preview metadata and copy behavior.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Paid-domain deployment verification
+- [ ] Deploy the latest verified PromptForge revision to www.promptforge.com.ng through the configured hosting connection.
+- [ ] Verify the paid domain serves the latest guide route and unique Open Graph metadata.
+- [ ] Report the deployment result and live URL verification.

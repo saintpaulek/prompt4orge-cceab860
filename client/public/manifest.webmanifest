@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "name": "PromptForge — AI Prompt Builder",
+  "short_name": "PromptForge",
+  "description": "Build clear, structured AI prompts for work that ships.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080807",
+  "theme_color": "#080807",
+  "icons": [
+    { "src": "/favicon.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -10,7 +10,7 @@ import SeoHead from "./components/SeoHead";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
-  return <><SeoHead/><Switch><Route path="/" component={Home}/><Route path="/library" component={Home}/><Route path="/pricing" component={Home}/><Route path="/about" component={Home}/><Route path="/contact" component={Home}/><Route path="/auth" component={Home}/><Route path="/account" component={Home}/><Route path="/admin/unlocks*" component={Home}/><Route path="/404" component={NotFound}/><Route component={NotFound}/></Switch></>;
+  return <><SeoHead/><Switch><Route path="/" component={Home}/><Route path="/library" component={Home}/><Route path="/pricing" component={Home}/><Route path="/about" component={Home}/><Route path="/contact" component={Home}/><Route path="/author/promptforge-editorial-team" component={Home}/><Route path="/guides/:slug" component={Home}/><Route path="/guides/promptforge-workflow-case-study" component={Home}/><Route path="/auth" component={Home}/><Route path="/account" component={Home}/><Route path="/admin/unlocks*" component={Home}/><Route path="/404" component={NotFound}/><Route component={NotFound}/></Switch></>;
 }
 
 export default function App() {
