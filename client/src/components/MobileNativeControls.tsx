@@ -1,7 +1,7 @@
 import { ArrowDown, Download, RefreshCw, Share2, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { INSTALL_PROMPT_DISMISSED_KEY, PULL_REFRESH_THRESHOLD, getInstallPromptMode, getPullRefreshLabel, isAppleMobileDevice, shouldTriggerPullRefresh, type InstallPromptMode, type PullRefreshStatus } from "@/lib/mobileAppExperience";
+import { INSTALL_PROMPT_DISMISSED_KEY, PULL_REFRESH_THRESHOLD, getInstallPromptMode, getPullRefreshLabel, isAppleMobileDevice, shouldCapturePullRefreshGesture, shouldTriggerPullRefresh, type InstallPromptMode, type PullRefreshStatus } from "@/lib/mobileAppExperience";
 
 type DeferredInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -33,7 +33,7 @@ function usePullToRefresh(onRefresh: () => void) {
       if (startY.current === null || getScrollTop() > 0) return;
       const currentY = event.touches[0]?.clientY ?? startY.current;
       const distance = Math.max(0, currentY - startY.current);
-      if (distance === 0) return;
+      if (!shouldCapturePullRefreshGesture(distance, getScrollTop() <= 0)) return;
       pullDistance.current = distance;
       event.preventDefault();
       setStatus(shouldTriggerPullRefresh(distance, true) ? "armed" : "pulling");

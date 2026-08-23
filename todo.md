@@ -413,3 +413,16 @@
 - [x] Display only safe account-access details and provide an account-settings destination.
 - [x] Add regression coverage for tooltip content and accessible behavior.
 - [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Paid-domain tooltip deployment confirmation
+- [x] Confirm the latest Full access tooltip revision is Ready in the paid-domain production deployment.
+- [x] Verify www.promptforge.com.ng serves the latest production bundle.
+- [x] Report the live paid-domain result.
+
+# Mobile scrolling and paid-domain performance
+- [ ] Audit and correct mobile touch/scroll behavior without breaking pull-to-refresh or navigation controls.
+- [ ] Measure paid-domain DNS resolution and initial response timing to identify DNS, TLS, redirect, or application delay.
+- [ ] Apply safe mobile scrolling and first-load performance improvements.
+- [ ] Add regression coverage for mobile scroll interaction behavior where practical.
+- [ ] Run tests, TypeScript validation, responsive performance checks, and production build.
+- [ ] Deploy the verified update to www.promptforge.com.ng and verify the live domain.
