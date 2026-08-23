@@ -380,3 +380,11 @@
 - [x] Track interactive-example views and copy actions with stable event names.
 - [x] Add regression tests for tooltips, author route, revision metadata, and analytics events.
 - [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Author visuals and guide sharing
+- [x] Add clearly labeled placeholder organization logo and author avatar visuals to the author bio page.
+- [x] Add a responsive Share this guide action to every guide page.
+- [x] Support native Web Share where available and clipboard fallback elsewhere.
+- [x] Add accessible feedback and analytics-safe sharing interaction states.
+- [x] Add regression tests for sharing helpers and author visual labels.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.

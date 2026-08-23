@@ -1,4 +1,4 @@
-export type GuideAnalyticsEvent = "guide_scroll_depth" | "guide_interactive_view" | "guide_interactive_copy";
+export type GuideAnalyticsEvent = "guide_scroll_depth" | "guide_interactive_view" | "guide_interactive_copy" | "guide_share";
 
 type Umami = { track?: (event: string, data?: Record<string, string | number>) => void };
 
