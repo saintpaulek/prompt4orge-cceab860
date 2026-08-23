@@ -332,3 +332,7 @@
 - [x] Obtain Google’s HTML verification meta tag.
 - [x] Add the verification tag to the production entry HTML and publish it.
 - [ ] Verify the URL-prefix property, submit the sitemap, and request indexing for the five public URLs.
+
+# Production SEO deployment routing fix
+- [ ] Correct Vercel output routing so dist/public serves the HTML, robots.txt, sitemap.xml, and verification tag instead of the server bundle.
+- [ ] Redeploy the Vercel-linked GitHub project and re-verify the live paid-domain SEO endpoints.
