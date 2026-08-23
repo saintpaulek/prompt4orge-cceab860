@@ -398,6 +398,12 @@
 - [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
 
 # Paid-domain deployment verification
-- [ ] Deploy the latest verified PromptForge revision to www.promptforge.com.ng through the configured hosting connection.
-- [ ] Verify the paid domain serves the latest guide route and unique Open Graph metadata.
-- [ ] Report the deployment result and live URL verification.
+- [x] Deploy the latest verified PromptForge revision to www.promptforge.com.ng through the configured hosting connection.
+- [x] Verify the paid domain serves the latest guide route and unique Open Graph metadata.
+- [x] Report the deployment result and live URL verification.
+
+# Unlocked account navigation status
+- [x] Replace the Unlock full access call-to-action with a green Full access status for unlocked signed-in accounts.
+- [x] Keep the unlock call-to-action available for locked and signed-out users on desktop and mobile.
+- [x] Add regression coverage for the access-aware navigation state.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
