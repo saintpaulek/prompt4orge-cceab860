@@ -1,5 +1,5 @@
 {
-  "installCommand": "npm install --legacy-peer-deps --no-audit --no-fund",
+  "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist/public",
   "rewrites": [
