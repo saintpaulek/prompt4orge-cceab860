@@ -5,6 +5,9 @@ export type SeoRoute = {
   indexable: boolean;
   ogType?: "website" | "article";
   ogImage?: string;
+  twitterImage?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   author?: string;
   published?: string;
   updated?: string;
@@ -13,7 +16,7 @@ export type SeoRoute = {
 export const SITE_NAME = "PromptForge";
 export const SITE_ORIGIN = "https://www.promptforge.com.ng";
 export const DEFAULT_DESCRIPTION = "Create clear, structured AI prompts in under 60 seconds for content, marketing, code, business, and customer engagement.";
-export const SHARE_IMAGE = `${SITE_ORIGIN}/manus-storage/promptforge-builder-illustration_6de8044a.png`;
+export const SHARE_IMAGE = `${SITE_ORIGIN}/manus-storage/promptforge-builder-illustration-desktop_1bdd6b30.webp`;
 
 const routes: Record<string, SeoRoute> = {
   "/": {
@@ -55,7 +58,10 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/prompt-engineering-basics",
     indexable: true,
     ogType: "article",
-    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-basics_7e652282.png`,
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-basics-1200_53b2e6c1.webp`,
+    twitterImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-basics-640_edea80c9.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
   },
   "/guides/prompt-engineering-for-marketing": {
     title: "Prompt Engineering for Marketing Workflows | PromptForge",
@@ -66,7 +72,10 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/prompt-engineering-for-marketing",
     indexable: true,
     ogType: "article",
-    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-marketing_ba2f2edd.png`,
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-marketing-1200_a0a0987b.webp`,
+    twitterImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-marketing-640_25bba206.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
   },
   "/guides/evaluate-and-improve-ai-prompts": {
     title: "How to Evaluate and Improve AI Prompts | PromptForge",
@@ -77,7 +86,10 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/evaluate-and-improve-ai-prompts",
     indexable: true,
     ogType: "article",
-    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-evaluation_23415810.png`,
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-evaluation-1200_b9569cec.webp`,
+    twitterImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-evaluation-640_b197fd9d.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
   },
   "/guides/promptforge-workflow-case-study": {
     title: "PromptForge Workflow Case Study: From Idea to AI Brief",
@@ -85,7 +97,10 @@ const routes: Record<string, SeoRoute> = {
     canonicalPath: "/guides/promptforge-workflow-case-study",
     indexable: true,
     ogType: "article",
-    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-og-case-study_7c12e77a.png`,
+    ogImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-case-study-1200_b7433e9e.webp`,
+    twitterImage: `${SITE_ORIGIN}/manus-storage/promptforge-social-case-study-640_7a5ce97d.webp`,
+    ogImageWidth: 1280,
+    ogImageHeight: 720,
     author: "PromptForge Editorial Team",
     published: "2026-08-23",
     updated: "2026-08-23",
@@ -149,6 +164,9 @@ export function getSeoDocument(routePath: string) {
     robots: route.indexable ? "index, follow" : "noindex, nofollow",
     ogType: route.ogType ?? "website",
     ogImage: route.ogImage ?? SHARE_IMAGE,
+    twitterImage: route.twitterImage ?? route.ogImage ?? SHARE_IMAGE,
+    ogImageWidth: route.ogImageWidth ?? 1440,
+    ogImageHeight: route.ogImageHeight ?? 960,
   };
 }
 

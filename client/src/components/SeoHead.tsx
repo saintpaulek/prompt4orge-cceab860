@@ -38,11 +38,15 @@ export default function SeoHead() {
     setMeta("og:url", seo.canonical, true);
     setMeta("og:site_name", "PromptForge", true);
     setMeta("og:image", seo.ogImage, true);
+    setMeta("og:image:width", String(seo.ogImageWidth), true);
+    setMeta("og:image:height", String(seo.ogImageHeight), true);
     setMeta("og:image:alt", "PromptForge AI prompt-building workbench", true);
     setMeta("twitter:card", "summary_large_image");
     setMeta("twitter:title", seo.title);
     setMeta("twitter:description", seo.description);
-    setMeta("twitter:image", seo.ogImage);
+    setMeta("twitter:image", seo.twitterImage);
+    setMeta("twitter:image:src", seo.twitterImage);
+    setMeta("twitter:image:alt", "PromptForge AI prompt-building workbench");
     setLink("canonical", seo.canonical);
 
     const setJsonLd = (kind: string, value: object | null) => {

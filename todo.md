@@ -434,3 +434,11 @@
 - [x] Add regression coverage for the hero asset selection where practical.
 - [x] Run tests, TypeScript validation, visual verification, and production builds.
 - [x] Deploy the optimized hero artwork to www.promptforge.com.ng and verify the live payload.
+
+# Illustration compression, lazy loading, and social previews
+- [x] Audit the Builder illustration, below-the-fold images, and existing social-preview metadata.
+- [x] Create optimized responsive Builder illustration variants and update asset delivery.
+- [x] Add native lazy loading and decoding hints to below-the-fold images.
+- [x] Add responsive Open Graph and Twitter preview image metadata for guide sharing.
+- [x] Add regression coverage for image assets, lazy loading, and social-preview metadata.
+- [x] Run tests, TypeScript validation, visual and payload checks, production builds, and deploy to www.promptforge.com.ng.
