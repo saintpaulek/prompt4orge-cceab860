@@ -426,3 +426,11 @@
 - [x] Add regression coverage for mobile scroll interaction behavior where practical.
 - [x] Run tests, TypeScript validation, responsive performance checks, and production build.
 - [x] Deploy the verified update to www.promptforge.com.ng and verify the live domain.
+
+# Hero artwork compression
+- [x] Audit the current hero artwork payload, dimensions, and visual treatment.
+- [x] Create optimized responsive hero-art variants that preserve the Workshop Noir appearance.
+- [x] Serve the appropriate compressed asset on mobile without reducing desktop quality.
+- [x] Add regression coverage for the hero asset selection where practical.
+- [x] Run tests, TypeScript validation, visual verification, and production builds.
+- [x] Deploy the optimized hero artwork to www.promptforge.com.ng and verify the live payload.
