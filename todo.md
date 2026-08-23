@@ -319,3 +319,16 @@
 - [x] Add or correct robots.txt and sitemap.xml for public routes only.
 - [x] Validate SEO endpoints, build output, and live paid-domain responses.
 - [x] Document the Google Search Console submission steps and indexing limitations.
+
+# Google Search Console submission
+- [ ] Inspect Search Console access and existing PromptForge property status.
+- [ ] Verify promptforge.com.ng ownership if required.
+- [ ] Submit https://www.promptforge.com.ng/sitemap.xml.
+- [ ] Request indexing for the homepage, Library, Pricing, About, and Contact URLs.
+- [ ] Record Google’s confirmation or the exact user action still required.
+
+# Search Console URL-prefix fallback
+- [x] Create the URL-prefix property for https://www.promptforge.com.ng/.
+- [x] Obtain Google’s HTML verification meta tag.
+- [x] Add the verification tag to the production entry HTML and publish it.
+- [ ] Verify the URL-prefix property, submit the sitemap, and request indexing for the five public URLs.
