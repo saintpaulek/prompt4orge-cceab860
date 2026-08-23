@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { absoluteCanonical, getSeoDocument, getSeoRoute, normalizeSeoPath } from "./seo";
+import { absoluteCanonical, createContactFaqJsonLd, createOrganizationJsonLd, getSeoDocument, getSeoRoute, normalizeSeoPath } from "./seo";
 
 describe("PromptForge SEO metadata", () => {
   it("normalizes trailing slashes and query strings", () => {
@@ -25,6 +25,17 @@ describe("PromptForge SEO metadata", () => {
     expect(getSeoRoute("/pricing").description).toContain("₦10,000 or $10");
     expect(getSeoRoute("/about").description).toContain("reliable AI instructions");
     expect(getSeoRoute("/contact").description).toContain("email or WhatsApp");
+  });
+
+  it("creates accurate Organization and Contact FAQ structured data", () => {
+    const organization = createOrganizationJsonLd();
+    expect(organization["@type"]).toBe("Organization");
+    expect(organization.email).toBe("saintpaulek@gmail.com");
+    expect(organization.telephone).toBe("+2347069573528");
+    const faq = createContactFaqJsonLd();
+    expect(faq["@type"]).toBe("FAQPage");
+    expect(faq.mainEntity).toHaveLength(4);
+    expect(faq.mainEntity[0].name).toBe("How quickly will I hear back?");
   });
 
   it("uses the paid domain for absolute canonical URLs", () => {

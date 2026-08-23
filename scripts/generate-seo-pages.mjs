@@ -90,6 +90,15 @@ for (const page of pages) {
   html = replaceTag(html, /<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${canonicalEscaped}" />`);
   html = replaceTag(html, /<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${title}" />`);
   html = replaceTag(html, /<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${description}" />`);
+  const organization = { "@context": "https://schema.org", "@type": "Organization", "@id": `${origin}/#organization`, name: "PromptForge", url: origin, logo: `${origin}/favicon-512.png`, description: "A practical AI prompt builder and searchable prompt library for creators, marketers, freelancers, developers, and teams.", email: "saintpaulek@gmail.com", telephone: "+2347069573528", contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: "saintpaulek@gmail.com", telephone: "+2347069573528", availableLanguage: "English" } };
+  const faq = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [
+    { "@type": "Question", name: "How quickly will I hear back?", acceptedAnswer: { "@type": "Answer", text: "Messages are read personally, and the usual response time is within 24 hours." } },
+    { "@type": "Question", name: "Can I ask about partnerships or custom work?", acceptedAnswer: { "@type": "Answer", text: "Yes. Share the context, what you are trying to make, and the kind of collaboration you have in mind." } },
+    { "@type": "Question", name: "Can I use WhatsApp instead?", acceptedAnswer: { "@type": "Answer", text: "Absolutely. Use the Chat on WhatsApp button for a direct conversation with PromptForge." } },
+    { "@type": "Question", name: "What should I include in my message?", acceptedAnswer: { "@type": "Answer", text: "A little context, your goal, and any deadline or constraint will help us reply with a useful next step." } },
+  ] };
+  const schema = page.path === "contact" ? faq : page.path === "about" ? organization : null;
+  if (schema) html = html.replace("</head>", `<script type="application/ld+json" data-promptforge-jsonld="${page.path === "contact" ? "faq" : "organization"}">${JSON.stringify(schema)}</script>\n  </head>`);
   html = html.replace("    <div id=\"root\"></div>", `    <div id="root"></div>\n    ${fallback}`);
   const destination = path.join(root, page.path, "index.html");
   await mkdir(path.dirname(destination), { recursive: true });

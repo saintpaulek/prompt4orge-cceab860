@@ -343,3 +343,12 @@
 - [x] Optimize five public-page metadata around clear search intent without keyword stuffing.
 - [x] Validate generated metadata and publish the SEO updates.
 - [x] Report indexing status, noting that Google controls final crawl and ranking timing.
+
+# Organization schema, FAQ schema, and supporting SEO content
+- [x] Audit existing Organization facts, visible FAQ copy, public routes, and sitemap entries.
+- [x] Add accurate Organization JSON-LD without inventing social profiles or claims.
+- [x] Add FAQPage JSON-LD only for questions and answers visibly present on the public Contact page.
+- [x] Create supporting educational content and internal links for AI prompt-building search intent.
+- [x] Add supporting content URLs to the sitemap and route metadata where appropriate.
+- [x] Validate structured data and publish the SEO/content update.
+- [x] Prepare a credible backlink outreach foundation without placing unauthorized external links.
