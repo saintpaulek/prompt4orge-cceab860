@@ -442,3 +442,9 @@
 - [x] Add responsive Open Graph and Twitter preview image metadata for guide sharing.
 - [x] Add regression coverage for image assets, lazy loading, and social-preview metadata.
 - [x] Run tests, TypeScript validation, visual and payload checks, production builds, and deploy to www.promptforge.com.ng.
+
+# Paid-domain DNS and Library availability repair
+- [x] Diagnose why some mobile users receive a DNS_PROBE_POSSIBLE error for www.promptforge.com.ng.
+- [x] Verify the Vercel domain binding, DNS records, and apex-to-www redirect behavior without disrupting the live site.
+- [x] Diagnose and repair the live Library catalog loading path and its production API dependency.
+- [x] Validate paid-domain DNS resolution and Library loading on the live deployment, then publish the repair.
