@@ -396,3 +396,8 @@
 - [x] Make the case-study interactive example copy action explicit, reliable, and accessible.
 - [x] Add regression tests for per-guide social preview metadata and copy behavior.
 - [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Paid-domain deployment verification
+- [x] Deploy the latest verified PromptForge revision to www.promptforge.com.ng through the configured hosting connection.
+- [x] Verify the paid domain serves the latest guide route and unique Open Graph metadata.
+- [x] Report the deployment result and live URL verification.
