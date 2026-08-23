@@ -86,6 +86,15 @@ const pages = [
     indexable: true,
   },
   {
+    path: "author/promptforge-editorial-team",
+    title: "PromptForge Editorial Team | AI Prompt Engineering Guides",
+    description: "Meet the PromptForge Editorial Team and read our practical, responsible guides to prompt engineering and AI-assisted workflows.",
+    heading: "PromptForge Editorial Team",
+    summary: "Practical, workflow-led education about prompt engineering, AI-assisted content, and responsible reuse.",
+    content: ["The PromptForge Editorial Team creates clear guidance for creators, marketers, freelancers, developers, and small teams.", "Our approach starts with real workflows, labels demonstrations honestly, and encourages human review for high-stakes work."],
+    indexable: true,
+  },
+  {
     path: "auth",
     title: "Sign in — PromptForge",
     description: "Sign in to your PromptForge account.",
@@ -128,7 +137,7 @@ for (const page of pages) {
   const canonicalEscaped = escapeHtml(canonical);
   const robots = page.indexable ? "index, follow" : "noindex, nofollow";
   const content = (page.content ?? []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
-  const article = page.author ? { "@context": "https://schema.org", "@type": "Article", "@id": `${canonical}#article`, headline: page.title, description: page.description, datePublished: page.published, dateModified: page.updated ?? page.published, mainEntityOfPage: { "@type": "WebPage", "@id": canonical }, author: { "@type": "Organization", name: page.author, url: `${origin}/about` }, publisher: { "@type": "Organization", name: "PromptForge", url: origin } } : null;
+  const article = page.author ? { "@context": "https://schema.org", "@type": "Article", "@id": `${canonical}#article`, headline: page.title, description: page.description, datePublished: page.published, dateModified: page.updated ?? page.published, mainEntityOfPage: { "@type": "WebPage", "@id": canonical }, author: { "@type": "Organization", name: page.author, url: `${origin}/author/promptforge-editorial-team` }, publisher: { "@type": "Organization", name: "PromptForge", url: origin } } : null;
   const fallback = `<noscript><main><h1>${escapeHtml(page.heading)}</h1><p>${escapeHtml(page.summary)}</p>${content}<p><a href="${canonicalEscaped}">Open PromptForge</a></p></main></noscript>`;
   let html = template;
   html = replaceTag(html, /<title>[^<]*<\/title>/, `<title>${title}</title>`);

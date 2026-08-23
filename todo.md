@@ -371,3 +371,12 @@
 - [x] Add the case-study route to metadata, generated SEO documents, sitemap, and internal links.
 - [x] Add regression tests for guide metadata, case-study content, and interactive examples.
 - [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
+
+# Compact controls, author credibility, and guide analytics
+- [x] Add accessible interactive tooltips to the updated compact mobile controls.
+- [x] Create a formal PromptForge Editorial Team author bio page and link it from guide bylines.
+- [x] Replace static guide dates with explicit publication and revision metadata maintained per article.
+- [x] Add privacy-conscious guide scroll-depth analytics without collecting prompt text or personal data.
+- [x] Track interactive-example views and copy actions with stable event names.
+- [x] Add regression tests for tooltips, author route, revision metadata, and analytics events.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.

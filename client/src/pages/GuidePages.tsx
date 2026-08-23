@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, BookOpen, CheckCircle2, Clipboard, Lightbulb, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { createScrollDepthTracker, trackGuideEvent } from "@/lib/guideAnalytics";
 
 type GuideSection = { id: string; heading: string; body: string };
 type Guide = {
@@ -31,14 +32,15 @@ const caseStudy = { path: "/guides/promptforge-workflow-case-study", number: "04
 
 export function getGuide(path: string) { return [...guides, caseStudy].find((guide) => guide.path === path); }
 
-function AuthorMeta({ guide }: { guide: Guide }) { return <div className="guide-byline"><div className="guide-author-mark">PF</div><div><strong>{guide.author}</strong><span>{guide.authorRole}</span></div><time dateTime={guide.published}>Published {new Date(`${guide.published}T00:00:00Z`).toLocaleDateString("en-NG", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" })}</time>{guide.updated !== guide.published && <time dateTime={guide.updated}>Updated {guide.updated}</time>}</div>; }
+function AuthorMeta({ guide }: { guide: Guide }) { return <div className="guide-byline"><div className="guide-author-mark">PF</div><div><Link href="/author/promptforge-editorial-team"><strong>{guide.author}</strong></Link><span>{guide.authorRole}</span></div><time dateTime={guide.published}>Published {new Date(`${guide.published}T00:00:00Z`).toLocaleDateString("en-NG", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" })}</time>{guide.updated !== guide.published && <time dateTime={guide.updated}>Updated {new Date(`${guide.updated}T00:00:00Z`).toLocaleDateString("en-NG", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" })}</time>}</div>; }
 
 function InteractiveCaseStudy() {
   const [audience, setAudience] = useState("Women aged 25–40 comparing affordable skincare options");
   const [offer, setOffer] = useState("A cleanser + moisturizer bundle with free delivery this week");
   const [copied, setCopied] = useState(false);
   const output = useMemo(() => `ROLE\nYou are a thoughtful social media strategist for a Nigerian skincare business.\n\nTASK\nCreate an Instagram launch post for: ${offer}.\n\nAUDIENCE\n${audience}.\n\nTONE / VOICE\nWarm, clear, practical, and trustworthy.\n\nCONSTRAINTS\nAvoid medical promises or unsupported results. Keep the copy skimmable, include one clear CTA, and suggest a visual direction.\n\nDELIVERABLES\nGive one primary caption, a short rationale, and one alternate hook.`, [audience, offer]);
-  const copy = async () => { await navigator.clipboard?.writeText(output); setCopied(true); window.setTimeout(() => setCopied(false), 1600); };
+  useEffect(() => { trackGuideEvent("guide_interactive_view", { guide_path: "/guides/promptforge-workflow-case-study" }); }, []);
+  const copy = async () => { await navigator.clipboard?.writeText(output); trackGuideEvent("guide_interactive_copy", { guide_path: "/guides/promptforge-workflow-case-study" }); setCopied(true); window.setTimeout(() => setCopied(false), 1600); };
   return <section className="case-study-interactive" id="interactive-example"><div className="section-kicker">INTERACTIVE EXAMPLE <span>Edit the brief, then copy the output.</span></div><div className="case-study-grid"><div className="case-inputs"><label className="field"><span>Audience</span><textarea value={audience} onChange={(event) => setAudience(event.target.value)} rows={3}/></label><label className="field"><span>Offer or campaign detail</span><textarea value={offer} onChange={(event) => setOffer(event.target.value)} rows={3}/></label><p className="case-hint">These fields mirror the inputs you would shape in the Builder before asking an AI assistant for a draft.</p></div><div className="case-output"><div className="case-output-head"><span>LIVE PROMPT</span><button onClick={() => void copy()}><Clipboard size={14}/>{copied ? "Copied" : "Copy"}</button></div><pre>{output}</pre></div></div></section>;
 }
 
@@ -46,5 +48,11 @@ export default function GuidePages() {
   const [location] = useLocation();
   const guide = getGuide(location) ?? guides[0];
   const related = [...guides, caseStudy].filter((item) => item.path !== guide.path);
+  useEffect(() => {
+    const onScroll = createScrollDepthTracker(guide.path);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [guide.path]);
   return <main className="simple-page guide-page"><section className="page-intro editorial-intro guide-hero"><div className="intro-side">FIELD GUIDE / {guide.number}<br/><span>{guide.label}</span></div><div><div className="eyebrow"><BookOpen size={14}/> PROMPT ENGINEERING</div><h1>{guide.title}</h1><p>{guide.intro}</p><AuthorMeta guide={guide}/><div className="guide-hero-actions"><Link href="/" className="forge-button"><Sparkles size={17}/> Try the Builder <ArrowRight size={15}/></Link><Link href="/library" className="text-link">Browse the Library <ArrowRight size={15}/></Link></div></div></section><section className="guide-body"><aside className="guide-aside"><div className="guide-toc"><div className="guide-toc-title">ON THIS PAGE</div><a href="#top">Overview</a>{guide.sections.map((section) => <a href={`#${section.id}`} key={section.id}>{section.heading}</a>)}{guide.path === caseStudy.path && <a href="#interactive-example">Interactive example</a>}<a href="#checklist">Checklist</a></div><div className="guide-note"><div className="guide-stamp"><Lightbulb size={20}/><span>FIELD NOTE</span></div><p>{guide.takeaway}</p><Link href="/about" className="text-link">Why PromptForge exists <ArrowRight size={14}/></Link></div></aside><article className="guide-article" id="top"><div className="section-kicker">THE WORKING METHOD <span>Clear inputs. Useful outputs.</span></div>{guide.sections.map((section, index) => <section className="guide-section" id={section.id} key={section.id}><span className="guide-index">{guide.path === caseStudy.path ? "" : `0${index + 1}`}</span><div><h2>{section.heading}</h2><p>{section.body}</p></div></section>)}{guide.path === caseStudy.path && <InteractiveCaseStudy/>}<div className="guide-checklist" id="checklist"><div className="section-kicker">A QUICK CHECKLIST <span>Before you press send.</span></div>{guide.steps.map((step) => <div className="guide-check" key={step}><CheckCircle2 size={16}/><span>{step}</span></div>)}</div></article></section><section className="guide-next"><div><div className="eyebrow">KEEP BUILDING</div><h2>Turn the method into a reusable workflow.</h2><p>Use the Builder for a structured first draft, then save the version that earns its place in your personal shelf.</p></div><div className="guide-next-links"><Link href="/" className="forge-button">Forge a prompt <ArrowRight size={15}/></Link><Link href="/contact" className="text-link">Suggest a guide topic <ArrowRight size={14}/></Link></div></section><section className="guide-related"><div className="section-kicker">MORE FROM THE FIELD GUIDE <span>Continue the workshop.</span></div><div className="guide-related-grid">{related.map((item) => <Link href={item.path} className="guide-related-card" key={item.path}><span>{item.number} / {item.label}</span><strong>{item.title}</strong><ArrowRight size={16}/></Link>)}</div></section></main>;
 }

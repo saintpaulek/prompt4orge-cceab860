@@ -85,6 +85,12 @@ const routes: Record<string, SeoRoute> = {
     published: "2026-08-23",
     updated: "2026-08-23",
   },
+  "/author/promptforge-editorial-team": {
+    title: "PromptForge Editorial Team | AI Prompt Engineering Guides",
+    description: "Meet the PromptForge Editorial Team and read our practical, responsible guides to prompt engineering and AI-assisted workflows.",
+    canonicalPath: "/author/promptforge-editorial-team",
+    indexable: true,
+  },
   "/auth": {
     title: "Sign in — PromptForge",
     description: "Sign in to your PromptForge account.",
@@ -203,7 +209,7 @@ export function createGuideArticleJsonLd(pathname: string) {
     datePublished: route.published,
     dateModified: route.updated ?? route.published,
     mainEntityOfPage: { "@type": "WebPage", "@id": absoluteCanonical(route.canonicalPath) },
-    author: { "@type": "Organization", name: route.author, url: `${SITE_ORIGIN}/about` },
+    author: { "@type": "Organization", name: route.author, url: `${SITE_ORIGIN}/author/promptforge-editorial-team` },
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_ORIGIN, logo: { "@type": "ImageObject", url: `${SITE_ORIGIN}/favicon-512.png` } },
     image: SHARE_IMAGE,
   };
