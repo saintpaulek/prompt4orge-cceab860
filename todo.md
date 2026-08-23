@@ -321,14 +321,25 @@
 - [x] Document the Google Search Console submission steps and indexing limitations.
 
 # Google Search Console submission
-- [ ] Inspect Search Console access and existing PromptForge property status.
-- [ ] Verify promptforge.com.ng ownership if required.
-- [ ] Submit https://www.promptforge.com.ng/sitemap.xml.
-- [ ] Request indexing for the homepage, Library, Pricing, About, and Contact URLs.
-- [ ] Record Google’s confirmation or the exact user action still required.
+- [x] Inspect Search Console access and existing PromptForge property status.
+- [x] Verify promptforge.com.ng ownership if required.
+- [x] Submit https://www.promptforge.com.ng/sitemap.xml.
+- [x] Request indexing for the homepage, Library, Pricing, About, and Contact URLs.
+- [x] Record Google’s confirmation or the exact user action still required.
 
 # Search Console URL-prefix fallback
 - [x] Create the URL-prefix property for https://www.promptforge.com.ng/.
 - [x] Obtain Google’s HTML verification meta tag.
 - [x] Add the verification tag to the production entry HTML and publish it.
-- [ ] Verify the URL-prefix property, submit the sitemap, and request indexing for the five public URLs.
+- [x] Verify the URL-prefix property, submit the sitemap, and request indexing for the five public URLs.
+
+# Production SEO deployment routing fix
+- [x] Correct Vercel output routing so dist/public serves the HTML, robots.txt, sitemap.xml, and verification tag instead of the server bundle.
+- [x] Redeploy the Vercel-linked GitHub project and re-verify the live paid-domain SEO endpoints.
+
+# Search Console status and SEO metadata optimization
+- [x] Check current sitemap status and indexing state for the five public URLs in Google Search Console.
+- [x] Audit current titles, descriptions, canonical tags, social metadata, and structured data for Home, Library, Pricing, About, and Contact.
+- [x] Optimize five public-page metadata around clear search intent without keyword stuffing.
+- [x] Validate generated metadata and publish the SEO updates.
+- [x] Report indexing status, noting that Google controls final crawl and ranking timing.

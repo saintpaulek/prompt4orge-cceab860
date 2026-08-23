@@ -19,6 +19,14 @@ describe("PromptForge SEO metadata", () => {
     expect(getSeoDocument("/admin/unlocks").robots).toBe("noindex, nofollow");
   });
 
+  it("uses search-intent titles and descriptions across all public pages", () => {
+    expect(getSeoRoute("/").title).toContain("AI Prompt Builder");
+    expect(getSeoRoute("/library").title).toContain("3,000+");
+    expect(getSeoRoute("/pricing").description).toContain("₦10,000 or $10");
+    expect(getSeoRoute("/about").description).toContain("reliable AI instructions");
+    expect(getSeoRoute("/contact").description).toContain("email or WhatsApp");
+  });
+
   it("uses the paid domain for absolute canonical URLs", () => {
     expect(absoluteCanonical("/")).toBe("https://www.promptforge.com.ng/");
     expect(absoluteCanonical("/contact")).toBe("https://www.promptforge.com.ng/contact");
