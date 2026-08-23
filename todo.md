@@ -420,9 +420,17 @@
 - [x] Report the live paid-domain result.
 
 # Mobile scrolling and paid-domain performance
-- [ ] Audit and correct mobile touch/scroll behavior without breaking pull-to-refresh or navigation controls.
-- [ ] Measure paid-domain DNS resolution and initial response timing to identify DNS, TLS, redirect, or application delay.
-- [ ] Apply safe mobile scrolling and first-load performance improvements.
-- [ ] Add regression coverage for mobile scroll interaction behavior where practical.
-- [ ] Run tests, TypeScript validation, responsive performance checks, and production build.
-- [ ] Deploy the verified update to www.promptforge.com.ng and verify the live domain.
+- [x] Audit and correct mobile touch/scroll behavior without breaking pull-to-refresh or navigation controls.
+- [x] Measure paid-domain DNS resolution and initial response timing to identify DNS, TLS, redirect, or application delay.
+- [x] Apply safe mobile scrolling and first-load performance improvements.
+- [x] Add regression coverage for mobile scroll interaction behavior where practical.
+- [x] Run tests, TypeScript validation, responsive performance checks, and production build.
+- [x] Deploy the verified update to www.promptforge.com.ng and verify the live domain.
+
+# Hero artwork compression
+- [ ] Audit the current hero artwork payload, dimensions, and visual treatment.
+- [ ] Create optimized responsive hero-art variants that preserve the Workshop Noir appearance.
+- [ ] Serve the appropriate compressed asset on mobile without reducing desktop quality.
+- [ ] Add regression coverage for the hero asset selection where practical.
+- [ ] Run tests, TypeScript validation, visual verification, and production builds.
+- [ ] Deploy the optimized hero artwork to www.promptforge.com.ng and verify the live payload.
