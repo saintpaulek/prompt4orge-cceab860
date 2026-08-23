@@ -149,7 +149,15 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+// The managed preview needs runtime/debug support, but injecting that runtime into a
+// Vercel build turns the HTML shell into a large inline payload. Keep it out of the
+// paid-domain production build so Vercel can cache and deliver a lean static shell.
+const includeManagedPreviewRuntime = process.env.VERCEL !== "1";
+const plugins = [
+  react(),
+  tailwindcss(),
+  ...(includeManagedPreviewRuntime ? [vitePluginManusRuntime(), vitePluginManusDebugCollector()] : []),
+];
 
 export default defineConfig({
   plugins,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { PULL_REFRESH_THRESHOLD, getInstallPromptMode, getMobileMenuAccessibility, getPullRefreshLabel, getPullRefreshState, isAppleMobileDevice, shouldTriggerPullRefresh } from "./mobileAppExperience";
+import { PULL_REFRESH_GESTURE_START, PULL_REFRESH_THRESHOLD, getInstallPromptMode, getMobileMenuAccessibility, getPullRefreshLabel, getPullRefreshState, isAppleMobileDevice, shouldCapturePullRefreshGesture, shouldTriggerPullRefresh } from "./mobileAppExperience";
 
 describe("mobile app experience helpers", () => {
   it("arms refresh only after a top-of-page pull crosses the threshold", () => {
@@ -10,6 +10,12 @@ describe("mobile app experience helpers", () => {
 
   it("caps the visual pull distance at the refresh threshold", () => {
     expect(getPullRefreshState(PULL_REFRESH_THRESHOLD + 45, true)).toEqual({ distance: PULL_REFRESH_THRESHOLD, progress: 1, armed: true });
+  });
+
+  it("does not capture ordinary short touch movements as pull-to-refresh gestures", () => {
+    expect(shouldCapturePullRefreshGesture(PULL_REFRESH_GESTURE_START - 1, true)).toBe(false);
+    expect(shouldCapturePullRefreshGesture(PULL_REFRESH_GESTURE_START, true)).toBe(true);
+    expect(shouldCapturePullRefreshGesture(PULL_REFRESH_THRESHOLD, false)).toBe(false);
   });
 
   it("provides accessible navigation and refresh-feedback states for compact mobile controls", () => {

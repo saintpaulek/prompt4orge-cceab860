@@ -1,4 +1,5 @@
 export const PULL_REFRESH_THRESHOLD = 72;
+export const PULL_REFRESH_GESTURE_START = 14;
 export const INSTALL_PROMPT_DISMISSED_KEY = "promptforge-install-prompt-dismissed";
 
 export type InstallPromptMode = "hidden" | "native" | "ios";
@@ -30,6 +31,10 @@ export function getPullRefreshState(distance: number, isAtTop: boolean) {
 
 export function shouldTriggerPullRefresh(distance: number, isAtTop: boolean) {
   return getPullRefreshState(distance, isAtTop).armed;
+}
+
+export function shouldCapturePullRefreshGesture(distance: number, isAtTop: boolean) {
+  return isAtTop && distance >= PULL_REFRESH_GESTURE_START;
 }
 
 export function getInstallPromptMode({
