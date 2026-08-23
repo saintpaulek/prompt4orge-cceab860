@@ -1,0 +1,15 @@
+{
+  "installCommand": "npm install --legacy-peer-deps --no-audit --no-fund",
+  "buildCommand": "pnpm build",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api" },
+    { "source": "/library", "destination": "/library/index.html" },
+    { "source": "/pricing", "destination": "/pricing/index.html" },
+    { "source": "/about", "destination": "/about/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/auth", "destination": "/auth/index.html" },
+    { "source": "/account", "destination": "/account/index.html" },
+    { "source": "/admin/unlocks", "destination": "/admin/unlocks/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

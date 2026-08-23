@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /account
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://www.promptforge.com.ng/sitemap.xml
