@@ -361,3 +361,13 @@
 - [x] Add backlink outreach guidance that avoids spam, paid-link claims, or fabricated endorsements.
 - [x] Add regression tests for guide routes and generated SEO documents.
 - [x] Run tests, TypeScript validation, production build, and publish the completed content update.
+
+# Guide credibility, case study, and navigation upgrade
+- [x] Add accurate author profiles and publication/update date metadata to all guide pages.
+- [x] Add Article JSON-LD and visible author/date bylines where appropriate.
+- [x] Create a practical case-study tutorial route demonstrating a real PromptForge workflow.
+- [x] Add interactive prompt examples with editable inputs and copyable outputs.
+- [x] Add a sticky table of contents sidebar for guides with accessible mobile behavior.
+- [x] Add the case-study route to metadata, generated SEO documents, sitemap, and internal links.
+- [x] Add regression tests for guide metadata, case-study content, and interactive examples.
+- [x] Run tests, TypeScript validation, responsive verification, production build, and publish the update.
