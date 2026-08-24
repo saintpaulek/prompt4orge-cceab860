@@ -474,3 +474,9 @@
 - [x] Write and generate scene-by-scene voice-over that describes exactly the visible page and action.
 - [x] Render longer landscape and 9:16 mobile walkthroughs with synchronized voice-over and measured pacing.
 - [x] Review the corrected videos for page visibility, audio synchronization, and delivery readiness.
+
+# Animated mobile social teaser
+- [x] Define a 30-second teaser storyboard with an animated text-only PROMPTFORGE opening.
+- [x] Prepare focused mobile Builder, Library, and contact scenes with matching voice-over.
+- [x] Render and review the 9:16 social teaser for pacing, animated branding, and readable controls.
+- [x] Deliver the finished 30-second teaser.
