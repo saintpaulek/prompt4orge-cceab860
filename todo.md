@@ -455,3 +455,9 @@
 - [x] Test the monitor configuration and verify its alert destination.
 - [x] Document the monitor ownership and recovery steps.
 - [x] Configure a no-dashboard external HTTP monitor with email confirmation because the full UptimeRobot sign-in flow is not usable.
+
+# Full product walkthrough video
+- [x] Map the major PromptForge pages and accurate navigation flows for the walkthrough.
+- [x] Capture current visual references for each featured page and interaction.
+- [x] Generate a complete guided PromptForge walkthrough video.
+- [x] Review and deliver the finished walkthrough video.
