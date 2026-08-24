@@ -448,3 +448,10 @@
 - [x] Verify the Vercel domain binding, DNS records, and apex-to-www redirect behavior without disrupting the live site.
 - [x] Diagnose and repair the live Library catalog loading path and its production API dependency.
 - [x] Validate paid-domain DNS resolution and Library loading on the live deployment, then publish the repair.
+
+# Paid-domain uptime monitoring
+- [x] Assess a simple uptime-monitoring and downtime-alert solution for promptforge.com.ng.
+- [x] Configure the selected monitor with safe HTTP and DNS checks.
+- [x] Test the monitor configuration and verify its alert destination.
+- [x] Document the monitor ownership and recovery steps.
+- [x] Configure a no-dashboard external HTTP monitor with email confirmation because the full UptimeRobot sign-in flow is not usable.
