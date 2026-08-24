@@ -461,3 +461,9 @@
 - [x] Capture current visual references for each featured page and interaction.
 - [x] Generate a complete guided PromptForge walkthrough video.
 - [x] Review and deliver the finished walkthrough video.
+
+# Slow-paced mobile walkthrough video
+- [x] Map a clear 9:16 mobile walkthrough with readable pacing for each major step.
+- [x] Capture the current responsive mobile scenes for the Builder, Library, Pricing, About, Contact, Auth, and Guides.
+- [x] Render the mobile walkthrough with at least 8 seconds per major scene and clear caption dwell time.
+- [x] Review and deliver the completed 9:16 mobile video.
