@@ -480,3 +480,9 @@
 - [x] Prepare focused mobile Builder, Library, and contact scenes with matching voice-over.
 - [x] Render and review the 9:16 social teaser for pacing, animated branding, and readable controls.
 - [x] Deliver the finished 30-second teaser.
+
+# LinkedIn square teaser and social copy
+- [x] Write distinct Instagram Reels and TikTok captions with focused, platform-appropriate hashtag sets.
+- [x] Create a 1:1 LinkedIn version of the animated PromptForge teaser with readable square framing.
+- [x] Verify the square export’s duration, resolution, narration, and key-scene visibility.
+- [x] Deliver the LinkedIn video together with the social-sharing captions.
