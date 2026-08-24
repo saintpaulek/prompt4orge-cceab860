@@ -467,3 +467,10 @@
 - [x] Capture the current responsive mobile scenes for the Builder, Library, Pricing, About, Contact, Auth, and Guides.
 - [x] Render the mobile walkthrough with at least 8 seconds per major scene and clear caption dwell time.
 - [x] Review and deliver the completed 9:16 mobile video.
+
+# Corrected narrated walkthrough videos
+- [x] Audit the original landscape and mobile videos for incomplete page framing and scene-to-narration mismatches.
+- [x] Capture complete page views that fit each video frame without hiding key controls.
+- [x] Write and generate scene-by-scene voice-over that describes exactly the visible page and action.
+- [x] Render longer landscape and 9:16 mobile walkthroughs with synchronized voice-over and measured pacing.
+- [x] Review the corrected videos for page visibility, audio synchronization, and delivery readiness.
