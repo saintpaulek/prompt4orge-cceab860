@@ -497,3 +497,10 @@
 - [x] Send a magic-link test from both the paid and Manus-hosted PromptForge addresses.
 - [x] Remove only confirmed unused legacy Supabase redirect URLs while retaining current production callbacks.
 - [x] Verify the final allowlist and report test-delivery and security-cleanup outcomes.
+
+# Supabase authentication branding, callback minimization, and monitoring
+- [x] Audit the current Supabase magic-link template, active redirect allowlist, and available authentication-event monitoring controls.
+- [x] Remove only the confirmed Vercel preview wildcard callbacks while retaining direct Vercel deployment callbacks.
+- [ ] Activate custom SMTP and apply a branded PromptForge magic-link email template.
+- [x] Enable Supabase authentication audit-log persistence and document that the current dashboard exposes no native per-event email-alert control.
+- [ ] Verify the final Supabase configuration and report the completed changes.
