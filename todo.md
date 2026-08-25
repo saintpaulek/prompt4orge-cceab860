@@ -511,3 +511,8 @@
 - [x] Define and write the 150-prompt Nigeria Business Growth & WhatsApp flagship category with 20 FREE and 130 LOCKED prompts.
 - [x] Validate and import the selected new prompt-library content without duplicate IDs or titles.
 - [x] Verify Library discovery, 20/130 access mix, and pagination behavior for the new category.
+
+# Mobile Library control visibility
+- [x] Inspect the mobile sticky behavior of the category/sort controls and Re-forge prompt action.
+- [x] Remove or reposition the mobile sticky controls so they do not cover Library prompt cards.
+- [x] Verify mobile scrolling, prompt-card visibility, and Re-forge interaction; then save the correction.

@@ -576,17 +576,17 @@ html[data-theme="light"] .mobile-app-nav-item.active { color:#263129; background
 @media (prefers-reduced-motion: reduce) { .mobile-app-nav-item,.mobile-app-nav-item svg { transition:none; } .mobile-app-nav-item:active { transform:none; } }
 /* Make the two primary app surfaces efficient to operate one-handed on smaller screens. */
 @media (max-width:720px) {
-  .builder-page .materials .forge-button { position:sticky; z-index:12; bottom:88px; width:100%; min-height:52px; margin-top:22px; box-shadow:0 12px 26px rgba(0,0,0,.28); }
+  .builder-page .materials .forge-button { position:static; z-index:auto; bottom:auto; width:100%; min-height:52px; margin-top:22px; box-shadow:none; }
   .builder-page .output-panel { scroll-margin-top:84px; }
   .library-data-page .page-intro { margin-bottom:24px; }
-  .library-data-page .catalog-toolbar { position:sticky; z-index:24; top:68px; display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 -20px 12px; padding:12px 20px; background:rgba(12,14,12,.97); border-top:1px solid rgba(255,255,255,.08); border-bottom:1px solid rgba(255,255,255,.11); box-shadow:0 12px 22px rgba(0,0,0,.18); }
+  .library-data-page .catalog-toolbar { position:static; z-index:auto; top:auto; display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0 14px; padding:0; background:transparent; border:0; box-shadow:none; }
   .library-data-page .catalog-toolbar .search { grid-column:1 / -1; }
   .library-data-page .catalog-select { min-width:0; }
   .library-data-page .access-tabs { flex-wrap:nowrap; overflow-x:auto; margin:10px -20px 16px; padding:0 20px 3px; scrollbar-width:none; }
   .library-data-page .access-tabs::-webkit-scrollbar { display:none; }
   .library-data-page .access-tabs button { flex:0 0 auto; min-height:38px; }
 }
-html[data-theme="light"] .library-data-page .catalog-toolbar { background:rgba(255,253,248,.97); border-color:rgba(24,29,25,.12); box-shadow:0 10px 22px rgba(55,45,28,.1); }
+html[data-theme="light"] .library-data-page .catalog-toolbar { background:transparent; border-color:transparent; box-shadow:none; }
 /* Guide credibility, navigation, and case-study interaction */
 .guide-byline { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; margin-top:24px; color:#aeb5ad; font-size:12px; }
 .guide-byline > div:nth-child(2) { display:grid; gap:2px; }
