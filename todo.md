@@ -491,3 +491,9 @@
 - [x] Inspect the live PromptForge magic-link interface and callback behavior.
 - [x] Verify that the configured redirect target matches the Manus-built hosted page and paid domain.
 - [x] Report whether magic links are connected correctly and identify any required configuration action.
+
+# Magic-link testing and redirect allowlist cleanup
+- [x] Confirm the intended test email recipient and classify all Supabase redirect URLs by active production need.
+- [x] Send a magic-link test from both the paid and Manus-hosted PromptForge addresses.
+- [x] Remove only confirmed unused legacy Supabase redirect URLs while retaining current production callbacks.
+- [x] Verify the final allowlist and report test-delivery and security-cleanup outcomes.
