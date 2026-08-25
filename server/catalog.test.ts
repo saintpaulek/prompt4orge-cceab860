@@ -30,4 +30,19 @@ describe("catalog.list", () => {
       await expect(caller.catalog.list({ access: "ALL", sort, limit: 10, offset: 60 })).resolves.toBeDefined();
     }
   });
+
+  it("returns the flagship category’s free starters and keeps locked prompt bodies protected", async () => {
+    const caller = appRouter.createCaller(publicContext);
+    const input = { category: "Nigeria Business Growth & WhatsApp", sort: "NEWEST" as const, limit: 100, offset: 0 };
+
+    const free = await caller.catalog.list({ ...input, access: "FREE" });
+    expect(free.total).toBe(20);
+    expect(free.items).toHaveLength(20);
+    expect(free.items.every(item => item.access === "FREE" && item.promptBody.length > 0)).toBe(true);
+
+    const locked = await caller.catalog.list({ ...input, access: "LOCKED" });
+    expect(locked.total).toBe(130);
+    expect(locked.items).toHaveLength(100);
+    expect(locked.items.every(item => item.access === "LOCKED" && item.promptBody === "")).toBe(true);
+  });
 });

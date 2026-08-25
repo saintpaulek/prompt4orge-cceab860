@@ -504,3 +504,10 @@
 - [ ] Activate custom SMTP and apply a branded PromptForge magic-link email template.
 - [x] Enable Supabase authentication audit-log persistence and document that the current dashboard exposes no native per-event email-alert control.
 - [ ] Verify the final Supabase configuration and report the completed changes.
+
+# Prompt-library content expansion
+- [x] Audit the current library categories, prompt counts, and content structure for gaps and duplication risk.
+- [x] Propose focused new prompt-pack options and obtain the user’s content direction.
+- [x] Define and write the 150-prompt Nigeria Business Growth & WhatsApp flagship category with 20 FREE and 130 LOCKED prompts.
+- [x] Validate and import the selected new prompt-library content without duplicate IDs or titles.
+- [x] Verify Library discovery, 20/130 access mix, and pagination behavior for the new category.
