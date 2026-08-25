@@ -486,3 +486,8 @@
 - [x] Create a 1:1 LinkedIn version of the animated PromptForge teaser with readable square framing.
 - [x] Verify the square export’s duration, resolution, narration, and key-scene visibility.
 - [x] Deliver the LinkedIn video together with the social-sharing captions.
+
+# Magic-link authentication verification
+- [x] Inspect the live PromptForge magic-link interface and callback behavior.
+- [x] Verify that the configured redirect target matches the Manus-built hosted page and paid domain.
+- [x] Report whether magic links are connected correctly and identify any required configuration action.
