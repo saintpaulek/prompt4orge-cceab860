@@ -541,3 +541,9 @@
 - [x] Inspect the new-member email-confirmation flow and Supabase mailer configuration without requesting credentials.
 - [x] Reproduce both reported failures with automated coverage and identify the safe fix.
 - [x] Implement and verify the fixes, then publish the tested result or document any required dashboard configuration.
+
+
+# Verification email legacy redirect bug
+- [x] Trace all signup and email-template redirect sources for stale `prompt4orge.lovable.app` references.
+- [x] Correct the active-site verification callback and remove only confirmed legacy redirect entries without weakening valid production callbacks.
+- [x] Verify new confirmation-link URL construction targets PromptForge and document that previously opened or expired links must be replaced.

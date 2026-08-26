@@ -32,3 +32,18 @@ The loaded Templates page states: “Set up custom SMTP to edit templates. Email
 
 
 Supabase documentation source: https://supabase.com/docs/guides/auth/auth-smtp. It states that the shared/default SMTP server is intended for exploration and testing, only sends to pre-authorized team addresses, is subject to changing rate limits, and has no delivery or uptime SLA. Production applications should configure a custom SMTP provider in Authentication → Emails → SMTP Settings.
+
+
+SMTP re-check on 2026-08-26: Supabase Authentication → Emails → SMTP Settings is populated with sender `no-reply@promptforge.com.ng`, sender name `Prompt Forge`, host `smtp.resend.com`, port `465`, minimum interval `60` seconds, and username `resend`. The password field is intentionally blank/masked because Supabase does not reveal a saved password. The custom SMTP toggle and Save changes control are present; no password value was read or exposed.
+
+
+SMTP transport test on 2026-08-26: the already-confirmed owner account `saintpaulek@gmail.com` received a Supabase Auth OTP request through the production project using `create_user:false`; the Auth endpoint returned HTTP 200. This confirms the saved SMTP configuration was accepted by Supabase at the request layer. The test does not prove inbox placement; verify the message in the inbox/spam folder and in Resend Logs. A new unconfirmed test account is still required to test the signup-confirmation template specifically.
+
+
+Verification redirect investigation on 2026-08-26: Supabase Authentication → Emails → Templates lists a separate `Confirm sign up` template and a separate `Magic link or OTP` template. The legacy Lovable URL is not present in the checked-in PromptForge source, so the next check is the saved Confirm sign up template content and the project URL Configuration allowlist.
+
+
+Confirmation-template check on 2026-08-26: Supabase Confirm sign up uses the standard `<a href="{{ .ConfirmationURL }}">` template variable and contains no hard-coded `prompt4orge.lovable.app` URL. Therefore the legacy host is coming from the redirect/site configuration or from a previously generated confirmation email, not from the current template body.
+
+
+URL Configuration check on 2026-08-26: Supabase Site URL is `https://www.promptforge.com.ng`. The six redirect URLs are `https://promptforge.com.ng/**`, `https://www.promptforge.com.ng/**`, `http://localhost:3000/**`, `https://promptforge-pbatmedic.vercel.app/`, `https://promptforge-pbatmedic.vercel.app/**`, and `https://promptforge-onsswa7f.manus.space/**`. No `prompt4orge.lovable.app` entry is present.

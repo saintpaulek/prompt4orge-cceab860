@@ -2,8 +2,20 @@ import { createClient } from "@supabase/supabase-js";
 
 export const resolveSupabaseBrowserKey = (env: Record<string, unknown>) => String(env.VITE_SUPABASE_ANON_KEY ?? env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "").trim();
 
+const PAID_DOMAIN_ORIGIN = "https://www.promptforge.com.ng";
+
 export function getSupabaseAuthRedirectUrl(origin: string) {
-  return `${origin.replace(/\/+$/, "")}/auth`;
+  const normalizedOrigin = origin.replace(/\/+$/, "");
+  try {
+    const hostname = new URL(normalizedOrigin).hostname.toLowerCase();
+    if (hostname === "prompt4orge.lovable.app" || hostname === "promptforge.com.ng") {
+      return `${PAID_DOMAIN_ORIGIN}/auth`;
+    }
+  } catch {
+    // Keep the original value below so malformed development origins still
+    // produce a deterministic redirect instead of throwing during auth UI.
+  }
+  return `${normalizedOrigin}/auth`;
 }
 
 const rawSupabaseUrl = String(import.meta.env.VITE_SUPABASE_URL ?? "").trim();

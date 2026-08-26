@@ -14,7 +14,10 @@ describe("Supabase browser key resolution", () => {
     expect(resolveSupabaseBrowserKey({})).toBe("");
   });
 
-  it("normalizes the active origin for confirmation redirects", () => {
+  it("normalizes active, apex, and legacy origins for confirmation redirects", () => {
     expect(getSupabaseAuthRedirectUrl("https://www.promptforge.com.ng///")).toBe("https://www.promptforge.com.ng/auth");
+    expect(getSupabaseAuthRedirectUrl("https://promptforge.com.ng")).toBe("https://www.promptforge.com.ng/auth");
+    expect(getSupabaseAuthRedirectUrl("https://prompt4orge.lovable.app")).toBe("https://www.promptforge.com.ng/auth");
+    expect(getSupabaseAuthRedirectUrl("http://localhost:3000")).toBe("http://localhost:3000/auth");
   });
 });
