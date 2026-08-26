@@ -516,3 +516,8 @@
 - [x] Inspect the mobile sticky behavior of the category/sort controls and Re-forge prompt action.
 - [x] Remove or reposition the mobile sticky controls so they do not cover Library prompt cards.
 - [x] Verify mobile scrolling, prompt-card visibility, and Re-forge interaction; then save the correction.
+
+# Paid-domain mobile DNS recovery
+- [x] Inspect public resolver responses and the Vercel domain configuration for `www.promptforge.com.ng`.
+- [x] Confirm that no DNS or Vercel record change is warranted while public resolvers and HTTPS serve the paid domain normally.
+- [x] Verify paid-domain DNS and HTTPS reachability through independent public checks, then report safe mobile retest steps.
