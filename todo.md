@@ -521,3 +521,11 @@
 - [x] Inspect public resolver responses and the Vercel domain configuration for `www.promptforge.com.ng`.
 - [x] Confirm that no DNS or Vercel record change is warranted while public resolvers and HTTPS serve the paid domain normally.
 - [x] Verify paid-domain DNS and HTTPS reachability through independent public checks, then report safe mobile retest steps.
+
+# Paid-domain DNS and fresh deployment verification
+- [x] Inspect current paid-domain DNS records, Vercel project domains, and production deployment state.
+- [x] Create a fresh Vercel production deployment from the current PromptForge project.
+- [x] Verify paid-domain DNS, HTTPS, deployment readiness, and mobile rendering.
+- [x] Save the verified deployment state and report the final domain status.
+
+<!-- Existing paused Supabase SMTP work remains intentionally paused per user request. -->
