@@ -529,3 +529,8 @@
 - [x] Save the verified deployment state and report the final domain status.
 
 <!-- Existing paused Supabase SMTP work remains intentionally paused per user request. -->
+
+# Library category selector correction
+- [x] Inspect the category-selector data flow and compare it with the live Nigeria Business Growth & WhatsApp catalog category.
+- [x] Add the Nigeria Business Growth & WhatsApp option to the Library category list without breaking existing filters.
+- [x] Verify category visibility and filtered results on desktop and mobile, then save the correction.
