@@ -217,6 +217,8 @@ var users = mysqlTable("users", {
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
   isUnlocked: int("isUnlocked").default(0).notNull(),
+  unlockedAt: timestamp("unlockedAt"),
+  unlockCode: varchar("unlockCode", { length: 80 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull()
@@ -320,14 +322,19 @@ async function redeemUnlockCode(userId, code) {
   const db = await getDb();
   if (!db) throw new Error("Database unavailable");
   const normalized = code.trim().toUpperCase();
-  const matches = await db.select().from(unlockCodes).where(and(eq(unlockCodes.code, normalized), eq(unlockCodes.isUsed, 0))).limit(1);
-  const found = matches[0];
-  if (!found) return false;
-  const updateResult = await db.update(unlockCodes).set({ isUsed: 1, usedBy: userId }).where(and(eq(unlockCodes.id, found.id), eq(unlockCodes.isUsed, 0)));
-  const affectedRows = updateResult.affectedRows ?? 0;
-  if (affectedRows !== 1) return false;
-  await db.update(users).set({ isUnlocked: 1 }).where(eq(users.id, userId));
-  return true;
+  if (!normalized) return { status: "invalid" };
+  return db.transaction(async (tx) => {
+    const matches = await tx.select({ id: unlockCodes.id, isUsed: unlockCodes.isUsed }).from(unlockCodes).where(eq(unlockCodes.code, normalized)).limit(1);
+    const found = matches[0];
+    if (!found) return { status: "invalid" };
+    if (found.isUsed) return { status: "already_used" };
+    const updateResult = await tx.update(unlockCodes).set({ isUsed: 1, usedBy: userId }).where(and(eq(unlockCodes.id, found.id), eq(unlockCodes.isUsed, 0)));
+    const affectedRows = updateResult.affectedRows ?? 0;
+    if (affectedRows !== 1) return { status: "already_used" };
+    const unlockedAt = /* @__PURE__ */ new Date();
+    await tx.update(users).set({ isUnlocked: 1, unlockedAt, unlockCode: normalized }).where(eq(users.id, userId));
+    return { status: "success", redeemedCode: normalized, unlockedAt };
+  });
 }
 async function updateUserProfile(userId, name) {
   const db = await getDb();
@@ -424,7 +431,7 @@ var appRouter = router({
       await updateUserProfile(ctx.user.id, input.name);
       return getUserById(ctx.user.id);
     }),
-    redeemCode: protectedProcedure.input(z2.object({ code: z2.string().min(4).max(80) })).mutation(async ({ ctx, input }) => ({ success: await redeemUnlockCode(ctx.user.id, input.code) }))
+    redeemCode: protectedProcedure.input(z2.object({ code: z2.string().min(4).max(80) })).mutation(({ ctx, input }) => redeemUnlockCode(ctx.user.id, input.code))
   }),
   admin: router({
     unlocks: router({

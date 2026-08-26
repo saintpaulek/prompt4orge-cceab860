@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveSupabaseBrowserKey } from "./supabase";
+import { getSupabaseAuthRedirectUrl, resolveSupabaseBrowserKey } from "./supabase";
 
 describe("Supabase browser key resolution", () => {
   it("prefers the legacy anon key when both keys are present", () => {
@@ -12,5 +12,9 @@ describe("Supabase browser key resolution", () => {
 
   it("returns an empty key when neither browser key is configured", () => {
     expect(resolveSupabaseBrowserKey({})).toBe("");
+  });
+
+  it("normalizes the active origin for confirmation redirects", () => {
+    expect(getSupabaseAuthRedirectUrl("https://www.promptforge.com.ng///")).toBe("https://www.promptforge.com.ng/auth");
   });
 });

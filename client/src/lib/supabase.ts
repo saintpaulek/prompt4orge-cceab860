@@ -2,6 +2,10 @@ import { createClient } from "@supabase/supabase-js";
 
 export const resolveSupabaseBrowserKey = (env: Record<string, unknown>) => String(env.VITE_SUPABASE_ANON_KEY ?? env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "").trim();
 
+export function getSupabaseAuthRedirectUrl(origin: string) {
+  return `${origin.replace(/\/+$/, "")}/auth`;
+}
+
 const rawSupabaseUrl = String(import.meta.env.VITE_SUPABASE_URL ?? "").trim();
 const supabaseUrl = rawSupabaseUrl.replace(/\/+$/, "");
 const supabaseAnonKey = resolveSupabaseBrowserKey(import.meta.env);

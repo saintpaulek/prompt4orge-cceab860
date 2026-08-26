@@ -12,9 +12,13 @@ export function formatUnlockDate(value: Date | string | null | undefined) {
   return date.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
 }
 
-export function getRedemptionCopy(status: "success" | "invalid" | "already_used") {
+export type RedemptionFeedback = "success" | "invalid" | "already_used" | "auth_required" | "service_error";
+
+export function getRedemptionCopy(status: RedemptionFeedback) {
   if (status === "success") return { title: "Unlock code accepted.", detail: "Your lifetime access is now attached to this account." };
   if (status === "already_used") return { title: "This unlock code has already been used.", detail: "Each code can be redeemed once and cannot be transferred to another account." };
+  if (status === "auth_required") return { title: "Sign in required.", detail: "Sign in to the account that should receive lifetime access, then redeem the code again." };
+  if (status === "service_error") return { title: "We could not check that code.", detail: "The authentication or access service did not respond. Please try again in a moment." };
   return { title: "Invalid unlock code.", detail: "Check the code and try again. Codes use the format PF-XXXXXX-XXXXXX." };
 }
 
@@ -25,7 +29,7 @@ export default function Account() {
   const utils = trpc.useUtils();
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
-  const [redemptionState, setRedemptionState] = useState<"idle" | "success" | "invalid" | "already_used">("idle");
+  const [redemptionState, setRedemptionState] = useState<"idle" | RedemptionFeedback>("idle");
 
   const updateProfile = trpc.profile.update.useMutation({
     onSuccess: () => { void profile.refetch(); toast.success("Profile updated"); },
@@ -41,7 +45,10 @@ export default function Account() {
         toast.success("Workshop unlocked");
       }
     },
-    onError: () => setRedemptionState("invalid"),
+    onError: error => {
+      const code = error.data?.code;
+      setRedemptionState(code === "UNAUTHORIZED" ? "auth_required" : "service_error");
+    },
   });
 
   useEffect(() => { if (!loading && !user) navigate("/auth"); }, [loading, user, navigate]);

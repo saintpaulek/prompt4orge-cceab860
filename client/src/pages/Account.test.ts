@@ -6,6 +6,8 @@ describe("Account redemption feedback", () => {
     expect(getRedemptionCopy("success").title).toBe("Unlock code accepted.");
     expect(getRedemptionCopy("invalid").title).toBe("Invalid unlock code.");
     expect(getRedemptionCopy("already_used").title).toContain("already been used");
+    expect(getRedemptionCopy("auth_required").title).toBe("Sign in required.");
+    expect(getRedemptionCopy("service_error").title).toBe("We could not check that code.");
   });
 
   it("formats a persisted unlock timestamp for account history", () => {

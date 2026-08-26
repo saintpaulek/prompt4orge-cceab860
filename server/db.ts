@@ -38,7 +38,9 @@ export async function getUserByOpenId(openId: string) {
   return result[0];
 }
 
-function makeUnlockCode() {
+export const UNLOCK_CODE_PATTERN = /^PF-[0-9A-F]{6}-[0-9A-F]{6}$/;
+
+export function makeUnlockCode() {
   const left = randomBytes(3).toString("hex").toUpperCase();
   const right = randomBytes(3).toString("hex").toUpperCase();
   return `PF-${left}-${right}`;

@@ -501,9 +501,9 @@
 # Supabase authentication branding, callback minimization, and monitoring
 - [x] Audit the current Supabase magic-link template, active redirect allowlist, and available authentication-event monitoring controls.
 - [x] Remove only the confirmed Vercel preview wildcard callbacks while retaining direct Vercel deployment callbacks.
-- [ ] Activate custom SMTP and apply a branded PromptForge magic-link email template.
+- [x] Keep custom SMTP and branded PromptForge magic-link email template work paused by user choice pending credentials.
 - [x] Enable Supabase authentication audit-log persistence and document that the current dashboard exposes no native per-event email-alert control.
-- [ ] Verify the final Supabase configuration and report the completed changes.
+- [x] Defer final Supabase configuration verification until the user resumes SMTP/email-branding work.
 
 # Prompt-library content expansion
 - [x] Audit the current library categories, prompt counts, and content structure for gaps and duplication risk.
@@ -534,3 +534,10 @@
 - [x] Inspect the category-selector data flow and compare it with the live Nigeria Business Growth & WhatsApp catalog category.
 - [x] Add the Nigeria Business Growth & WhatsApp option to the Library category list without breaking existing filters.
 - [x] Verify category visibility and filtered results on desktop and mobile, then save the correction.
+
+
+# Unlock redemption and email confirmation investigation
+- [x] Trace the unlock-code generation and redemption flow, including code normalization, persistence, account binding, and error mapping.
+- [x] Inspect the new-member email-confirmation flow and Supabase mailer configuration without requesting credentials.
+- [x] Reproduce both reported failures with automated coverage and identify the safe fix.
+- [x] Implement and verify the fixes, then publish the tested result or document any required dashboard configuration.
