@@ -547,3 +547,9 @@
 - [x] Trace all signup and email-template redirect sources for stale `prompt4orge.lovable.app` references.
 - [x] Correct the active-site verification callback and remove only confirmed legacy redirect entries without weakening valid production callbacks.
 - [x] Verify new confirmation-link URL construction targets PromptForge and document that previously opened or expired links must be replaced.
+
+
+# Legacy Lovable verification-email sender
+- [x] Trace the screenshot’s `no-reply@mail.lovable-app.email` sender to the originating Supabase project and deployed Vercel/environment configuration.
+- [x] Ensure the active production signup flow uses the verified Resend sender and PromptForge callback, without changing unrelated auth providers or valid redirect entries.
+- [x] Verify the corrected paid-domain production bundle and document the exact fresh-signup retest steps; inbox placement still requires the user’s new test account.

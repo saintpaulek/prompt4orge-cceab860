@@ -47,3 +47,19 @@ Confirmation-template check on 2026-08-26: Supabase Confirm sign up uses the sta
 
 
 URL Configuration check on 2026-08-26: Supabase Site URL is `https://www.promptforge.com.ng`. The six redirect URLs are `https://promptforge.com.ng/**`, `https://www.promptforge.com.ng/**`, `http://localhost:3000/**`, `https://promptforge-pbatmedic.vercel.app/`, `https://promptforge-pbatmedic.vercel.app/**`, and `https://promptforge-onsswa7f.manus.space/**`. No `prompt4orge.lovable.app` entry is present.
+
+
+Production/Vercel investigation on 2026-08-26: the live `https://www.promptforge.com.ng/auth` JavaScript bundle references `https://ifvqvwxzhlqefylmnels.supabase.co` and a Supabase publishable key, while the Supabase dashboard project where Resend SMTP was saved is `rupzljrpzdfrehgvbwdt`. The linked Vercel project `promptforge` (team `pbatmedic`) serves the paid-domain aliases and latest production deployment `dpl_FutAMzanJVQ6sCW8dA2uyhepGM7P`, whose source commit is the older GitHub main commit `cabfc420...`; local PromptForge checkpoint `914ab578` is not yet in GitHub main. This project mismatch/stale Vercel build explains why email still arrives from `no-reply@mail.lovable-app.email` despite the SMTP settings saved in `rupzljrpzdfrehgvbwdt`.
+
+
+Vercel inspection checkpoint on 2026-08-27: the signed-in environment-variable page shows separate Development, Preview, and Production `VITE_SUPABASE_URL` entries. The Production row menu was opened visually, but its menu items were not exposed to scripted DOM inspection; no Vercel value was changed. The previously inspected Production `NEXT_PUBLIC_SUPABASE_URL` value is `https://rupzljrpzdfrehgvbwdt.supabase.co`.
+
+
+Vercel visibility finding on 2026-08-27: Production `VITE_SUPABASE_URL` is currently stored as a write-only Secret. Vercel’s edit form rejects this combination for a public `VITE_` variable and disables the Config option, so correcting it requires deleting/recreating that Production variable as Config. No deletion or save has yet been performed.
+
+
+## 2026-08-27 Vercel production correction
+- Replaced the stale Production `VITE_SUPABASE_URL` entry with a public Config variable pointing to `https://rupzljrpzdfrehgvbwdt.supabase.co`.
+- Added the matching public anon key as `VITE_SUPABASE_ANON_KEY` in Production; no service-role key was accessed or exposed.
+- Triggered production redeployment `dpl_E2JyJTvd99Lo33fwE4PuVsFvjpNW`; Vercel reports `READY` and assigns the paid-domain aliases.
+- Live `https://www.promptforge.com.ng/` returned HTTP 200. Its fetched JavaScript bundle contains zero references to legacy project `ifvqvwxzhlqefylmnels`, one reference to active project `rupzljrpzdfrehgvbwdt`, and zero references to `mail.lovable-app.email`.
