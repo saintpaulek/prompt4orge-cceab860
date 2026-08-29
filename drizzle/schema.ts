@@ -41,6 +41,7 @@ export const savedPrompts = mysqlTable("saved_prompts", {
   category: varchar("category", { length: 120 }).notNull(),
   content: text("content").notNull(),
   isFavorite: int("isFavorite").default(0).notNull(),
+  tags: varchar("tags", { length: 500 }).default("").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -52,3 +53,32 @@ export type Prompt = typeof prompts.$inferSelect;
 export type InsertPrompt = typeof prompts.$inferInsert;
 export type SavedPrompt = typeof savedPrompts.$inferSelect;
 export type InsertSavedPrompt = typeof savedPrompts.$inferInsert;
+
+export const collections = mysqlTable("prompt_collections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  name: varchar("name", { length: 120 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const collectionItems = mysqlTable("prompt_collection_items", {
+  id: int("id").autoincrement().primaryKey(),
+  collectionId: int("collectionId").notNull(),
+  savedPromptId: int("savedPromptId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const promptVersions = mysqlTable("saved_prompt_versions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  savedPromptId: int("savedPromptId").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  category: varchar("category", { length: 120 }).notNull(),
+  content: text("content").notNull(),
+  tags: varchar("tags", { length: 500 }).default("").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Collection = typeof collections.$inferSelect;
+export type CollectionItem = typeof collectionItems.$inferSelect;
+export type PromptVersion = typeof promptVersions.$inferSelect;

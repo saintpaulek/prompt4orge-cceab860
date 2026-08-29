@@ -13,6 +13,17 @@ export const platformOptions: Record<string, string[]> = {
   "Freelancing & Clients": ["Upwork", "Fiverr", "Contra", "LinkedIn", "Email", "WhatsApp", "Zoom", "Google Meet", "Notion", "Proposal PDF", "Client portal", "Discovery call"],
   "Education & Learning": ["Google Classroom", "Canvas", "Moodle", "Teachable", "Thinkific", "YouTube", "Notion", "Google Docs", "Quiz", "Lesson plan", "Workshop", "Course module"],
   "Personal Productivity": ["Notion", "Todoist", "TickTick", "Google Calendar", "Microsoft To Do", "Apple Notes", "Obsidian", "Evernote", "Trello", "Daily plan", "Weekly review", "Personal system"],
+  "Personal Development & Productivity": ["Notion", "Todoist", "Google Calendar", "Forest", "Freedom", "RescueTime", "Evernote", "Obsidian", "Trello", "Weekly review", "Personal dashboard", "Accountability plan"],
+  "Email Marketing & Sequences": ["Mailchimp", "ConvertKit", "Brevo", "HubSpot", "Klaviyo", "ActiveCampaign", "Customer.io", "Newsletter", "Lifecycle email", "Gmail", "Outlook", "Email brief"],
+  "SEO & Content Optimization": ["Google Search Console", "Ahrefs", "Semrush", "Surfer SEO", "Screaming Frog", "WordPress", "Webflow", "Shopify", "Bing Webmaster Tools", "Content brief", "Pillar page", "Local landing page"],
+  "Finance, Accounting & Admin": ["Google Sheets", "Excel", "QuickBooks", "Xero", "Wave", "Notion", "Airtable", "Google Drive", "Slack", "Expense report", "Management pack", "Admin SOP"],
+  "HR / Recruitment & People Ops": ["LinkedIn", "Workable", "Greenhouse", "Lever", "BambooHR", "Slack", "Microsoft Teams", "Google Workspace", "Notion", "Interview kit", "Onboarding hub", "People report"],
+  "Ecommerce & Product": ["Shopify", "WooCommerce", "Amazon", "Jumia", "Flutterwave Store", "Paystack Storefront", "Instagram Shop", "TikTok Shop", "Google Merchant Center", "Product page", "Catalogue", "Checkout flow"],
+  "WhatsApp / Messaging Business": ["WhatsApp Business", "WhatsApp Business API", "WhatsApp Cloud API", "WhatsApp Channels", "SMS", "Email + WhatsApp", "Instagram to WhatsApp", "Facebook to WhatsApp", "Click-to-WhatsApp ad", "WhatsApp catalogue", "WhatsApp group", "CRM hand-off"],
+  "Legal / Contracts & Compliance": ["Contract review", "Policy document", "Compliance register", "Google Docs", "Microsoft Word", "Notion", "DocuSign", "Adobe Acrobat", "Legal intake", "Board memo", "Vendor file", "Counsel hand-off"],
+  "Real Estate": ["Property website", "Property portal", "Instagram", "Facebook Marketplace", "WhatsApp", "Email", "Google Business Profile", "CRM", "Listing brief", "Viewing script", "Landlord report", "Buyer guide"],
+  "Agency / Client Management": ["Notion", "ClickUp", "Asana", "Trello", "Monday.com", "Slack", "Microsoft Teams", "Google Workspace", "Client portal", "Proposal", "Status report", "Scope document"],
+  "Healthcare / Wellness": ["Patient handout", "Clinic website", "WhatsApp", "Email", "SMS", "Instagram", "YouTube", "Google Docs", "Care-navigation script", "Wellness newsletter", "Provider brief", "Community workshop"],
 };
 
 export const projectTypesByCategory: Record<string, string[]> = {
@@ -30,7 +41,25 @@ export const projectTypesByCategory: Record<string, string[]> = {
   "Freelancing & Clients": ["A client proposal", "A discovery call plan", "A project scope", "A freelance profile", "A client update", "A testimonial request"],
   "Education & Learning": ["A lesson plan", "A course module", "A learner activity", "A quiz", "A workshop outline", "A study guide"],
   "Personal Productivity": ["A weekly plan", "A daily focus system", "A decision framework", "A meeting-notes workflow", "A habit plan", "A personal review"],
+  "Personal Development & Productivity": ["A weekly planning system", "A deep-work routine", "A habit experiment", "A decision framework", "A goal breakdown", "A personal review"],
   "Banking & Fintech Engagement": ["A KYC onboarding sequence", "A payment reminder campaign", "A fraud-alert response", "A financial-literacy series", "A product cross-sell campaign", "A customer-retention journey"],
+  "Email Marketing & Sequences": ["A welcome sequence", "A lead-nurture sequence", "A product-launch email", "An abandoned-checkout flow", "A re-engagement campaign", "A renewal sequence"],
+  "SEO & Content Optimization": ["A search-intent brief", "A topic-cluster map", "An on-page audit", "A local SEO page", "A featured-snippet answer", "A content refresh roadmap"],
+  "Finance, Accounting & Admin": ["A monthly close checklist", "A cash-flow forecast", "An expense policy", "An invoice follow-up", "A budget variance review", "An admin SOP"],
+  "HR / Recruitment & People Ops": ["A job description", "An interview kit", "A candidate outreach sequence", "An onboarding plan", "A performance conversation guide", "A people-process audit"],
+  "Ecommerce & Product": ["A product-page brief", "A catalogue description system", "A launch campaign", "A bundle and upsell plan", "An abandoned-cart flow", "A conversion-rate review"],
+  "WhatsApp / Messaging Business": ["A business profile audit", "A new-enquiry welcome flow", "A lead-qualification conversation", "A catalogue sales script", "An appointment booking flow", "A customer-care recovery flow"],
+  "Legal / Contracts & Compliance": ["A contract issue-spotting checklist", "A plain-language policy summary", "A clause comparison matrix", "A vendor due-diligence checklist", "A compliance evidence register", "A legal intake questionnaire"],
+  "Real Estate": ["A property listing brief", "A buyer qualification script", "A rental enquiry flow", "A viewing appointment sequence", "A property-comparison guide", "A tenant onboarding checklist"],
+  "Agency / Client Management": ["A discovery questionnaire", "A statement-of-work outline", "A proposal narrative", "A client onboarding workflow", "A weekly status report", "A scope-change request"],
+  "Healthcare / Wellness": ["A patient education handout", "A wellness content plan", "An appointment reminder flow", "A symptom-information FAQ", "A care-navigation script", "A health-service landing page"],
 };
 
 export const projectTypes = Object.values(projectTypesByCategory).flat();
+
+export const newCategorySafetyNotes: Record<string, string> = {
+  "Finance, Accounting & Admin": "Do not invent balances, transactions, tax conclusions, or regulatory obligations. Label estimates and protect confidential records.",
+  "WhatsApp / Messaging Business": "Use consent-based messaging, clear opt-out and HELP handling, minimal personal data, and human hand-off for sensitive cases.",
+  "Legal / Contracts & Compliance": "Drafting support only, not legal advice. State jurisdictional assumptions and route material risks to qualified counsel.",
+  "Healthcare / Wellness": "Educational, non-diagnostic content only. Do not invent clinical facts or outcomes; escalate urgent or personal care decisions to qualified clinicians.",
+};

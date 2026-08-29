@@ -553,3 +553,28 @@
 - [x] Trace the screenshot’s `no-reply@mail.lovable-app.email` sender to the originating Supabase project and deployed Vercel/environment configuration.
 - [x] Ensure the active production signup flow uses the verified Resend sender and PromptForge callback, without changing unrelated auth providers or valid redirect entries.
 - [x] Verify the corrected paid-domain production bundle and document the exact fresh-signup retest steps; inbox placement still requires the user’s new test account.
+
+
+# Resend domain verification failure
+- [ ] Inspect Resend’s domain status and capture the exact missing verification records without exposing API keys.
+- [ ] Compare the required records with the active promptforge.com.ng DNS configuration.
+- [ ] Apply or guide the minimum safe DNS changes, recheck verification, and retest confirmation-email delivery.
+
+# PromptForge expansion package — 2026-08-29
+- [x] Audit existing Builder category constants, field options, Library schema, catalog procedures, and related tests.
+- [x] Define the twelve requested Builder category materials and field schemas, including Legal/Compliance disclaimers and healthcare safety boundaries.
+- [x] Generate 60 structured Library work orders per new category, with 10 FREE and 50 LOCKED per category, unique PF-XXXX identifiers, Nigeria/WhatsApp variants where relevant, and no fabricated testimonials or results.
+- [x] Produce the implementation package with category overview, sample live-forged prompts, representative work orders, engineering notes, and shipping priorities.
+- [x] Add the twelve new Builder categories and category-aware field/platform/goal options without breaking existing category behavior.
+- [x] Import the 720 new Library prompts into the production database with duplicate-safe, access-correct records and verify catalog filtering.
+- [x] Implement prompt quality scoring from 0–100 with one-click improvement suggestions.
+- [x] Implement reusable variable/placeholder support for builder and library prompts.
+- [x] Implement personal library Collections, Favorites, folders, and tags with protected user access.
+- [x] Add multi-platform optimization controls for ChatGPT, Claude, Gemini, Grok, Midjourney, and Flux.
+- [x] Improve Refine with AI controls for shorter, more formal, more creative, examples, and related transformations.
+- [x] Add saved-prompt version history with safe ownership checks.
+- [x] Add Markdown, plain-text, and Notion-ready export options.
+- [x] Document and implement mobile/PWA improvement notes that fit the existing responsive architecture.
+- [x] Add Vitest coverage for new categories, prompt access split, feature helpers, ownership rules, and export behavior.
+- [x] Run schema migration/seed verification, TypeScript checks, tests, production build, and desktop/mobile visual checks.
+- [ ] Save a checkpoint after all completed expansion items are marked done.

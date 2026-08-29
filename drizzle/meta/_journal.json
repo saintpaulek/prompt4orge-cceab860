@@ -29,6 +29,13 @@
       "when": 1787337367376,
       "tag": "0003_stiff_mesmero",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1788017984772,
+      "tag": "0004_rare_oracle",
+      "breakpoints": true
     }
   ]
 }

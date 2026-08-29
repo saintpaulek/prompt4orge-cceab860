@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { and, asc, count, desc, eq, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertSavedPrompt, InsertUser, prompts, savedPrompts, unlockCodes, users } from "../drizzle/schema";
+import { InsertSavedPrompt, InsertUser, collectionItems, collections, promptVersions, prompts, savedPrompts, unlockCodes, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -160,4 +160,80 @@ export async function setSavedPromptFavorite(userId: number, id: number, isFavor
   const db = await getDb();
   if (!db) throw new Error("Database unavailable");
   await db.update(savedPrompts).set({ isFavorite }).where(and(eq(savedPrompts.userId, userId), eq(savedPrompts.id, id)));
+}
+
+export async function updateSavedPromptTags(userId: number, id: number, tags: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.update(savedPrompts).set({ tags }).where(and(eq(savedPrompts.userId, userId), eq(savedPrompts.id, id)));
+}
+
+export async function listCollections(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(collections).where(eq(collections.userId, userId)).orderBy(asc(collections.name));
+}
+
+export async function createCollection(userId: number, name: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const result = await db.insert(collections).values({ userId, name }).$returningId();
+  return result[0];
+}
+
+export async function deleteCollection(userId: number, id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.delete(collectionItems).where(eq(collectionItems.collectionId, id));
+  await db.delete(collections).where(and(eq(collections.userId, userId), eq(collections.id, id)));
+}
+
+export async function listCollectionItems(userId: number, collectionId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const owned = await db.select({ id: collections.id }).from(collections).where(and(eq(collections.id, collectionId), eq(collections.userId, userId))).limit(1);
+  if (!owned[0]) return [];
+  return db.select({ membershipId: collectionItems.id, savedPromptId: savedPrompts.id, title: savedPrompts.title, category: savedPrompts.category, content: savedPrompts.content, tags: savedPrompts.tags })
+    .from(collectionItems)
+    .innerJoin(savedPrompts, eq(savedPrompts.id, collectionItems.savedPromptId))
+    .where(and(eq(collectionItems.collectionId, collectionId), eq(savedPrompts.userId, userId)))
+    .orderBy(desc(collectionItems.createdAt));
+}
+
+export async function addPromptToCollection(userId: number, collectionId: number, savedPromptId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const [collection, prompt] = await Promise.all([
+    db.select({ id: collections.id }).from(collections).where(and(eq(collections.id, collectionId), eq(collections.userId, userId))).limit(1),
+    db.select({ id: savedPrompts.id }).from(savedPrompts).where(and(eq(savedPrompts.id, savedPromptId), eq(savedPrompts.userId, userId))).limit(1),
+  ]);
+  if (!collection[0] || !prompt[0]) return { status: "not_found" as const };
+  const existing = await db.select({ id: collectionItems.id }).from(collectionItems).where(and(eq(collectionItems.collectionId, collectionId), eq(collectionItems.savedPromptId, savedPromptId))).limit(1);
+  if (!existing[0]) await db.insert(collectionItems).values({ collectionId, savedPromptId });
+  return { status: "added" as const };
+}
+
+export async function removePromptFromCollection(userId: number, collectionId: number, savedPromptId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const owned = await db.select({ id: collections.id }).from(collections).where(and(eq(collections.id, collectionId), eq(collections.userId, userId))).limit(1);
+  if (!owned[0]) return { status: "not_found" as const };
+  await db.delete(collectionItems).where(and(eq(collectionItems.collectionId, collectionId), eq(collectionItems.savedPromptId, savedPromptId)));
+  return { status: "removed" as const };
+}
+
+export async function createPromptVersion(userId: number, savedPromptId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const source = await db.select({ title: savedPrompts.title, category: savedPrompts.category, content: savedPrompts.content, tags: savedPrompts.tags })
+    .from(savedPrompts).where(and(eq(savedPrompts.id, savedPromptId), eq(savedPrompts.userId, userId))).limit(1);
+  if (!source[0]) return { status: "not_found" as const };
+  const result = await db.insert(promptVersions).values({ userId, savedPromptId, ...source[0] }).$returningId();
+  return { status: "created" as const, id: result[0]?.id };
+}
+
+export async function listPromptVersions(userId: number, savedPromptId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(promptVersions).where(and(eq(promptVersions.userId, userId), eq(promptVersions.savedPromptId, savedPromptId))).orderBy(desc(promptVersions.createdAt));
 }

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useSupabaseAuth } from "@/contexts/SupabaseAuthContext";
 import { trpc } from "@/lib/trpc";
 
-export const LIBRARY_CATEGORIES = ["ALL", "SMM", "VA Tasks", "Customer Service", "Automation Logic", "SEO", "Email Marketing", "Sales & Copywriting", "Content Strategy", "Image Generation", "Video & Shorts", "Blogging & Articles", "Ecommerce & Product", "Freelancing & Clients", "Branding & Identity", "Ads & Paid Media", "ChatGPT Productivity", "Business & Strategy", "Education & Learning", "Personal Development", "Finance & Admin", "Banking & Fintech Engagement", "Nigeria Business Growth & WhatsApp"] as const;
+export const LIBRARY_CATEGORIES = ["ALL", "SMM", "VA Tasks", "Customer Service", "Automation Logic", "SEO", "Email Marketing", "Sales & Copywriting", "Content Strategy", "Image Generation", "Video & Shorts", "Blogging & Articles", "Ecommerce & Product", "Freelancing & Clients", "Branding & Identity", "Ads & Paid Media", "ChatGPT Productivity", "Business & Strategy", "Education & Learning", "Personal Development", "Finance & Admin", "Banking & Fintech Engagement", "Nigeria Business Growth & WhatsApp", "Email Marketing & Sequences", "SEO & Content Optimization", "Finance, Accounting & Admin", "Personal Development & Productivity", "HR / Recruitment & People Ops", "Ecommerce & Product", "WhatsApp / Messaging Business", "Legal / Contracts & Compliance", "Real Estate", "Agency / Client Management", "Healthcare / Wellness"] as const;
 
 type AccessFilter = "ALL" | "FREE" | "LOCKED";
 type CatalogSort = "NEWEST" | "OLDEST" | "POPULAR";

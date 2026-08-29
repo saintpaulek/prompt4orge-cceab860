@@ -5,7 +5,7 @@ import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_
 import { notifyOwner } from "./_core/notification";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { countPrompts, createSavedPrompt, createUnlockCodes, deleteSavedPrompt, getUserById, listPrompts, listSavedPrompts, listUnlockCodes, redeemUnlockCode, setSavedPromptFavorite, updateUserProfile } from "./db";
+import { addPromptToCollection, countPrompts, createCollection, createPromptVersion, createSavedPrompt, createUnlockCodes, deleteCollection, deleteSavedPrompt, getUserById, listCollectionItems, listCollections, listPromptVersions, listPrompts, listSavedPrompts, listUnlockCodes, redeemUnlockCode, removePromptFromCollection, setSavedPromptFavorite, updateSavedPromptTags, updateUserProfile } from "./db";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -50,9 +50,20 @@ export const appRouter = router({
   }),
   prompts: router({
     list: protectedProcedure.query(({ ctx }) => listSavedPrompts(ctx.user.id)),
-    create: protectedProcedure.input(z.object({ title: z.string().min(1).max(255), category: z.string().min(1).max(120), content: z.string().min(1) })).mutation(({ ctx, input }) => createSavedPrompt({ userId: ctx.user.id, title: input.title, category: input.category, content: input.content })),
+    create: protectedProcedure.input(z.object({ title: z.string().min(1).max(255), category: z.string().min(1).max(120), content: z.string().min(1), tags: z.string().max(500).optional() })).mutation(({ ctx, input }) => createSavedPrompt({ userId: ctx.user.id, title: input.title, category: input.category, content: input.content, tags: input.tags ?? "" })),
     remove: protectedProcedure.input(z.object({ id: z.number().int().positive() })).mutation(({ ctx, input }) => deleteSavedPrompt(ctx.user.id, input.id)),
     favorite: protectedProcedure.input(z.object({ id: z.number().int().positive(), isFavorite: z.boolean() })).mutation(({ ctx, input }) => setSavedPromptFavorite(ctx.user.id, input.id, input.isFavorite ? 1 : 0)),
+    tags: protectedProcedure.input(z.object({ id: z.number().int().positive(), tags: z.string().max(500) })).mutation(({ ctx, input }) => updateSavedPromptTags(ctx.user.id, input.id, input.tags)),
+    createVersion: protectedProcedure.input(z.object({ savedPromptId: z.number().int().positive() })).mutation(({ ctx, input }) => createPromptVersion(ctx.user.id, input.savedPromptId)),
+    versions: protectedProcedure.input(z.object({ savedPromptId: z.number().int().positive() })).query(({ ctx, input }) => listPromptVersions(ctx.user.id, input.savedPromptId)),
+  }),
+  collections: router({
+    list: protectedProcedure.query(({ ctx }) => listCollections(ctx.user.id)),
+    create: protectedProcedure.input(z.object({ name: z.string().trim().min(1).max(120) })).mutation(({ ctx, input }) => createCollection(ctx.user.id, input.name)),
+    remove: protectedProcedure.input(z.object({ id: z.number().int().positive() })).mutation(({ ctx, input }) => deleteCollection(ctx.user.id, input.id)),
+    items: protectedProcedure.input(z.object({ collectionId: z.number().int().positive() })).query(({ ctx, input }) => listCollectionItems(ctx.user.id, input.collectionId)),
+    add: protectedProcedure.input(z.object({ collectionId: z.number().int().positive(), savedPromptId: z.number().int().positive() })).mutation(({ ctx, input }) => addPromptToCollection(ctx.user.id, input.collectionId, input.savedPromptId)),
+    removeItem: protectedProcedure.input(z.object({ collectionId: z.number().int().positive(), savedPromptId: z.number().int().positive() })).mutation(({ ctx, input }) => removePromptFromCollection(ctx.user.id, input.collectionId, input.savedPromptId)),
   }),
 });
 

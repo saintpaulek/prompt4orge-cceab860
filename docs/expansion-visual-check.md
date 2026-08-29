@@ -1,0 +1,5 @@
+# Expansion visual check — 2026-08-29
+
+The desktop preview at 1280×720 shows the Workshop Noir header and Builder hero intact. The Builder category grid begins with the original categories in the first viewport and the expanded category list continues below in normal page flow. The Library route renders the live catalog count at 3,939, indicating the 720 imported records are included in the existing 3,219-prompt shelf. The account route correctly remains behind authentication and displays the current sign-in surface. A mobile viewport check remains to be completed before checkpointing.
+
+At 390×844, the Builder and Library are readable and scrollable with the compact header, two-column category/filters, and bottom app navigation. The install prompt is visible above the bottom navigation and may reduce the first-viewport content area; this is existing PWA chrome rather than a new expansion regression. The expanded category cards continue below the fold without sticky overlap. Library search, category, sort, and access controls fit the narrow viewport.
