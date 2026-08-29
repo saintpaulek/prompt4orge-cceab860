@@ -556,9 +556,9 @@
 
 
 # Resend domain verification failure
-- [ ] Inspect Resend’s domain status and capture the exact missing verification records without exposing API keys.
-- [ ] Compare the required records with the active promptforge.com.ng DNS configuration.
-- [ ] Apply or guide the minimum safe DNS changes, recheck verification, and retest confirmation-email delivery.
+- [x] Inspect Resend’s domain status and capture the exact missing verification records without exposing API keys.
+- [x] Compare the required records with the active promptforge.com.ng DNS configuration.
+- [x] Apply or guide the minimum safe DNS changes, recheck verification, and retest confirmation-email delivery.
 
 # PromptForge expansion package — 2026-08-29
 - [x] Audit existing Builder category constants, field options, Library schema, catalog procedures, and related tests.
@@ -577,4 +577,4 @@
 - [x] Document and implement mobile/PWA improvement notes that fit the existing responsive architecture.
 - [x] Add Vitest coverage for new categories, prompt access split, feature helpers, ownership rules, and export behavior.
 - [x] Run schema migration/seed verification, TypeScript checks, tests, production build, and desktop/mobile visual checks.
-- [ ] Save a checkpoint after all completed expansion items are marked done.
+- [x] Save a checkpoint after all completed expansion items are marked done.
