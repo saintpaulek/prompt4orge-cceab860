@@ -578,3 +578,9 @@
 - [x] Add Vitest coverage for new categories, prompt access split, feature helpers, ownership rules, and export behavior.
 - [x] Run schema migration/seed verification, TypeScript checks, tests, production build, and desktop/mobile visual checks.
 - [x] Save a checkpoint after all completed expansion items are marked done.
+
+# Library duplicate category key fix — 2026-08-29
+- [x] Trace every Library category option source and identify why `Ecommerce & Product` is rendered more than once.
+- [x] Fix the category list with stable unique keys while preserving valid category coverage.
+- [x] Add regression coverage for duplicate-free Library category options and run tests/build.
+- [x] Verify the Library render at desktop and mobile widths, then save a bug-fix checkpoint.

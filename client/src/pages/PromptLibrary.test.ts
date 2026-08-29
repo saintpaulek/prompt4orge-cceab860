@@ -9,6 +9,10 @@ describe("PromptLibrary category selector", () => {
     expect(LIBRARY_CATEGORIES.filter(item => item === category)).toHaveLength(1);
   });
 
+  it("contains no duplicate category selector values", () => {
+    expect(new Set(LIBRARY_CATEGORIES).size).toBe(LIBRARY_CATEGORIES.length);
+  });
+
   it("keeps the existing Banking & Fintech Engagement category available", () => {
     expect(LIBRARY_CATEGORIES).toContain("Banking & Fintech Engagement");
   });
