@@ -589,6 +589,6 @@
 - [x] Inspect the current production deployment and confirm which build serves `promptforge.com.ng`.
 - [x] Deploy the verified Library duplicate-key fix if the paid domain is stale.
 - [x] Verify paid-domain HTTP response, Library route content, and mobile access.
-- [ ] Save a paid-domain deployment checkpoint with the verified result.
+- [x] Save a paid-domain deployment checkpoint with the verified result.
 - [x] Add a Vercel-compatible API function entrypoint so direct production deployments preserve `/api/trpc` catalog behavior.
 - [x] Re-deploy and verify the paid-domain Library catalog after restoring production API routing.
