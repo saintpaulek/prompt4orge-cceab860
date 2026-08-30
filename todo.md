@@ -584,3 +584,11 @@
 - [x] Fix the category list with stable unique keys while preserving valid category coverage.
 - [x] Add regression coverage for duplicate-free Library category options and run tests/build.
 - [x] Verify the Library render at desktop and mobile widths, then save a bug-fix checkpoint.
+
+# Paid-domain deployment verification — 2026-08-29
+- [x] Inspect the current production deployment and confirm which build serves `promptforge.com.ng`.
+- [x] Deploy the verified Library duplicate-key fix if the paid domain is stale.
+- [x] Verify paid-domain HTTP response, Library route content, and mobile access.
+- [ ] Save a paid-domain deployment checkpoint with the verified result.
+- [x] Add a Vercel-compatible API function entrypoint so direct production deployments preserve `/api/trpc` catalog behavior.
+- [x] Re-deploy and verify the paid-domain Library catalog after restoring production API routing.
