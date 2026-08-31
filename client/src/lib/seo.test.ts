@@ -1,7 +1,19 @@
+import fs from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { absoluteCanonical, createContactFaqJsonLd, createGuideArticleJsonLd, createOrganizationJsonLd, getSeoDocument, getSeoRoute, normalizeSeoPath } from "./seo";
 
 describe("PromptForge SEO metadata", () => {
+  it("keeps the homepage meta-keywords tag focused and within the 3–8 keyword limit", () => {
+    const indexHtml = fs.readFileSync(path.resolve(process.cwd(), "client/index.html"), "utf8");
+    const match = indexHtml.match(/<meta name="keywords" content="([^"]+)"/);
+    expect(match?.[1]).toBeTruthy();
+    const keywords = match![1].split(",").map(keyword => keyword.trim()).filter(Boolean);
+    expect(keywords).toHaveLength(6);
+    expect(keywords.length).toBeGreaterThanOrEqual(3);
+    expect(keywords.length).toBeLessThanOrEqual(8);
+  });
+
   it("normalizes trailing slashes and query strings", () => {
     expect(normalizeSeoPath("/library/?page=2")).toBe("/library");
     expect(normalizeSeoPath("/")).toBe("/");

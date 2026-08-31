@@ -5,7 +5,7 @@ import { execFileSync } from "node:child_process";
 const root = process.cwd();
 const trackedFiles = execFileSync("git", ["ls-files", "-z"], { cwd: root }).toString().split("\0").filter(Boolean);
 const rootRuntimeFiles = new Set(["package.json", "pnpm-lock.yaml", "tsconfig.json", "tsconfig.node.json", "vite.config.ts", "vercel.json", "components.json", "template.json", "client/index.html"]);
-const files = trackedFiles.filter((relativePath) => {
+const files = trackedFiles.filter((relativePath) => fs.existsSync(path.join(root, relativePath))).filter((relativePath) => {
   if (rootRuntimeFiles.has(relativePath)) return true;
   if (relativePath.startsWith("client/src/") || relativePath.startsWith("server/") || relativePath.startsWith("shared/") || relativePath.startsWith("drizzle/") || relativePath.startsWith("api/")) return true;
   if (relativePath.startsWith("client/public/")) return true;

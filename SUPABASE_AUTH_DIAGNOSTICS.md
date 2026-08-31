@@ -63,3 +63,19 @@ Vercel visibility finding on 2026-08-27: Production `VITE_SUPABASE_URL` is curre
 - Added the matching public anon key as `VITE_SUPABASE_ANON_KEY` in Production; no service-role key was accessed or exposed.
 - Triggered production redeployment `dpl_E2JyJTvd99Lo33fwE4PuVsFvjpNW`; Vercel reports `READY` and assigns the paid-domain aliases.
 - Live `https://www.promptforge.com.ng/` returned HTTP 200. Its fetched JavaScript bundle contains zero references to legacy project `ifvqvwxzhlqefylmnels`, one reference to active project `rupzljrpzdfrehgvbwdt`, and zero references to `mail.lovable-app.email`.
+
+## 2026-08-30 super-admin recovery investigation
+
+Supabase Authentication → Users shows one verified email-provider account for `saintpaulek@gmail.com` with user ID `b367a31f-ee6d-4904-af3a-a51ae4cd8fe7`, created 2026-08-25 and last signed in 2026-08-30. This UUID can differ after a user account is deleted and recreated, so local authorization must identify the confirmed owner email in addition to preserving a prior UUID role mapping.
+
+## 2026-08-30 branded confirmation-email readiness
+
+Resend now reports `promptforge.com.ng` as verified and ready to send. The Supabase Confirm sign up template is editable and currently uses the default subject `Confirm your email address` with a basic confirmation link. The branded update will preserve the required `{{ .ConfirmationURL }}` variable while adding a clear, accessible email-confirmation button and paid-domain context.
+
+The Confirm sign up subject was updated to `Confirm your PromptForge account`, and the body was replaced with a responsive Workshop Noir email layout. It includes a prominently styled `Confirm my email` action backed by `{{ .ConfirmationURL }}`, a short account-access explanation, and single-use-link security guidance. The update was submitted from the authenticated Supabase dashboard; save confirmation and end-to-end delivery verification follow.
+
+Supabase confirmed the template save with the status message `Successfully updated email template`. The page now offers `Reset template`, which confirms the project is using a customized confirmation-email template rather than the default markup.
+
+End-to-end signup test on 2026-08-31: a fresh paid-domain signup using the `saintpaulek+branded-signup-20260831@gmail.com` Gmail alias was accepted by Supabase. PromptForge showed the inline loading state during submission, then the expected confirmation-pending state and `Resend confirmation email` action. Delivery verification in Resend and the connected inbox remains to be completed.
+
+Resend delivery verification completed: the sending log shows the same Gmail-alias recipient with status `Delivered` and subject `Confirm your PromptForge account`. This proves the live paid-domain signup flow reached the verified Resend transport and the recipient mail server using the customized Supabase template subject. The remaining optional check is visual inspection in Gmail of the rendered HTML button.

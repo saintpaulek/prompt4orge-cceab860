@@ -6,6 +6,15 @@ import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
+// Supabase account UUIDs change when an Auth user is deleted and recreated.
+// The verified owner email is therefore the durable recovery identity for the
+// one owner-controlled administrative account.
+export const PROMPTFORGE_OWNER_EMAIL = "saintpaulek@gmail.com";
+
+export function isPromptForgeOwnerEmail(email: string | null | undefined) {
+  return email?.trim().toLowerCase() === PROMPTFORGE_OWNER_EMAIL;
+}
+
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try { _db = drizzle(process.env.DATABASE_URL); } catch (error) { console.warn("[Database] Failed to connect:", error); _db = null; }
@@ -24,7 +33,12 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   }
   if (user.lastSignedIn !== undefined) { values.lastSignedIn = user.lastSignedIn; updateSet.lastSignedIn = user.lastSignedIn; }
   if (user.role !== undefined) { values.role = user.role; updateSet.role = user.role; }
-  else if (user.openId === ENV.ownerOpenId) { values.role = "admin"; updateSet.role = "admin"; }
+  else if (user.openId === ENV.ownerOpenId || isPromptForgeOwnerEmail(user.email)) {
+    values.role = "admin";
+    values.isUnlocked = 1;
+    updateSet.role = "admin";
+    updateSet.isUnlocked = 1;
+  }
   if (user.isUnlocked !== undefined) { values.isUnlocked = user.isUnlocked; updateSet.isUnlocked = user.isUnlocked; }
   if (!values.lastSignedIn) values.lastSignedIn = new Date();
   if (Object.keys(updateSet).length === 0) updateSet.lastSignedIn = new Date();

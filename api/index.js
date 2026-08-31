@@ -247,12 +247,39 @@ var savedPrompts = mysqlTable("saved_prompts", {
   category: varchar("category", { length: 120 }).notNull(),
   content: text("content").notNull(),
   isFavorite: int("isFavorite").default(0).notNull(),
+  tags: varchar("tags", { length: 500 }).default("").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull()
+});
+var collections = mysqlTable("prompt_collections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  name: varchar("name", { length: 120 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull()
+});
+var collectionItems = mysqlTable("prompt_collection_items", {
+  id: int("id").autoincrement().primaryKey(),
+  collectionId: int("collectionId").notNull(),
+  savedPromptId: int("savedPromptId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull()
+});
+var promptVersions = mysqlTable("saved_prompt_versions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  savedPromptId: int("savedPromptId").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  category: varchar("category", { length: 120 }).notNull(),
+  content: text("content").notNull(),
+  tags: varchar("tags", { length: 500 }).default("").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull()
 });
 
 // server/db.ts
 var _db = null;
+var PROMPTFORGE_OWNER_EMAIL = "saintpaulek@gmail.com";
+function isPromptForgeOwnerEmail(email) {
+  return email?.trim().toLowerCase() === PROMPTFORGE_OWNER_EMAIL;
+}
 async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
@@ -283,9 +310,11 @@ async function upsertUser(user) {
   if (user.role !== void 0) {
     values.role = user.role;
     updateSet.role = user.role;
-  } else if (user.openId === ENV.ownerOpenId) {
+  } else if (user.openId === ENV.ownerOpenId || isPromptForgeOwnerEmail(user.email)) {
     values.role = "admin";
+    values.isUnlocked = 1;
     updateSet.role = "admin";
+    updateSet.isUnlocked = 1;
   }
   if (user.isUnlocked !== void 0) {
     values.isUnlocked = user.isUnlocked;
@@ -394,6 +423,68 @@ async function setSavedPromptFavorite(userId, id, isFavorite) {
   if (!db) throw new Error("Database unavailable");
   await db.update(savedPrompts).set({ isFavorite }).where(and(eq(savedPrompts.userId, userId), eq(savedPrompts.id, id)));
 }
+async function updateSavedPromptTags(userId, id, tags) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.update(savedPrompts).set({ tags }).where(and(eq(savedPrompts.userId, userId), eq(savedPrompts.id, id)));
+}
+async function listCollections(userId) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(collections).where(eq(collections.userId, userId)).orderBy(asc(collections.name));
+}
+async function createCollection(userId, name) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const result = await db.insert(collections).values({ userId, name }).$returningId();
+  return result[0];
+}
+async function deleteCollection(userId, id) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.delete(collectionItems).where(eq(collectionItems.collectionId, id));
+  await db.delete(collections).where(and(eq(collections.userId, userId), eq(collections.id, id)));
+}
+async function listCollectionItems(userId, collectionId) {
+  const db = await getDb();
+  if (!db) return [];
+  const owned = await db.select({ id: collections.id }).from(collections).where(and(eq(collections.id, collectionId), eq(collections.userId, userId))).limit(1);
+  if (!owned[0]) return [];
+  return db.select({ membershipId: collectionItems.id, savedPromptId: savedPrompts.id, title: savedPrompts.title, category: savedPrompts.category, content: savedPrompts.content, tags: savedPrompts.tags }).from(collectionItems).innerJoin(savedPrompts, eq(savedPrompts.id, collectionItems.savedPromptId)).where(and(eq(collectionItems.collectionId, collectionId), eq(savedPrompts.userId, userId))).orderBy(desc(collectionItems.createdAt));
+}
+async function addPromptToCollection(userId, collectionId, savedPromptId) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const [collection, prompt] = await Promise.all([
+    db.select({ id: collections.id }).from(collections).where(and(eq(collections.id, collectionId), eq(collections.userId, userId))).limit(1),
+    db.select({ id: savedPrompts.id }).from(savedPrompts).where(and(eq(savedPrompts.id, savedPromptId), eq(savedPrompts.userId, userId))).limit(1)
+  ]);
+  if (!collection[0] || !prompt[0]) return { status: "not_found" };
+  const existing = await db.select({ id: collectionItems.id }).from(collectionItems).where(and(eq(collectionItems.collectionId, collectionId), eq(collectionItems.savedPromptId, savedPromptId))).limit(1);
+  if (!existing[0]) await db.insert(collectionItems).values({ collectionId, savedPromptId });
+  return { status: "added" };
+}
+async function removePromptFromCollection(userId, collectionId, savedPromptId) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const owned = await db.select({ id: collections.id }).from(collections).where(and(eq(collections.id, collectionId), eq(collections.userId, userId))).limit(1);
+  if (!owned[0]) return { status: "not_found" };
+  await db.delete(collectionItems).where(and(eq(collectionItems.collectionId, collectionId), eq(collectionItems.savedPromptId, savedPromptId)));
+  return { status: "removed" };
+}
+async function createPromptVersion(userId, savedPromptId) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const source = await db.select({ title: savedPrompts.title, category: savedPrompts.category, content: savedPrompts.content, tags: savedPrompts.tags }).from(savedPrompts).where(and(eq(savedPrompts.id, savedPromptId), eq(savedPrompts.userId, userId))).limit(1);
+  if (!source[0]) return { status: "not_found" };
+  const result = await db.insert(promptVersions).values({ userId, savedPromptId, ...source[0] }).$returningId();
+  return { status: "created", id: result[0]?.id };
+}
+async function listPromptVersions(userId, savedPromptId) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(promptVersions).where(and(eq(promptVersions.userId, userId), eq(promptVersions.savedPromptId, savedPromptId))).orderBy(desc(promptVersions.createdAt));
+}
 
 // server/routers.ts
 var appRouter = router({
@@ -441,9 +532,20 @@ var appRouter = router({
   }),
   prompts: router({
     list: protectedProcedure.query(({ ctx }) => listSavedPrompts(ctx.user.id)),
-    create: protectedProcedure.input(z2.object({ title: z2.string().min(1).max(255), category: z2.string().min(1).max(120), content: z2.string().min(1) })).mutation(({ ctx, input }) => createSavedPrompt({ userId: ctx.user.id, title: input.title, category: input.category, content: input.content })),
+    create: protectedProcedure.input(z2.object({ title: z2.string().min(1).max(255), category: z2.string().min(1).max(120), content: z2.string().min(1), tags: z2.string().max(500).optional() })).mutation(({ ctx, input }) => createSavedPrompt({ userId: ctx.user.id, title: input.title, category: input.category, content: input.content, tags: input.tags ?? "" })),
     remove: protectedProcedure.input(z2.object({ id: z2.number().int().positive() })).mutation(({ ctx, input }) => deleteSavedPrompt(ctx.user.id, input.id)),
-    favorite: protectedProcedure.input(z2.object({ id: z2.number().int().positive(), isFavorite: z2.boolean() })).mutation(({ ctx, input }) => setSavedPromptFavorite(ctx.user.id, input.id, input.isFavorite ? 1 : 0))
+    favorite: protectedProcedure.input(z2.object({ id: z2.number().int().positive(), isFavorite: z2.boolean() })).mutation(({ ctx, input }) => setSavedPromptFavorite(ctx.user.id, input.id, input.isFavorite ? 1 : 0)),
+    tags: protectedProcedure.input(z2.object({ id: z2.number().int().positive(), tags: z2.string().max(500) })).mutation(({ ctx, input }) => updateSavedPromptTags(ctx.user.id, input.id, input.tags)),
+    createVersion: protectedProcedure.input(z2.object({ savedPromptId: z2.number().int().positive() })).mutation(({ ctx, input }) => createPromptVersion(ctx.user.id, input.savedPromptId)),
+    versions: protectedProcedure.input(z2.object({ savedPromptId: z2.number().int().positive() })).query(({ ctx, input }) => listPromptVersions(ctx.user.id, input.savedPromptId))
+  }),
+  collections: router({
+    list: protectedProcedure.query(({ ctx }) => listCollections(ctx.user.id)),
+    create: protectedProcedure.input(z2.object({ name: z2.string().trim().min(1).max(120) })).mutation(({ ctx, input }) => createCollection(ctx.user.id, input.name)),
+    remove: protectedProcedure.input(z2.object({ id: z2.number().int().positive() })).mutation(({ ctx, input }) => deleteCollection(ctx.user.id, input.id)),
+    items: protectedProcedure.input(z2.object({ collectionId: z2.number().int().positive() })).query(({ ctx, input }) => listCollectionItems(ctx.user.id, input.collectionId)),
+    add: protectedProcedure.input(z2.object({ collectionId: z2.number().int().positive(), savedPromptId: z2.number().int().positive() })).mutation(({ ctx, input }) => addPromptToCollection(ctx.user.id, input.collectionId, input.savedPromptId)),
+    removeItem: protectedProcedure.input(z2.object({ collectionId: z2.number().int().positive(), savedPromptId: z2.number().int().positive() })).mutation(({ ctx, input }) => removePromptFromCollection(ctx.user.id, input.collectionId, input.savedPromptId))
   })
 });
 
@@ -709,20 +811,23 @@ var sdk = new SDKServer();
 
 // server/_core/context.ts
 var supabaseJwks = null;
+function getSupabaseAuthUrl() {
+  return (process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
+}
 function getSupabaseJwks() {
-  const base = process.env.SUPABASE_URL;
+  const base = getSupabaseAuthUrl();
   if (!base) return null;
-  if (!supabaseJwks) supabaseJwks = createRemoteJWKSet(new URL(`${base.replace(/\/$/, "")}/auth/v1/.well-known/jwks.json`));
+  if (!supabaseJwks) supabaseJwks = createRemoteJWKSet(new URL(`${base}/auth/v1/.well-known/jwks.json`));
   return supabaseJwks;
 }
 async function authenticateSupabaseRequest(req) {
   const header = req.headers.authorization;
   if (!header?.startsWith("Bearer ")) return null;
   const jwks = getSupabaseJwks();
-  const base = process.env.SUPABASE_URL;
+  const base = getSupabaseAuthUrl();
   if (!jwks || !base) return null;
   try {
-    const { payload } = await jwtVerify2(header.slice(7), jwks, { issuer: `${base.replace(/\/$/, "")}/auth/v1`, audience: "authenticated" });
+    const { payload } = await jwtVerify2(header.slice(7), jwks, { issuer: `${base}/auth/v1`, audience: "authenticated" });
     const openId = typeof payload.sub === "string" ? payload.sub : null;
     if (!openId) return null;
     const metadata = payload.user_metadata ?? {};

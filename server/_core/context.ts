@@ -7,10 +7,14 @@ import { sdk } from "./sdk";
 export type TrpcContext = { req: CreateExpressContextOptions["req"]; res: CreateExpressContextOptions["res"]; user: User | null };
 
 let supabaseJwks: ReturnType<typeof createRemoteJWKSet> | null = null;
+export function getSupabaseAuthUrl() {
+  return (process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
+}
+
 function getSupabaseJwks() {
-  const base = process.env.SUPABASE_URL;
+  const base = getSupabaseAuthUrl();
   if (!base) return null;
-  if (!supabaseJwks) supabaseJwks = createRemoteJWKSet(new URL(`${base.replace(/\/$/, "")}/auth/v1/.well-known/jwks.json`));
+  if (!supabaseJwks) supabaseJwks = createRemoteJWKSet(new URL(`${base}/auth/v1/.well-known/jwks.json`));
   return supabaseJwks;
 }
 
@@ -18,10 +22,10 @@ async function authenticateSupabaseRequest(req: CreateExpressContextOptions["req
   const header = req.headers.authorization;
   if (!header?.startsWith("Bearer ")) return null;
   const jwks = getSupabaseJwks();
-  const base = process.env.SUPABASE_URL;
+  const base = getSupabaseAuthUrl();
   if (!jwks || !base) return null;
   try {
-    const { payload } = await jwtVerify(header.slice(7), jwks, { issuer: `${base.replace(/\/$/, "")}/auth/v1`, audience: "authenticated" });
+    const { payload } = await jwtVerify(header.slice(7), jwks, { issuer: `${base}/auth/v1`, audience: "authenticated" });
     const openId = typeof payload.sub === "string" ? payload.sub : null;
     if (!openId) return null;
     const metadata = (payload.user_metadata ?? {}) as Record<string, unknown>;

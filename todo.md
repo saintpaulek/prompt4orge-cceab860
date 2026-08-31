@@ -592,3 +592,14 @@
 - [x] Save a paid-domain deployment checkpoint with the verified result.
 - [x] Add a Vercel-compatible API function entrypoint so direct production deployments preserve `/api/trpc` catalog behavior.
 - [x] Re-deploy and verify the paid-domain Library catalog after restoring production API routing.
+
+# Super-admin access restoration — 2026-08-30
+- [ ] Audit live auth configuration, account identity mapping, and admin-role enforcement for `saintpaulek@gmail.com`.
+- [ ] Restore the confirmed account’s super-admin role without changing unrelated users.
+- [ ] Test live sign-in, `/admin/unlocks` access, and unlock-code creation permissions.
+- [ ] Save a verified access-restoration checkpoint and report any remaining browser or email action.
+
+# Homepage meta-keywords — 2026-08-31
+- [x] Add a focused homepage meta-keywords tag containing 3–8 relevant keywords.
+- [x] Verify the rendered homepage metadata and run the SEO regression checks.
+- [ ] Save the verified metadata update in the production checkpoint.
