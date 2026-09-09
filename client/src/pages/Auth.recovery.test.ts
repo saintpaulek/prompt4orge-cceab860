@@ -8,6 +8,7 @@ describe("Auth recovery marker", () => {
 
   it("recognizes a recovery query parameter", () => {
     expect(hasRecoveryMarker("https://promptforge.com.ng/auth?type=recovery")).toBe(true);
+    expect(hasRecoveryMarker("https://promptforge.com.ng/auth?flow=recovery")).toBe(true);
   });
 
   it("does not treat an ordinary magic-link session as password recovery", () => {

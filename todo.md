@@ -630,3 +630,14 @@
 - [x] Prevent the recovery callback from silently sending the user to the homepage.
 - [x] Add regression coverage for recovery hash detection and password-update UI state.
 - [x] Verify the flow on desktop/mobile and publish the recovery-screen fix.
+
+# Recovery verification result — 2026-09-09
+- [ ] Verify the password the user actually set through a user-controlled sign-in attempt; the stored recovery test secret does not match it.
+- [ ] Confirm owner super-admin access at `/admin/unlocks` after successful browser sign-in.
+- [ ] Save the final access-restoration checkpoint after live verification.
+
+# Static recovery screen requirement — 2026-09-09
+- [x] Keep the reset-password screen visible while Supabase restores the recovery session.
+- [x] Block automatic redirect to the homepage until the user explicitly submits the new password.
+- [x] Add regression coverage for recovery-session restoration and explicit reset completion.
+- [x] Publish the static recovery-screen fix and request a fresh-link verification.

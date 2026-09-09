@@ -3,6 +3,29 @@ import { createClient } from "@supabase/supabase-js";
 export const resolveSupabaseBrowserKey = (env: Record<string, unknown>) => String(env.VITE_SUPABASE_ANON_KEY ?? env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "").trim();
 
 const PAID_DOMAIN_ORIGIN = "https://www.promptforge.com.ng";
+const RECOVERY_STORAGE_KEY = "promptforge_recovery_pending";
+
+function isRecoveryHref(href: string) {
+  try {
+    const url = new URL(href, "https://promptforge.local");
+    const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+    return hash.get("type") === "recovery" || url.searchParams.get("type") === "recovery" || url.searchParams.get("flow") === "recovery";
+  } catch {
+    return false;
+  }
+}
+
+if (typeof window !== "undefined" && isRecoveryHref(window.location.href)) {
+  window.sessionStorage.setItem(RECOVERY_STORAGE_KEY, "1");
+}
+
+export function isRecoveryPending() {
+  return typeof window !== "undefined" && window.sessionStorage.getItem(RECOVERY_STORAGE_KEY) === "1";
+}
+
+export function clearRecoveryPending() {
+  if (typeof window !== "undefined") window.sessionStorage.removeItem(RECOVERY_STORAGE_KEY);
+}
 
 export function getSupabaseAuthRedirectUrl(origin: string) {
   const normalizedOrigin = origin.replace(/\/+$/, "");
@@ -16,6 +39,11 @@ export function getSupabaseAuthRedirectUrl(origin: string) {
     // produce a deterministic redirect instead of throwing during auth UI.
   }
   return `${normalizedOrigin}/auth`;
+}
+
+export function getSupabasePasswordRecoveryRedirectUrl(origin: string) {
+  const redirect = getSupabaseAuthRedirectUrl(origin);
+  return `${redirect}${redirect.includes("?") ? "&" : "?"}flow=recovery`;
 }
 
 const rawSupabaseUrl = String(import.meta.env.VITE_SUPABASE_URL ?? "").trim();
