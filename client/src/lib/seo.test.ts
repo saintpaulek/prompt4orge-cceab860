@@ -14,6 +14,13 @@ describe("PromptForge SEO metadata", () => {
     expect(keywords.length).toBeLessThanOrEqual(8);
   });
 
+  it("includes the Google tag exactly once in the global document head", () => {
+    const indexHtml = fs.readFileSync(path.resolve(process.cwd(), "client/index.html"), "utf8");
+    expect((indexHtml.match(/G-HD22HVTFD4/g) ?? []).length).toBe(2);
+    expect((indexHtml.match(/https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-HD22HVTFD4/g) ?? []).length).toBe(1);
+    expect(indexHtml.indexOf("<!-- Google tag (gtag.js) -->")).toBeGreaterThan(indexHtml.indexOf("<head>"));
+  });
+
   it("normalizes trailing slashes and query strings", () => {
     expect(normalizeSeoPath("/library/?page=2")).toBe("/library");
     expect(normalizeSeoPath("/")).toBe("/");
