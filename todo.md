@@ -594,8 +594,8 @@
 - [x] Re-deploy and verify the paid-domain Library catalog after restoring production API routing.
 
 # Super-admin access restoration — 2026-08-30
-- [ ] Audit live auth configuration, account identity mapping, and admin-role enforcement for `saintpaulek@gmail.com`.
-- [ ] Restore the confirmed account’s super-admin role without changing unrelated users.
+- [x] Audit live auth configuration, account identity mapping, and admin-role enforcement for `saintpaulek@gmail.com`.
+- [x] Restore the confirmed account’s super-admin role without changing unrelated users.
 - [ ] Test live sign-in, `/admin/unlocks` access, and unlock-code creation permissions.
 - [ ] Save a verified access-restoration checkpoint and report any remaining browser or email action.
 
@@ -616,3 +616,17 @@
 - [x] Add the provided Google tag exactly once in the shared document head so it loads across every route.
 - [x] Add regression coverage or source verification for the tag ID and single-inclusion rule.
 - [x] Run tests/build and verify the tag in the production HTML source.
+
+# Account recovery and auth troubleshooting — 2026-09-09
+- [x] Treat the password visible in the uploaded screenshot as compromised and complete recovery without exposing the replacement credential.
+- [x] Investigate and correct the stale/unresolvable Supabase URL used by preview and paid-domain authentication clients.
+- [ ] Validate the owner recovery credential against the active Supabase project after configuration is corrected.
+- [ ] Verify sign-in, magic-link recovery, and durable super-admin access for saintpaulek@gmail.com on both domains.
+- [ ] Save a checkpoint documenting the recovery result and any remaining user-controlled browser step.
+
+# Recovery link password-change screen — 2026-09-09
+- [x] Detect Supabase recovery sessions before automatic navigation.
+- [x] Keep recovery sessions on `/auth` and show a dedicated new-password form.
+- [x] Prevent the recovery callback from silently sending the user to the homepage.
+- [x] Add regression coverage for recovery hash detection and password-update UI state.
+- [x] Verify the flow on desktop/mobile and publish the recovery-screen fix.
