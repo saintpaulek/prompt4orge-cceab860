@@ -602,15 +602,15 @@
 # Homepage meta-keywords — 2026-08-31
 - [x] Add a focused homepage meta-keywords tag containing 3–8 relevant keywords.
 - [x] Verify the rendered homepage metadata and run the SEO regression checks.
-- [ ] Save the verified metadata update in the production checkpoint.
+- [x] Save the verified metadata update in the production checkpoint.
 
 # 14-day social campaign document — 2026-09-03
-- [ ] Define the campaign framework, audience segments, story-led content arc, platform roles, and measurable goals.
-- [ ] Map available PromptForge website screenshots to fourteen daily themes and visual directions.
-- [ ] Write platform-ready daily copy for LinkedIn, Facebook, Instagram, TikTok, and X with hooks, keywords, hashtags, and CTAs.
-- [ ] Add paid-ad creative scripts, targeting angles, landing-page CTAs, and basic testing guidance.
-- [ ] Create and review the formatted Word document with matching website screenshots.
-- [ ] Deliver the final 14-day campaign document and supporting visual assets.
+- [x] Define the campaign framework, audience segments, story-led content arc, platform roles, and measurable goals.
+- [x] Map available PromptForge website screenshots to fourteen daily themes and visual directions.
+- [x] Write platform-ready daily copy for LinkedIn, Facebook, Instagram, TikTok, and X with hooks, keywords, hashtags, and CTAs.
+- [x] Add paid-ad creative scripts, targeting angles, landing-page CTAs, and basic testing guidance.
+- [x] Create and review the formatted Word document with matching website screenshots.
+- [x] Deliver the final 14-day campaign document and supporting visual assets.
 
 # Google Analytics tag — 2026-09-03
 - [x] Add the provided Google tag exactly once in the shared document head so it loads across every route.
