@@ -99,6 +99,13 @@ a { color: inherit; text-decoration: none; }
 .catalog-footer { align-items:center; margin-top:24px; padding-top:18px; border-top:1px solid rgba(255,255,255,.1); text-transform:none; letter-spacing:0; font-size:11px; }
 .live-library-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .catalog-prompt-preview { max-height:220px; overflow:auto; white-space:pre-wrap; background:#0a0b0a; border:1px solid rgba(244,119,49,.25); color:#bfc2bb; padding:13px; font:11px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace; margin:16px 0 0; }
+.library-card-actions { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+.library-card-actions .card-action { flex:1 1 auto; justify-content:center; min-height:34px; }
+.card-action-secondary { color:#d2d5ce; border-color:rgba(243,107,33,.28); }
+.card-action-secondary svg { color:var(--orange); }
+.library-card-actions .card-action:disabled { opacity:.48; cursor:not-allowed; border-color:rgba(255,255,255,.08); }
+.card-bottom { align-items:flex-start; flex-wrap:wrap; }
+@media (max-width:650px) { .library-card-actions { width:100%; } .library-card-actions .card-action { min-width:0; } }
 .catalog-empty { display:flex; min-height:260px; flex-direction:column; align-items:center; justify-content:center; gap:9px; text-align:center; color:#7d827b; border:1px solid rgba(255,255,255,.1); background:rgba(20,22,20,.7); }
 .catalog-empty svg { color:#f47731; }
 .catalog-empty strong { color:#ecebe6; }

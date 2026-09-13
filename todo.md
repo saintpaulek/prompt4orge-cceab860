@@ -659,3 +659,11 @@
 - [x] Make server Supabase URL selection prefer the active public project configuration when the private URL is stale.
 - [x] Add regression coverage for active Supabase URL precedence and owner bearer authentication.
 - [x] Redeploy and verify `/admin/unlocks` on the paid domain.
+
+# Library prompt actions restoration — 2026-09-13
+- [x] Audit the current Library card action rendering and builder-transfer handler.
+- [x] Restore Copy and Use in Builder for every Library prompt card.
+- [x] Preserve clear behavior for locked prompts without exposing locked prompt bodies.
+- [x] Add regression coverage for both actions across free and locked catalog entries.
+- [x] Verify the actions on desktop and mobile Library layouts.
+- [ ] Publish the restored Library actions and report the live result.

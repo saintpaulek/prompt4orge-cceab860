@@ -1,8 +1,8 @@
 // Production catalog marker: this page is the database-backed prompt library.
 // Library discovery upgrade propagation marker: c837bcd7-refresh-2.
 import React, { useEffect, useMemo, useState } from "react";
-import { ArrowRight, BookOpen, ChevronDown, ChevronsUpDown, LockKeyhole, Search, X } from "lucide-react";
-import { Link } from "wouter";
+import { ArrowRight, BookOpen, ChevronDown, ChevronsUpDown, Clipboard, ExternalLink, LockKeyhole, Search, X } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 import { useSupabaseAuth } from "@/contexts/SupabaseAuthContext";
 import { trpc } from "@/lib/trpc";
@@ -16,6 +16,10 @@ export const CATALOG_SKELETON_COUNT = 6;
 export const getCatalogRetryLabel = (isFetching: boolean) => isFetching ? "Retrying…" : "Retry catalog";
 export const buildCatalogInput = (search: string, category: string, access: AccessFilter, sort: CatalogSort = "NEWEST", offset = 0) => ({ search: search.trim() || undefined, category, access, sort, limit: 60, offset });
 export const getRetryFeedback = (success: boolean, itemCount = 0) => success ? { title: "Catalog refreshed", description: `${itemCount} work orders are ready.` } : { title: "Catalog refresh failed", description: "Check your connection and try again." };
+export const LIBRARY_BUILDER_TRANSFER_KEY = "promptforge-library-transfer";
+export type LibraryPromptActionItem = { id: string; title: string; category: string; promptBody: string; access: "FREE" | "LOCKED" };
+export const buildLibraryTransfer = (item: LibraryPromptActionItem) => ({ title: item.title, category: item.category, promptBody: item.promptBody });
+export const getLibraryActionLabel = (action: "copy" | "builder", locked: boolean) => locked ? "Unlock to use" : action === "copy" ? "Copy" : "Use in Builder";
 
 export function CatalogSkeleton() {
   return <div className="library-grid live-library-grid catalog-skeleton" aria-label="Loading prompt catalog" aria-busy="true">{Array.from({ length: CATALOG_SKELETON_COUNT }, (_, index) => <article className="library-card skeleton-card" key={index}><div className="skeleton-line skeleton-stamp"/><div className="skeleton-line skeleton-meta"/><div className="skeleton-line skeleton-title"/><div className="skeleton-line skeleton-copy"/><div className="skeleton-line skeleton-copy short"/><div className="skeleton-line skeleton-action"/></article>)}</div>;
@@ -31,6 +35,7 @@ export function CatalogEmptyState({ hasFilters, onClear }: { hasFilters: boolean
 
 export default function PromptLibrary() {
   const { user } = useSupabaseAuth();
+  const [, setLocation] = useLocation();
   const profile = trpc.profile.me.useQuery(undefined, { enabled: !!user, retry: false });
   const [query, setQuery] = useState(() => typeof window === "undefined" ? "" : new URLSearchParams(window.location.search).get("search") ?? "");
   const [category, setCategory] = useState(() => typeof window === "undefined" ? "ALL" : new URLSearchParams(window.location.search).get("category") ?? "ALL");
@@ -56,6 +61,16 @@ export default function PromptLibrary() {
     setLoadedItems(current => offset === 0 ? catalog.data.items : [...current, ...catalog.data.items.filter(item => !current.some(existing => existing.id === item.id))]);
   }, [catalog.data, offset]);
   const clearFilters = () => { setQuery(""); setCategory("ALL"); setAccess("ALL"); setSort("NEWEST"); };
+  const copyPrompt = async (item: LibraryPromptActionItem) => {
+    if (item.access === "LOCKED" && !isUnlocked) { toast.info("Unlock this work order to copy it"); return; }
+    try { await navigator.clipboard.writeText(item.promptBody); toast.success("Prompt copied", { description: "The full work order is ready to paste." }); } catch { toast.error("Copy unavailable", { description: "Your browser blocked clipboard access. Open the prompt to copy it manually." }); }
+  };
+  const useInBuilder = (item: LibraryPromptActionItem) => {
+    if (item.access === "LOCKED" && !isUnlocked) { toast.info("Unlock this work order to use it in Builder"); return; }
+    localStorage.setItem(LIBRARY_BUILDER_TRANSFER_KEY, JSON.stringify(buildLibraryTransfer(item)));
+    toast.success("Prompt loaded into Builder", { description: "The library brief is ready to refine." });
+    setLocation("/");
+  };
   const retryCatalog = async () => {
     const result = await catalog.refetch();
     if (result.isError) {
@@ -72,7 +87,7 @@ export default function PromptLibrary() {
     <section className="catalog-toolbar"><div className="search"><Search size={17}/><input value={query} onChange={event => setQuery(event.target.value)} placeholder="Search 3,000 prompts..." aria-label="Search prompts"/><span className="search-count" aria-live="polite">{query ? `${items.length} matches` : "Search"}</span>{query && <button className="clear-search" type="button" onClick={() => setQuery("")} aria-label="Clear search"><X size={15}/></button>}</div><label className="catalog-select"><span>Category</span><select value={category} onChange={event => setCategory(event.target.value)}>{LIBRARY_CATEGORIES.map(item => <option key={item} value={item}>{item === "ALL" ? "All categories" : item}</option>)}</select><ChevronDown size={15}/></label><label className="catalog-select sort-select"><span>Sort by</span><select value={sort} onChange={event => setSort(event.target.value as CatalogSort)}><option value="NEWEST">Date added: newest</option><option value="OLDEST">Date added: oldest</option><option value="POPULAR">Popularity / featured</option></select><ChevronsUpDown size={15}/></label></section>
     <div className="access-tabs" role="tablist" aria-label="Prompt access filter">{(["ALL", "FREE", "LOCKED"] as AccessFilter[]).map(item => <button key={item} className={access === item ? "active" : ""} onClick={() => setAccess(item)}>{item === "ALL" ? "All prompts" : item === "FREE" ? "Free prompts" : "Locked prompts"}</button>)}</div>
     <div className="catalog-meta"><span>{catalog.isLoading ? "Loading prompts…" : `${items.length.toLocaleString()} shown`}</span><span>{isUnlocked ? "MEMBER ACCESS" : "FREE VIEW"}</span></div>
-    {catalog.isLoading && !items.length ? <CatalogSkeleton/> : catalog.isError ? <CatalogErrorState isFetching={catalog.isFetching} onRetry={retryCatalog}/> : items.length ? <div className="library-grid live-library-grid">{items.map((item, index) => { const locked = item.access === "LOCKED" && !isUnlocked; const expanded = expandedId === item.id; return <article className={locked ? "library-card locked-card" : "library-card"} key={item.id}><div className="card-stamp"><span>{locked ? "LOCKED WORK ORDER" : item.access === "FREE" ? "FREE WORK ORDER" : "MEMBER WORK ORDER"}</span><span>PF-{item.id}</span></div><div className="card-meta"><span>{item.category}</span><span>{String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span></div><h3>{item.title}</h3><p>{item.role}. Tagged {item.tags}.</p>{expanded && !locked && <pre className="catalog-prompt-preview">{item.promptBody}</pre>}<div className="card-bottom">{locked ? <button className="card-action" onClick={() => toast.info("Unlock this work order from your account")}>Unlock to view <LockKeyhole size={14}/></button> : <button className="card-action" onClick={() => setExpandedId(expanded ? null : item.id)}>{expanded ? "Hide work order" : "View work order"} <ArrowRight size={14}/></button>}{locked && <LockKeyhole size={16} className="lock"/>}</div></article>; })}</div> : <CatalogEmptyState hasFilters={hasFilters} onClear={clearFilters}/>}
+    {catalog.isLoading && !items.length ? <CatalogSkeleton/> : catalog.isError ? <CatalogErrorState isFetching={catalog.isFetching} onRetry={retryCatalog}/> : items.length ? <div className="library-grid live-library-grid">{items.map((item, index) => { const locked = item.access === "LOCKED" && !isUnlocked; const expanded = expandedId === item.id; return <article className={locked ? "library-card locked-card" : "library-card"} key={item.id}><div className="card-stamp"><span>{locked ? "LOCKED WORK ORDER" : item.access === "FREE" ? "FREE WORK ORDER" : "MEMBER WORK ORDER"}</span><span>PF-{item.id}</span></div><div className="card-meta"><span>{item.category}</span><span>{String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span></div><h3>{item.title}</h3><p>{item.role}. Tagged {item.tags}.</p>{expanded && !locked && <pre className="catalog-prompt-preview">{item.promptBody}</pre>}<div className="card-bottom">{locked ? <button className="card-action" onClick={() => toast.info("Unlock this work order from your account")}>Unlock to view <LockKeyhole size={14}/></button> : <button className="card-action" onClick={() => setExpandedId(expanded ? null : item.id)}>{expanded ? "Hide work order" : "View work order"} <ArrowRight size={14}/></button>}<div className="library-card-actions" aria-label={`Actions for ${item.title}`}><button className="card-action card-action-secondary" onClick={() => void copyPrompt(item)} disabled={locked && !isUnlocked} title={getLibraryActionLabel("copy", locked && !isUnlocked)}><Clipboard size={14}/>{getLibraryActionLabel("copy", locked && !isUnlocked)}</button><button className="card-action card-action-secondary" onClick={() => useInBuilder(item)} disabled={locked && !isUnlocked} title={getLibraryActionLabel("builder", locked && !isUnlocked)}><ExternalLink size={14}/>{getLibraryActionLabel("builder", locked && !isUnlocked)}</button></div>{locked && <LockKeyhole size={16} className="lock"/>}</div></article>; })}</div> : <CatalogEmptyState hasFilters={hasFilters} onClear={clearFilters}/>}
     {items.length > 0 && hasMore && <div className="catalog-load-more"><button className="card-action load-more" onClick={() => setOffset(items.length)} disabled={catalog.isFetching} aria-busy={catalog.isFetching}>{catalog.isFetching ? "Loading more…" : "Load more work orders"} <ArrowRight size={14}/></button><span>{items.length.toLocaleString()} of {total.toLocaleString()} loaded</span></div>}
     <div className="catalog-footer"><span aria-live="polite">{catalog.isFetching && offset > 0 ? "Loading more work orders…" : catalog.isFetching ? "Refreshing catalog…" : `Showing ${items.length.toLocaleString()} of ${total.toLocaleString()} prompts.`}</span>{!user && <Link href="/auth" className="text-link">Sign in to save prompts <ArrowRight size={15}/></Link>}</div>
   </main>;

@@ -16,7 +16,7 @@ import AccountPage from "@/pages/Account";
 import AdminUnlocksPage from "@/pages/AdminUnlocks";
 import GuidePages from "@/pages/GuidePages";
 import AuthorPage from "@/pages/AuthorPage";
-import PromptLibrary from "@/pages/PromptLibrary";
+import PromptLibrary, { LIBRARY_BUILDER_TRANSFER_KEY } from "@/pages/PromptLibrary";
 import { newCategorySafetyNotes, platformOptions, projectTypesByCategory } from "@/lib/builderOptions";
 import { useTheme } from "@/contexts/ThemeContext";
 import { getMobileNavActiveItem, mobileNavTooltips } from "@/lib/mobileNavigation";
@@ -59,6 +59,19 @@ const categories: Category[] = [
 ];
 
 const primaryGoals = ["Get a clear first draft", "Grow an audience", "Generate leads or sales", "Save time on repeat work", "Explain something simply", "Make a stronger decision", "Improve customer experience", "Create a consistent brand voice", "Turn an idea into a plan"];
+const mapLibraryCategoryToBuilder = (category: string) => {
+  if (categories.some(item => item.name === category)) return category;
+  if (/social|smm|whatsapp|messaging|email marketing|ads|marcom/i.test(category)) return "Social Media";
+  if (/seo|blog|content|writing|article/i.test(category)) return "SEO & Blogging";
+  if (/image|visual/i.test(category)) return "Image Generation";
+  if (/video|shorts/i.test(category)) return "Video Generation";
+  if (/customer service|support/i.test(category)) return "Customer Service";
+  if (/sales|copy|ecommerce|product/i.test(category)) return "Sales & Copywriting";
+  if (/code|development|automation|workflow/i.test(category)) return "Automation & Workflows";
+  if (/freelanc|agency|client/i.test(category)) return "Freelancing & Clients";
+  if (/education|learning/i.test(category)) return "Education & Learning";
+  return "Business & Strategy";
+};
 export const bankingUseCases = ["Loan application status updates", "EMI payment reminders", "KYC document collection", "Fraud alert confirmation", "Product cross-sell", "Salary-account onboarding", "Financial-literacy series", "Customer retention campaign"];
 export const bankingGoals = ["Increase compliant engagement", "Reduce missed payments", "Improve onboarding completion", "Drive product inquiries", "Increase customer retention", "Educate customers clearly"];
 export const bankingChannels = ["WhatsApp Business API", "SMS campaign", "WhatsApp + SMS", "Email + in-app", "AI video + social", "Omnichannel campaign"];
@@ -126,6 +139,22 @@ function Builder() {
   const { user } = useSupabaseAuth();
   const savePrompt = trpc.prompts.create.useMutation({ onSuccess: () => { setSaved(true); localStorage.removeItem("promptforge-pending-save"); toast.success("Saved to your personal library"); } });
   useEffect(() => { if (!user) return; const raw = localStorage.getItem("promptforge-pending-save"); if (!raw) return; try { const pending = JSON.parse(raw) as { title: string; category: string; content: string }; savePrompt.mutate(pending); } catch { localStorage.removeItem("promptforge-pending-save"); } }, [user]);
+  useEffect(() => {
+    const raw = localStorage.getItem(LIBRARY_BUILDER_TRANSFER_KEY);
+    if (!raw) return;
+    try {
+      const transfer = JSON.parse(raw) as { title?: string; category?: string; promptBody?: string };
+      if (!transfer.promptBody) return;
+      setCategory(mapLibraryCategoryToBuilder(transfer.category ?? ""));
+      setTopic(transfer.title?.trim() || "Imported library brief");
+      setExamples(transfer.promptBody);
+      setGenerated(true);
+      localStorage.removeItem(LIBRARY_BUILDER_TRANSFER_KEY);
+      toast.success("Library prompt loaded", { description: "Refine the brief or forge a fresh version." });
+    } catch {
+      localStorage.removeItem(LIBRARY_BUILDER_TRANSFER_KEY);
+    }
+  }, []);
   const selected = categories.find(c => c.name === category) || categories[0];
   const isRegulated = category === "Banking & Fintech Engagement";
   const categorySafetyNote = newCategorySafetyNotes[category];
