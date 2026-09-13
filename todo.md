@@ -666,4 +666,10 @@
 - [x] Preserve clear behavior for locked prompts without exposing locked prompt bodies.
 - [x] Add regression coverage for both actions across free and locked catalog entries.
 - [x] Verify the actions on desktop and mobile Library layouts.
-- [ ] Publish the restored Library actions and report the live result.
+- [x] Publish the restored Library actions and report the live result.
+
+# Paid-domain Library action deployment — 2026-09-13
+- [x] Compare the paid-domain live bundle with the latest Copy and Use in Builder checkpoint.
+- [x] Align the connected GitHub/Vercel production source with the latest Library action files.
+- [x] Verify the paid domain renders enabled free-prompt actions and protected locked-prompt actions.
+- [ ] Save the paid-domain deployment checkpoint and report the live result.
