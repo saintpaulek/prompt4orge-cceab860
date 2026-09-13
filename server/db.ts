@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { and, asc, count, desc, eq, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertSavedPrompt, InsertUser, collectionItems, collections, promptVersions, prompts, savedPrompts, unlockCodes, users } from "../drizzle/schema";
+import { InsertSavedPrompt, InsertUser, User, collectionItems, collections, promptVersions, prompts, savedPrompts, unlockCodes, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -13,6 +13,10 @@ export const PROMPTFORGE_OWNER_EMAIL = "saintpaulek@gmail.com";
 
 export function isPromptForgeOwnerEmail(email: string | null | undefined) {
   return email?.trim().toLowerCase() === PROMPTFORGE_OWNER_EMAIL;
+}
+
+export function hasPromptForgeAdminAccess(user: Pick<User, "role" | "email"> | null | undefined) {
+  return !!user && (user.role === "admin" || isPromptForgeOwnerEmail(user.email));
 }
 
 export async function getDb() {

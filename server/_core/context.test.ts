@@ -12,10 +12,10 @@ afterEach(() => {
 });
 
 describe("getSupabaseAuthUrl", () => {
-  it("uses the server URL when it is available", () => {
-    process.env.SUPABASE_URL = "https://server-project.supabase.co/";
-    process.env.VITE_SUPABASE_URL = "https://public-project.supabase.co";
-    expect(getSupabaseAuthUrl()).toBe("https://server-project.supabase.co");
+  it("prefers the active public URL when both variables are present", () => {
+    process.env.SUPABASE_URL = "https://stale-server-project.supabase.co/";
+    process.env.VITE_SUPABASE_URL = "https://rupzljrpzdfrehgvbwdt.supabase.co";
+    expect(getSupabaseAuthUrl()).toBe("https://rupzljrpzdfrehgvbwdt.supabase.co");
   });
 
   it("falls back to VITE_SUPABASE_URL for a Vercel API function", () => {

@@ -143,64 +143,6 @@ async function notifyOwner(payload) {
 // server/_core/trpc.ts
 import { initTRPC, TRPCError as TRPCError2 } from "@trpc/server";
 import superjson from "superjson";
-var t = initTRPC.context().create({
-  transformer: superjson
-});
-var router = t.router;
-var publicProcedure = t.procedure;
-var requireUser = t.middleware(async (opts) => {
-  const { ctx, next } = opts;
-  if (!ctx.user) {
-    throw new TRPCError2({ code: "UNAUTHORIZED", message: UNAUTHED_ERR_MSG });
-  }
-  return next({
-    ctx: {
-      ...ctx,
-      user: ctx.user
-    }
-  });
-});
-var protectedProcedure = t.procedure.use(requireUser);
-var adminProcedure = t.procedure.use(
-  t.middleware(async (opts) => {
-    const { ctx, next } = opts;
-    if (!ctx.user || ctx.user.role !== "admin") {
-      throw new TRPCError2({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
-    }
-    return next({
-      ctx: {
-        ...ctx,
-        user: ctx.user
-      }
-    });
-  })
-);
-
-// server/_core/systemRouter.ts
-var systemRouter = router({
-  health: publicProcedure.input(
-    z.object({
-      timestamp: z.number().min(0, "timestamp cannot be negative")
-    })
-  ).query(() => ({
-    ok: true
-  })),
-  notifyOwner: adminProcedure.input(
-    z.object({
-      title: z.string().min(1, "title is required"),
-      content: z.string().min(1, "content is required")
-    })
-  ).mutation(async ({ input }) => {
-    const delivered = await notifyOwner(input);
-    return {
-      success: delivered
-    };
-  })
-});
-
-// server/routers.ts
-import { TRPCError as TRPCError3 } from "@trpc/server";
-import { z as z2 } from "zod";
 
 // server/db.ts
 import { randomBytes } from "node:crypto";
@@ -279,6 +221,9 @@ var _db = null;
 var PROMPTFORGE_OWNER_EMAIL = "saintpaulek@gmail.com";
 function isPromptForgeOwnerEmail(email) {
   return email?.trim().toLowerCase() === PROMPTFORGE_OWNER_EMAIL;
+}
+function hasPromptForgeAdminAccess(user) {
+  return !!user && (user.role === "admin" || isPromptForgeOwnerEmail(user.email));
 }
 async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
@@ -486,7 +431,65 @@ async function listPromptVersions(userId, savedPromptId) {
   return db.select().from(promptVersions).where(and(eq(promptVersions.userId, userId), eq(promptVersions.savedPromptId, savedPromptId))).orderBy(desc(promptVersions.createdAt));
 }
 
+// server/_core/trpc.ts
+var t = initTRPC.context().create({
+  transformer: superjson
+});
+var router = t.router;
+var publicProcedure = t.procedure;
+var requireUser = t.middleware(async (opts) => {
+  const { ctx, next } = opts;
+  if (!ctx.user) {
+    throw new TRPCError2({ code: "UNAUTHORIZED", message: UNAUTHED_ERR_MSG });
+  }
+  return next({
+    ctx: {
+      ...ctx,
+      user: ctx.user
+    }
+  });
+});
+var protectedProcedure = t.procedure.use(requireUser);
+var adminProcedure = t.procedure.use(
+  t.middleware(async (opts) => {
+    const { ctx, next } = opts;
+    if (!hasPromptForgeAdminAccess(ctx.user)) {
+      throw new TRPCError2({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
+    }
+    return next({
+      ctx: {
+        ...ctx,
+        user: ctx.user
+      }
+    });
+  })
+);
+
+// server/_core/systemRouter.ts
+var systemRouter = router({
+  health: publicProcedure.input(
+    z.object({
+      timestamp: z.number().min(0, "timestamp cannot be negative")
+    })
+  ).query(() => ({
+    ok: true
+  })),
+  notifyOwner: adminProcedure.input(
+    z.object({
+      title: z.string().min(1, "title is required"),
+      content: z.string().min(1, "content is required")
+    })
+  ).mutation(async ({ input }) => {
+    const delivered = await notifyOwner(input);
+    return {
+      success: delivered
+    };
+  })
+});
+
 // server/routers.ts
+import { TRPCError as TRPCError3 } from "@trpc/server";
+import { z as z2 } from "zod";
 var appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
@@ -517,7 +520,11 @@ var appRouter = router({
     })
   }),
   profile: router({
-    me: protectedProcedure.query(({ ctx }) => getUserById(ctx.user.id)),
+    me: protectedProcedure.query(async ({ ctx }) => {
+      const profile = await getUserById(ctx.user.id);
+      if (!profile) return profile;
+      return hasPromptForgeAdminAccess({ ...profile, email: profile.email ?? ctx.user.email }) ? { ...profile, role: "admin", isUnlocked: 1 } : profile;
+    }),
     update: protectedProcedure.input(z2.object({ name: z2.string().min(1).max(120) })).mutation(async ({ ctx, input }) => {
       await updateUserProfile(ctx.user.id, input.name);
       return getUserById(ctx.user.id);
@@ -812,7 +819,7 @@ var sdk = new SDKServer();
 // server/_core/context.ts
 var supabaseJwks = null;
 function getSupabaseAuthUrl() {
-  return (process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
+  return (process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
 }
 function getSupabaseJwks() {
   const base = getSupabaseAuthUrl();

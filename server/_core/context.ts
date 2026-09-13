@@ -8,7 +8,7 @@ export type TrpcContext = { req: CreateExpressContextOptions["req"]; res: Create
 
 let supabaseJwks: ReturnType<typeof createRemoteJWKSet> | null = null;
 export function getSupabaseAuthUrl() {
-  return (process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
+  return (process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
 }
 
 function getSupabaseJwks() {

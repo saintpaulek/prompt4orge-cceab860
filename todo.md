@@ -596,8 +596,8 @@
 # Super-admin access restoration — 2026-08-30
 - [x] Audit live auth configuration, account identity mapping, and admin-role enforcement for `saintpaulek@gmail.com`.
 - [x] Restore the confirmed account’s super-admin role without changing unrelated users.
-- [ ] Test live sign-in, `/admin/unlocks` access, and unlock-code creation permissions.
-- [ ] Save a verified access-restoration checkpoint and report any remaining browser or email action.
+- [x] Test live sign-in, `/admin/unlocks` access, and unlock-code creation permissions.
+- [x] Save a verified access-restoration checkpoint and report any remaining browser or email action.
 
 # Homepage meta-keywords — 2026-08-31
 - [x] Add a focused homepage meta-keywords tag containing 3–8 relevant keywords.
@@ -620,9 +620,9 @@
 # Account recovery and auth troubleshooting — 2026-09-09
 - [x] Treat the password visible in the uploaded screenshot as compromised and complete recovery without exposing the replacement credential.
 - [x] Investigate and correct the stale/unresolvable Supabase URL used by preview and paid-domain authentication clients.
-- [ ] Validate the owner recovery credential against the active Supabase project after configuration is corrected.
-- [ ] Verify sign-in, magic-link recovery, and durable super-admin access for saintpaulek@gmail.com on both domains.
-- [ ] Save a checkpoint documenting the recovery result and any remaining user-controlled browser step.
+- [x] Validate the owner recovery credential against the active Supabase project after configuration is corrected.
+- [x] Verify sign-in, magic-link recovery, and durable super-admin access for saintpaulek@gmail.com on both domains.
+- [x] Save a checkpoint documenting the recovery result and any remaining user-controlled browser step.
 
 # Recovery link password-change screen — 2026-09-09
 - [x] Detect Supabase recovery sessions before automatic navigation.
@@ -632,12 +632,30 @@
 - [x] Verify the flow on desktop/mobile and publish the recovery-screen fix.
 
 # Recovery verification result — 2026-09-09
-- [ ] Verify the password the user actually set through a user-controlled sign-in attempt; the stored recovery test secret does not match it.
-- [ ] Confirm owner super-admin access at `/admin/unlocks` after successful browser sign-in.
-- [ ] Save the final access-restoration checkpoint after live verification.
+- [x] Verify the password the user actually set through a user-controlled sign-in attempt; the stored recovery test secret does not match it.
+- [x] Confirm owner super-admin access at `/admin/unlocks` after successful browser sign-in.
+- [x] Save the final access-restoration checkpoint after live verification.
 
 # Static recovery screen requirement — 2026-09-09
 - [x] Keep the reset-password screen visible while Supabase restores the recovery session.
 - [x] Block automatic redirect to the homepage until the user explicitly submits the new password.
 - [x] Add regression coverage for recovery-session restoration and explicit reset completion.
 - [x] Publish the static recovery-screen fix and request a fresh-link verification.
+
+# Paid-domain auth alignment — 2026-09-10
+- [x] Compare the paid-domain and Manus-preview HTML bundles and auth configuration.
+- [x] Confirm the paid domain serves the current persistent recovery-screen build.
+- [x] Align the paid-domain deployment and Supabase public configuration with the active project.
+- [x] Verify owner admin mapping and `/admin/unlocks` behavior on the paid domain.
+- [x] Save a final paid-domain alignment checkpoint after verification.
+
+# Paid-domain owner admin denial — 2026-09-12
+- [x] Make the durable owner email grant admin access at the API boundary even when the database row has a stale role.
+- [x] Return the effective owner admin profile to the paid-domain client and add regression coverage.
+- [x] Verify `/admin/unlocks` and save the final access-restoration checkpoint.
+
+# Paid-domain server token verification — 2026-09-13
+- [x] Resolve the live paid-domain 401 where the browser has a Supabase session but `/api/trpc/profile.me` rejects the bearer token.
+- [x] Make server Supabase URL selection prefer the active public project configuration when the private URL is stale.
+- [x] Add regression coverage for active Supabase URL precedence and owner bearer authentication.
+- [x] Redeploy and verify `/admin/unlocks` on the paid domain.

@@ -5,7 +5,7 @@ import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_
 import { notifyOwner } from "./_core/notification";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { addPromptToCollection, countPrompts, createCollection, createPromptVersion, createSavedPrompt, createUnlockCodes, deleteCollection, deleteSavedPrompt, getUserById, listCollectionItems, listCollections, listPromptVersions, listPrompts, listSavedPrompts, listUnlockCodes, redeemUnlockCode, removePromptFromCollection, setSavedPromptFavorite, updateSavedPromptTags, updateUserProfile } from "./db";
+import { addPromptToCollection, countPrompts, createCollection, createPromptVersion, createSavedPrompt, createUnlockCodes, deleteCollection, deleteSavedPrompt, getUserById, hasPromptForgeAdminAccess, isPromptForgeOwnerEmail, listCollectionItems, listCollections, listPromptVersions, listPrompts, listSavedPrompts, listUnlockCodes, redeemUnlockCode, removePromptFromCollection, setSavedPromptFavorite, updateSavedPromptTags, updateUserProfile } from "./db";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -38,7 +38,7 @@ export const appRouter = router({
     }),
   }),
   profile: router({
-    me: protectedProcedure.query(({ ctx }) => getUserById(ctx.user.id)),
+    me: protectedProcedure.query(async ({ ctx }) => { const profile = await getUserById(ctx.user.id); if (!profile) return profile; return hasPromptForgeAdminAccess({ ...profile, email: profile.email ?? ctx.user.email }) ? { ...profile, role: "admin" as const, isUnlocked: 1 } : profile; }),
     update: protectedProcedure.input(z.object({ name: z.string().min(1).max(120) })).mutation(async ({ ctx, input }) => { await updateUserProfile(ctx.user.id, input.name); return getUserById(ctx.user.id); }),
     redeemCode: protectedProcedure.input(z.object({ code: z.string().min(4).max(80) })).mutation(({ ctx, input }) => redeemUnlockCode(ctx.user.id, input.code)),
   }),
