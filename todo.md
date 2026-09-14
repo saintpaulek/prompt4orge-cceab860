@@ -672,4 +672,11 @@
 - [x] Compare the paid-domain live bundle with the latest Copy and Use in Builder checkpoint.
 - [x] Align the connected GitHub/Vercel production source with the latest Library action files.
 - [x] Verify the paid domain renders enabled free-prompt actions and protected locked-prompt actions.
-- [ ] Save the paid-domain deployment checkpoint and report the live result.
+- [x] Save the paid-domain deployment checkpoint and report the live result.
+
+# Free prompt inventory expansion — 2026-09-14
+- [x] Audit current free-prompt counts by category without changing existing records.
+- [x] Increase each category to at least 10 free prompts while preserving categories already above 5 free prompts.
+- [x] Add regression coverage proving no category loses free prompts and every category reaches 10 or more.
+- [x] Deploy and verify the updated free-prompt inventory on the Manus site and promptforge.com.ng.
+- [ ] Save the verified catalog-access checkpoint and report the live result.
