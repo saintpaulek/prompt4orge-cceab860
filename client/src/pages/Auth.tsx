@@ -4,6 +4,7 @@ import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 import { useSupabaseAuth } from "@/contexts/SupabaseAuthContext";
 import { clearRecoveryPending, isRecoveryPending } from "@/lib/supabase";
+import { consumeGoogleAuthPending, getGooglePostAuthPath } from "@/lib/googleAuth";
 
  type AuthMode = "signin" | "signup" | "forgot" | "reset";
 
@@ -29,8 +30,14 @@ export default function Auth() {
   const [recoveryFlow] = useState(() => hasRecoveryMarker() || isRecoveryPending());
 
   useEffect(() => {
-    if (recoveryFlow) setMode("reset");
-    else if (!sessionLoading && user) navigate("/");
+    if (recoveryFlow) {
+      setMode("reset");
+      return;
+    }
+    if (!sessionLoading && user) {
+      if (consumeGoogleAuthPending()) toast.success("Signed in with Google. Welcome to your workshop.");
+      navigate(getGooglePostAuthPath());
+    }
   }, [recoveryFlow, sessionLoading, user, navigate]);
 
   const clearMessages = () => { setError(""); setSuccess(""); };

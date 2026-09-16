@@ -686,10 +686,19 @@
 - [x] Confirm Google Client ID, Client Secret availability, and exact Supabase callback URL requirements without exposing secrets.
 - [x] Configure Google OAuth and the PromptForge redirect allowlist for the Manus site and promptforge.com.ng.
 - [x] Verify the Google sign-in flow and callback on the paid domain and Manus site.
-- [ ] Save the verified Google OAuth checkpoint and report any remaining user-controlled setup step.
+- [x] Save the verified Google OAuth checkpoint and report any remaining user-controlled setup step.
 
 # Google OAuth redirect mismatch — 2026-09-16
 - [x] Identify the exact redirect_uri sent during the paid-domain Google OAuth attempt.
 - [x] Ensure the Google Cloud OAuth client has the active Supabase callback URI exactly as registered.
 - [x] Retest Google OAuth on promptforge.com.ng and confirm the callback returns to `/auth`.
-- [ ] Save the OAuth repair checkpoint and document any remaining Google-console step.
+- [x] Save the OAuth repair checkpoint and document any remaining Google-console step.
+
+# Google sign-in UX enhancements — 2026-09-16
+- [x] Audit the Google OAuth callback, current dashboard route, and signed-in navigation profile surface.
+- [x] Add a smooth Google sign-in loading state that prevents duplicate submissions.
+- [x] Show a success toast after a Google session is established.
+- [x] Redirect successful Google sign-ins to the personalized dashboard/account route.
+- [x] Extract the Google avatar URL safely from user metadata and display it in the top navigation with an accessible fallback.
+- [x] Add regression tests for Google loading, callback success, redirect, and avatar fallback behavior.
+- [x] Verify desktop/mobile auth navigation and publish the update.
