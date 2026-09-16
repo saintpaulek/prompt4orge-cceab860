@@ -679,4 +679,17 @@
 - [x] Increase each category to at least 10 free prompts while preserving categories already above 5 free prompts.
 - [x] Add regression coverage proving no category loses free prompts and every category reaches 10 or more.
 - [x] Deploy and verify the updated free-prompt inventory on the Manus site and promptforge.com.ng.
-- [ ] Save the verified catalog-access checkpoint and report the live result.
+- [x] Save the verified catalog-access checkpoint and report the live result.
+
+# Google OAuth activation — 2026-09-14
+- [x] Audit the connected Supabase project and current Google OAuth provider state.
+- [x] Confirm Google Client ID, Client Secret availability, and exact Supabase callback URL requirements without exposing secrets.
+- [x] Configure Google OAuth and the PromptForge redirect allowlist for the Manus site and promptforge.com.ng.
+- [x] Verify the Google sign-in flow and callback on the paid domain and Manus site.
+- [ ] Save the verified Google OAuth checkpoint and report any remaining user-controlled setup step.
+
+# Google OAuth redirect mismatch — 2026-09-16
+- [x] Identify the exact redirect_uri sent during the paid-domain Google OAuth attempt.
+- [x] Ensure the Google Cloud OAuth client has the active Supabase callback URI exactly as registered.
+- [x] Retest Google OAuth on promptforge.com.ng and confirm the callback returns to `/auth`.
+- [ ] Save the OAuth repair checkpoint and document any remaining Google-console step.
