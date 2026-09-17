@@ -1,3 +1,5 @@
+import { getBlogArticle } from "@/pages/BlogPages";
+
 export type SeoRoute = {
   title: string;
   description: string;
@@ -47,6 +49,12 @@ const routes: Record<string, SeoRoute> = {
     title: "Contact PromptForge | Support, Partnerships & Feedback",
     description: "Contact PromptForge by email or WhatsApp for support, partnerships, product feedback, and questions about the AI prompt builder.",
     canonicalPath: "/contact",
+    indexable: true,
+  },
+  "/blog": {
+    title: "PromptForge Blog – Practical AI Prompt Guides",
+    description: "Practical AI prompt guides, ready-to-copy frameworks, and responsible workflows for Nigerian and African creators, freelancers, and businesses.",
+    canonicalPath: "/blog",
     indexable: true,
   },
   "/guides/prompt-engineering-basics": {
@@ -144,6 +152,19 @@ export function normalizeSeoPath(pathname: string) {
 
 export function getSeoRoute(pathname: string): SeoRoute {
   const normalized = normalizeSeoPath(pathname);
+  if (normalized.startsWith("/blog/")) {
+    const article = getBlogArticle(normalized.replace("/blog/", ""));
+    if (article) return {
+      title: `${article.title} | PromptForge`,
+      description: article.excerpt,
+      canonicalPath: normalized,
+      indexable: true,
+      ogType: "article",
+      author: "PromptForge Editorial Team",
+      published: "2026-09-17",
+      updated: "2026-09-17",
+    };
+  }
   return routes[normalized] ?? {
     title: "Page not found — PromptForge",
     description: "The requested PromptForge page could not be found.",

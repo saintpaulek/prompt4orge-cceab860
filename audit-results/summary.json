@@ -1,0 +1,1260 @@
+{
+  "route": "home",
+  "categories": {
+    "performance": 58,
+    "accessibility": 94
+  },
+  "metrics": {
+    "first-contentful-paint": "4.9 s",
+    "largest-contentful-paint": "6.2 s",
+    "speed-index": "8.2 s",
+    "total-blocking-time": "190 ms",
+    "cumulative-layout-shift": "0",
+    "interactive": "6.2 s"
+  },
+  "failed": [
+    {
+      "id": "server-response-time",
+      "title": "Reduce initial server response time",
+      "score": 0,
+      "displayValue": "Root document took 650 ms",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/",
+          "responseTime": 652.2149999999999
+        }
+      ]
+    },
+    {
+      "id": "mainthread-work-breakdown",
+      "title": "Minimize main-thread work",
+      "score": 0,
+      "displayValue": "2.3 s",
+      "details": [
+        {
+          "group": "styleLayout",
+          "groupLabel": "Style & Layout",
+          "duration": 955.9119999999998
+        },
+        {
+          "group": "scriptEvaluation",
+          "groupLabel": "Script Evaluation",
+          "duration": 713.8960000000003
+        },
+        {
+          "group": "other",
+          "groupLabel": "Other",
+          "duration": 470.42800000000074
+        }
+      ]
+    },
+    {
+      "id": "uses-rel-preconnect",
+      "title": "Preconnect to required origins",
+      "score": 0,
+      "displayValue": "Est savings of 310 ms",
+      "details": [
+        {
+          "url": "https://rupzljrpzdfrehgvbwdt.supabase.co",
+          "wastedMs": 306.12192
+        },
+        {
+          "url": "https://fonts.gstatic.com",
+          "wastedMs": 300.702
+        },
+        {
+          "url": "https://d36hbw14aib5lz.cloudfront.net",
+          "wastedMs": 300.26800000000003
+        }
+      ]
+    },
+    {
+      "id": "largest-contentful-paint-element",
+      "title": "Largest Contentful Paint element",
+      "score": 0,
+      "displayValue": "6,240 ms",
+      "details": [
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "node",
+              "valueType": "node",
+              "label": "Element"
+            }
+          ],
+          "items": [
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-0-SECTION",
+                "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,0,SECTION",
+                "selector": "div.app-shell > div.forge-section-transition > main.builder-page > section.builder-hero",
+                "boundingRect": {
+                  "top": 76,
+                  "bottom": 486,
+                  "left": 0,
+                  "right": 412,
+                  "width": 412,
+                  "height": 410
+                },
+                "snippet": "<section class=\"builder-hero\" style=\"--hero-image-desktop: url(&quot;/manus-storage/promptforge-hero-desktop_16d1d42…;\">",
+                "nodeLabel": "PROMPT WORKSHOP / 01\nForge prompts\nthat ship.\n\nTurn a rough idea into a clear, …"
+              }
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "phase",
+              "valueType": "text",
+              "label": "Phase"
+            },
+            {
+              "key": "percent",
+              "valueType": "text",
+              "label": "% of LCP"
+            },
+            {
+              "key": "timing",
+              "valueType": "ms",
+              "label": "Timing"
+            }
+          ],
+          "items": [
+            {
+              "phase": "TTFB",
+              "timing": 1987.84,
+              "percent": "32%"
+            },
+            {
+              "phase": "Load Delay",
+              "timing": 4085.6605406374374,
+              "percent": "65%"
+            },
+            {
+              "phase": "Load Time",
+              "timing": 125.80231027313766,
+              "percent": "2%"
+            },
+            {
+              "phase": "Render Delay",
+              "timing": 39.30814908942466,
+              "percent": "1%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prioritize-lcp-image",
+      "title": "Preload Largest Contentful Paint image",
+      "score": 0,
+      "displayValue": "Est savings of 960 ms",
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "page-0-SECTION",
+            "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,0,SECTION",
+            "selector": "div.app-shell > div.forge-section-transition > main.builder-page > section.builder-hero",
+            "boundingRect": {
+              "top": 76,
+              "bottom": 486,
+              "left": 0,
+              "right": 412,
+              "width": 412,
+              "height": 410
+            },
+            "snippet": "<section class=\"builder-hero\" style=\"--hero-image-desktop: url(&quot;/manus-storage/promptforge-hero-desktop_16d1d42…;\">",
+            "nodeLabel": "PROMPT WORKSHOP / 01\nForge prompts\nthat ship.\n\nTurn a rough idea into a clear, …"
+          },
+          "url": "https://d36hbw14aib5lz.cloudfront.net/310519663894845874/oNSSwa7FTmUCpGEa5Rb76F/promptforge-hero-mobile_964b233a.webp?Expires=1789641043&Signature=n1K2RjafaPHxFORXPsUIFCmNO278~jxkR9y2l~PetPUXlkk~XV0a8QkLdlykRsw82XILFoWR9ATXsvIkENjCDYAjeD-aw7xaafWxhjIsK29C9aKYeqnTvSj-pPgeJXWyTT7F0-SVmPljzM09OyxVy0IvWywg6DGKBZcOOLvn2zxXaRIWoJmWWMoQ63~WB3lqlYuUuH61lUoiH3bJlGFfbcIcePgIR2K~5JUMWkZn3HFpU5jnPfQ1h-wypbD3Mn10ym6vxmPzAvcmkBrUFvCLxPA89E2Jf-k1Ngl6~4AEkMp5Ccgc2MOoJDnxc9GzQSldVSNvh2cEYpw~zRI4ivNX8Q__&Key-Pair-Id=K1MP89RTKNH4J",
+          "wastedMs": 964.9290000000001
+        }
+      ]
+    },
+    {
+      "id": "aria-allowed-role",
+      "title": "Uses ARIA roles on incompatible elements",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-0-ASIDE",
+            "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,ASIDE",
+            "selector": "body > div#root > div.app-shell > aside.mobile-install-prompt",
+            "boundingRect": {
+              "top": 667,
+              "bottom": 737,
+              "left": 12,
+              "right": 400,
+              "width": 388,
+              "height": 70
+            },
+            "snippet": "<aside class=\"mobile-install-prompt\" role=\"dialog\" aria-labelledby=\"install-prompt-title\">",
+            "nodeLabel": "Keep PromptForge close.\nAdd the workshop to your home screen for an app-like wo…",
+            "explanation": "Fix any of the following:\n  ARIA role dialog is not allowed for given element"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta-viewport",
+      "title": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5.",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-1-META",
+            "path": "1,HTML,0,HEAD,4,META",
+            "selector": "head > meta",
+            "boundingRect": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0,
+              "width": 0,
+              "height": 0
+            },
+            "snippet": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1\">",
+            "nodeLabel": "head > meta",
+            "explanation": "Fix any of the following:\n  maximum-scale on <meta> tag disables zooming on mobile devices"
+          }
+        }
+      ]
+    },
+    {
+      "id": "render-blocking-resources",
+      "title": "Eliminate render-blocking resources",
+      "score": 0,
+      "displayValue": "Est savings of 450 ms",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+          "totalBytes": 21885,
+          "wastedMs": 300
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+          "totalBytes": 1119,
+          "wastedMs": 771
+        }
+      ]
+    },
+    {
+      "id": "unused-css-rules",
+      "title": "Reduce unused CSS",
+      "score": 0,
+      "displayValue": "Est savings of 18 KiB",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+          "wastedBytes": 18100,
+          "wastedPercent": 83.1904896247799,
+          "totalBytes": 21757
+        }
+      ]
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reduce unused JavaScript",
+      "score": 0,
+      "displayValue": "Est savings of 211 KiB",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-C5gqg7e2.js",
+          "totalBytes": 233102,
+          "wastedBytes": 144460,
+          "wastedPercent": 61.97288811185246
+        },
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-HD22HVTFD4",
+          "totalBytes": 175501,
+          "wastedBytes": 71602,
+          "wastedPercent": 40.798578303087915
+        }
+      ]
+    },
+    {
+      "id": "document-latency-insight",
+      "title": "Document request latency",
+      "score": 0,
+      "displayValue": "Est savings of 670 ms",
+      "details": []
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "title": "LCP request discovery",
+      "score": 0,
+      "details": [
+        {
+          "type": "checklist",
+          "items": {
+            "priorityHinted": {
+              "label": "fetchpriority=high should be applied",
+              "value": false
+            },
+            "requestDiscoverable": {
+              "label": "Request is discoverable in initial document",
+              "value": false
+            },
+            "eagerlyLoaded": {
+              "label": "lazy load not applied",
+              "value": true
+            }
+          }
+        },
+        {
+          "type": "node",
+          "lhId": "page-0-SECTION",
+          "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,0,SECTION",
+          "selector": "div.app-shell > div.forge-section-transition > main.builder-page > section.builder-hero",
+          "boundingRect": {
+            "top": 76,
+            "bottom": 486,
+            "left": 0,
+            "right": 412,
+            "width": 412,
+            "height": 410
+          },
+          "snippet": "<section class=\"builder-hero\" style=\"--hero-image-desktop: url(&quot;/manus-storage/promptforge-hero-desktop_16d1d42…;\">",
+          "nodeLabel": "PROMPT WORKSHOP / 01\nForge prompts\nthat ship.\n\nTurn a rough idea into a clear, …"
+        }
+      ]
+    }
+  ]
+}
+{
+  "route": "library",
+  "categories": {
+    "performance": 50,
+    "accessibility": 87
+  },
+  "metrics": {
+    "first-contentful-paint": "4.7 s",
+    "largest-contentful-paint": "6.4 s",
+    "speed-index": "7.2 s",
+    "total-blocking-time": "470 ms",
+    "cumulative-layout-shift": "0",
+    "interactive": "6.4 s"
+  },
+  "failed": [
+    {
+      "id": "mainthread-work-breakdown",
+      "title": "Minimize main-thread work",
+      "score": 0,
+      "displayValue": "2.7 s",
+      "details": [
+        {
+          "group": "scriptEvaluation",
+          "groupLabel": "Script Evaluation",
+          "duration": 914.1519999999965
+        },
+        {
+          "group": "styleLayout",
+          "groupLabel": "Style & Layout",
+          "duration": 895.436
+        },
+        {
+          "group": "other",
+          "groupLabel": "Other",
+          "duration": 599.4919999999994
+        }
+      ]
+    },
+    {
+      "id": "uses-rel-preconnect",
+      "title": "Preconnect to required origins",
+      "score": 0,
+      "displayValue": "Est savings of 320 ms",
+      "details": [
+        {
+          "url": "https://rupzljrpzdfrehgvbwdt.supabase.co",
+          "wastedMs": 317.34648
+        },
+        {
+          "url": "https://fonts.gstatic.com",
+          "wastedMs": 300.812
+        },
+        {
+          "url": "https://fonts.googleapis.com",
+          "wastedMs": 300.102
+        }
+      ]
+    },
+    {
+      "id": "third-party-summary",
+      "title": "Reduce the impact of third-party code",
+      "score": 0,
+      "displayValue": "Third-party code blocked the main thread for 320 ms",
+      "details": [
+        {
+          "mainThreadTime": 495.504,
+          "blockingTime": 315.99999999999903,
+          "transferSize": 175833,
+          "tbtImpact": 315.99999999999903,
+          "entity": "Google Tag Manager",
+          "subItems": {
+            "type": "subitems",
+            "items": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=G-HD22HVTFD4",
+                "mainThreadTime": 495.504,
+                "blockingTime": 315.99999999999903,
+                "transferSize": 175833,
+                "tbtImpact": 315.99999999999903
+              }
+            ]
+          }
+        },
+        {
+          "mainThreadTime": 3.356,
+          "blockingTime": 0,
+          "transferSize": 61066,
+          "tbtImpact": 0,
+          "entity": "Google Fonts",
+          "subItems": {
+            "type": "subitems",
+            "items": [
+              {
+                "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+                "mainThreadTime": 0,
+                "blockingTime": 0,
+                "transferSize": 37087,
+                "tbtImpact": 0
+              },
+              {
+                "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2",
+                "mainThreadTime": 0,
+                "blockingTime": 0,
+                "transferSize": 22860,
+                "tbtImpact": 0
+              },
+              {
+                "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+                "mainThreadTime": 3.356,
+                "blockingTime": 0,
+                "transferSize": 1119,
+                "tbtImpact": 0
+              }
+            ]
+          }
+        },
+        {
+          "mainThreadTime": 0,
+          "blockingTime": 0,
+          "transferSize": 807,
+          "tbtImpact": 0,
+          "entity": "supabase.co",
+          "subItems": {
+            "type": "subitems",
+            "items": [
+              {
+                "url": "https://rupzljrpzdfrehgvbwdt.supabase.co/auth/v1/settings",
+                "mainThreadTime": 0,
+                "blockingTime": 0,
+                "transferSize": 807,
+                "tbtImpact": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "largest-contentful-paint-element",
+      "title": "Largest Contentful Paint element",
+      "score": 0,
+      "displayValue": "6,370 ms",
+      "details": [
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "node",
+              "valueType": "node",
+              "label": "Element"
+            }
+          ],
+          "items": [
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-0-DIV",
+                "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,0,DIV,1,DIV,0,DIV",
+                "selector": "main.simple-page > div.page-intro > div > div.eyebrow",
+                "boundingRect": {
+                  "top": 192,
+                  "bottom": 206,
+                  "left": 20,
+                  "right": 392,
+                  "width": 372,
+                  "height": 14
+                },
+                "snippet": "<div class=\"eyebrow\">",
+                "nodeLabel": "PROMPT LIBRARY / 3,939"
+              }
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "phase",
+              "valueType": "text",
+              "label": "Phase"
+            },
+            {
+              "key": "percent",
+              "valueType": "text",
+              "label": "% of LCP"
+            },
+            {
+              "key": "timing",
+              "valueType": "ms",
+              "label": "Timing"
+            }
+          ],
+          "items": [
+            {
+              "phase": "TTFB",
+              "timing": 1701.3399999923706,
+              "percent": "27%"
+            },
+            {
+              "phase": "Load Delay",
+              "timing": 0,
+              "percent": "0%"
+            },
+            {
+              "phase": "Load Time",
+              "timing": 0,
+              "percent": "0%"
+            },
+            {
+              "phase": "Render Delay",
+              "timing": 4666.601000007629,
+              "percent": "73%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aria-allowed-role",
+      "title": "Uses ARIA roles on incompatible elements",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-0-ASIDE",
+            "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,ASIDE",
+            "selector": "body > div#root > div.app-shell > aside.mobile-install-prompt",
+            "boundingRect": {
+              "top": 667,
+              "bottom": 737,
+              "left": 12,
+              "right": 400,
+              "width": 388,
+              "height": 70
+            },
+            "snippet": "<aside class=\"mobile-install-prompt\" role=\"dialog\" aria-labelledby=\"install-prompt-title\">",
+            "nodeLabel": "Keep PromptForge close.\nAdd the workshop to your home screen for an app-like wo…",
+            "explanation": "Fix any of the following:\n  ARIA role dialog is not allowed for given element"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aria-required-children",
+      "title": "Elements with an ARIA `[role]` that require children to contain a specific `[role]` are missing some or all of those required children.",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-1-DIV",
+            "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,2,DIV",
+            "selector": "div.app-shell > div.forge-section-transition > main.simple-page > div.access-tabs",
+            "boundingRect": {
+              "top": 644,
+              "bottom": 685,
+              "left": 0,
+              "right": 412,
+              "width": 412,
+              "height": 41
+            },
+            "snippet": "<div class=\"access-tabs\" role=\"tablist\" aria-label=\"Prompt access filter\">",
+            "nodeLabel": "ALL PROMPTS\nFREE PROMPTS\nLOCKED PROMPTS",
+            "explanation": "Fix any of the following:\n  Element has children which are not allowed: button"
+          },
+          "subItems": {
+            "type": "subitems",
+            "items": [
+              {
+                "relatedNode": {
+                  "type": "node",
+                  "lhId": "1-2-BUTTON",
+                  "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,2,DIV,0,BUTTON",
+                  "selector": "div.forge-section-transition > main.simple-page > div.access-tabs > button.active",
+                  "boundingRect": {
+                    "top": 644,
+                    "bottom": 682,
+                    "left": 20,
+                    "right": 122,
+                    "width": 102,
+                    "height": 38
+                  },
+                  "snippet": "<button class=\"active\">",
+                  "nodeLabel": "ALL PROMPTS"
+                }
+              },
+              {
+                "relatedNode": {
+                  "type": "node",
+                  "lhId": "1-3-BUTTON",
+                  "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,2,DIV,1,BUTTON",
+                  "selector": "div.forge-section-transition > main.simple-page > div.access-tabs > button",
+                  "boundingRect": {
+                    "top": 644,
+                    "bottom": 682,
+                    "left": 129,
+                    "right": 237,
+                    "width": 108,
+                    "height": 38
+                  },
+                  "snippet": "<button class=\"\">",
+                  "nodeLabel": "FREE PROMPTS"
+                }
+              },
+              {
+                "relatedNode": {
+                  "type": "node",
+                  "lhId": "1-4-BUTTON",
+                  "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,2,DIV,2,BUTTON",
+                  "selector": "div.forge-section-transition > main.simple-page > div.access-tabs > button",
+                  "boundingRect": {
+                    "top": 644,
+                    "bottom": 682,
+                    "left": 244,
+                    "right": 369,
+                    "width": 126,
+                    "height": 38
+                  },
+                  "snippet": "<button class=\"\">",
+                  "nodeLabel": "LOCKED PROMPTS"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "heading-order",
+      "title": "Heading elements are not in a sequentially-descending order",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-5-H3",
+            "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,DIV,0,MAIN,4,DIV,0,ARTICLE,2,H3",
+            "selector": "main.simple-page > div.library-grid > article.library-card > h3",
+            "boundingRect": {
+              "top": 861,
+              "bottom": 909,
+              "left": 44,
+              "right": 369,
+              "width": 325,
+              "height": 48
+            },
+            "snippet": "<h3>",
+            "nodeLabel": "Health-content safety review — Risk & handoff",
+            "explanation": "Fix any of the following:\n  Heading order invalid"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta-viewport",
+      "title": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5.",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-6-META",
+            "path": "1,HTML,0,HEAD,4,META",
+            "selector": "head > meta",
+            "boundingRect": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0,
+              "width": 0,
+              "height": 0
+            },
+            "snippet": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1\">",
+            "nodeLabel": "head > meta",
+            "explanation": "Fix any of the following:\n  maximum-scale on <meta> tag disables zooming on mobile devices"
+          }
+        }
+      ]
+    },
+    {
+      "id": "render-blocking-resources",
+      "title": "Eliminate render-blocking resources",
+      "score": 0,
+      "displayValue": "Est savings of 450 ms",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+          "totalBytes": 21935,
+          "wastedMs": 300
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+          "totalBytes": 1119,
+          "wastedMs": 768
+        }
+      ]
+    },
+    {
+      "id": "unused-css-rules",
+      "title": "Reduce unused CSS",
+      "score": 0,
+      "displayValue": "Est savings of 18 KiB",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+          "wastedBytes": 18197,
+          "wastedPercent": 83.63604525599993,
+          "totalBytes": 21757
+        }
+      ]
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reduce unused JavaScript",
+      "score": 0,
+      "displayValue": "Est savings of 208 KiB",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-C5gqg7e2.js",
+          "totalBytes": 233102,
+          "wastedBytes": 140599,
+          "wastedPercent": 60.31656022060585
+        },
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-HD22HVTFD4",
+          "totalBytes": 175501,
+          "wastedBytes": 72611,
+          "wastedPercent": 41.373708914810805
+        }
+      ]
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "score": 0,
+      "details": [
+        {
+          "type": "list-section",
+          "value": {
+            "type": "network-tree",
+            "chains": {
+              "F6B8C4A6905CFF687FAA576E95E728AB": {
+                "url": "https://www.promptforge.com.ng/library",
+                "navStartToEndTime": 1914,
+                "transferSize": 2112,
+                "isLongest": true,
+                "children": {
+                  "54564.3": {
+                    "url": "https://www.promptforge.com.ng/assets/index-C5gqg7e2.js",
+                    "navStartToEndTime": 2939,
+                    "transferSize": 233269,
+                    "isLongest": true,
+                    "children": {
+                      "54564.32": {
+                        "url": "https://www.promptforge.com.ng/api/trpc/catalog.list?batch=1&input=%7B%220%22%3A%7B%22json%22%3A%7B%22search%22%3Anull%2C%22category%22%3A%22ALL%22%2C%22access%22%3A%22ALL%22%2C%22sort%22%3A%22NEWEST%22%2C%22limit%22%3A60%2C%22offset%22%3A0%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22search%22%3A%5B%22undefined%22%5D%7D%7D%7D%7D",
+                        "navStartToEndTime": 4743,
+                        "transferSize": 2532,
+                        "isLongest": true,
+                        "children": {}
+                      },
+                      "54564.30": {
+                        "url": "https://rupzljrpzdfrehgvbwdt.supabase.co/auth/v1/settings",
+                        "navStartToEndTime": 3519,
+                        "transferSize": 807,
+                        "children": {}
+                      }
+                    }
+                  },
+                  "54564.10": {
+                    "url": "https://www.promptforge.com.ng/manifest.webmanifest",
+                    "navStartToEndTime": 3738,
+                    "transferSize": 764,
+                    "children": {}
+                  },
+                  "54564.4": {
+                    "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+                    "navStartToEndTime": 2321,
+                    "transferSize": 21935,
+                    "children": {
+                      "54564.12": {
+                        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+                        "navStartToEndTime": 2360,
+                        "transferSize": 1119,
+                        "children": {
+                          "54564.14": {
+                            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+                            "navStartToEndTime": 3201,
+                            "transferSize": 37087,
+                            "children": {}
+                          },
+                          "54564.23": {
+                            "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2",
+                            "navStartToEndTime": 3185,
+                            "transferSize": 22860,
+                            "children": {}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "longestChain": {
+              "duration": 4743
+            }
+          }
+        },
+        {
+          "type": "list-section",
+          "title": "Preconnected origins",
+          "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+          "value": {
+            "type": "text",
+            "value": "no origins were preconnected"
+          }
+        },
+        {
+          "type": "list-section",
+          "title": "Preconnect candidates",
+          "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+          "value": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "origin",
+                "valueType": "text",
+                "label": "Origin"
+              },
+              {
+                "key": "wastedMs",
+                "valueType": "ms",
+                "label": "Est LCP savings"
+              }
+            ],
+            "items": [
+              {
+                "origin": "https://fonts.gstatic.com",
+                "wastedMs": 301.0174
+              },
+              {
+                "origin": "https://fonts.googleapis.com",
+                "wastedMs": 300.3074
+              },
+              {
+                "origin": "https://www.google-analytics.com",
+                "wastedMs": 96.536
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+{
+  "route": "auth",
+  "categories": {
+    "performance": 62,
+    "accessibility": 93
+  },
+  "metrics": {
+    "first-contentful-paint": "4.7 s",
+    "largest-contentful-paint": "5.4 s",
+    "speed-index": "7.6 s",
+    "total-blocking-time": "160 ms",
+    "cumulative-layout-shift": "0.009",
+    "interactive": "5.4 s"
+  },
+  "failed": [
+    {
+      "id": "server-response-time",
+      "title": "Reduce initial server response time",
+      "score": 0,
+      "displayValue": "Root document took 600 ms",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/auth",
+          "responseTime": 600.9370000000001
+        }
+      ]
+    },
+    {
+      "id": "uses-rel-preconnect",
+      "title": "Preconnect to required origins",
+      "score": 0,
+      "displayValue": "Est savings of 300 ms",
+      "details": [
+        {
+          "url": "https://fonts.gstatic.com",
+          "wastedMs": 300.67
+        },
+        {
+          "url": "https://fonts.googleapis.com",
+          "wastedMs": 300
+        },
+        {
+          "url": "https://www.google-analytics.com",
+          "wastedMs": 197.03800000190733
+        }
+      ]
+    },
+    {
+      "id": "largest-contentful-paint-element",
+      "title": "Largest Contentful Paint element",
+      "score": 0,
+      "displayValue": "5,440 ms",
+      "details": [
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "node",
+              "valueType": "node",
+              "label": "Element"
+            }
+          ],
+          "items": [
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-0-H1",
+                "path": "1,HTML,1,BODY,0,DIV,1,DIV,1,MAIN,0,SECTION,1,H1",
+                "selector": "div.app-shell > main.auth-page > section.auth-copy > h1",
+                "boundingRect": {
+                  "top": 243,
+                  "bottom": 341,
+                  "left": 20,
+                  "right": 392,
+                  "width": 372,
+                  "height": 98
+                },
+                "snippet": "<h1>",
+                "nodeLabel": "Pick up where\nyou left off."
+              }
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headings": [
+            {
+              "key": "phase",
+              "valueType": "text",
+              "label": "Phase"
+            },
+            {
+              "key": "percent",
+              "valueType": "text",
+              "label": "% of LCP"
+            },
+            {
+              "key": "timing",
+              "valueType": "ms",
+              "label": "Timing"
+            }
+          ],
+          "items": [
+            {
+              "phase": "TTFB",
+              "timing": 2060.304,
+              "percent": "38%"
+            },
+            {
+              "phase": "Load Delay",
+              "timing": 0,
+              "percent": "0%"
+            },
+            {
+              "phase": "Load Time",
+              "timing": 0,
+              "percent": "0%"
+            },
+            {
+              "phase": "Render Delay",
+              "timing": 3382.3460000000005,
+              "percent": "62%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aria-allowed-role",
+      "title": "Uses ARIA roles on incompatible elements",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-0-ASIDE",
+            "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,ASIDE",
+            "selector": "body > div#root > div.app-shell > aside.mobile-install-prompt",
+            "boundingRect": {
+              "top": 667,
+              "bottom": 737,
+              "left": 12,
+              "right": 400,
+              "width": 388,
+              "height": 70
+            },
+            "snippet": "<aside class=\"mobile-install-prompt\" role=\"dialog\" aria-labelledby=\"install-prompt-title\">",
+            "nodeLabel": "Keep PromptForge close.\nAdd the workshop to your home screen for an app-like wo…",
+            "explanation": "Fix any of the following:\n  ARIA role dialog is not allowed for given element"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta-viewport",
+      "title": "`[user-scalable=\"no\"]` is used in the `<meta name=\"viewport\">` element or the `[maximum-scale]` attribute is less than 5.",
+      "score": 0,
+      "details": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-1-META",
+            "path": "1,HTML,0,HEAD,4,META",
+            "selector": "head > meta",
+            "boundingRect": {
+              "top": 0,
+              "bottom": 0,
+              "left": 0,
+              "right": 0,
+              "width": 0,
+              "height": 0
+            },
+            "snippet": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1\">",
+            "nodeLabel": "head > meta",
+            "explanation": "Fix any of the following:\n  maximum-scale on <meta> tag disables zooming on mobile devices"
+          }
+        }
+      ]
+    },
+    {
+      "id": "render-blocking-resources",
+      "title": "Eliminate render-blocking resources",
+      "score": 0,
+      "displayValue": "Est savings of 450 ms",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+          "totalBytes": 21885,
+          "wastedMs": 300
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+          "totalBytes": 1119,
+          "wastedMs": 769
+        }
+      ]
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reduce unused JavaScript",
+      "score": 0,
+      "displayValue": "Est savings of 215 KiB",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-C5gqg7e2.js",
+          "totalBytes": 233102,
+          "wastedBytes": 147586,
+          "wastedPercent": 63.31370070392024
+        },
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-HD22HVTFD4",
+          "totalBytes": 175498,
+          "wastedBytes": 72647,
+          "wastedPercent": 41.39489693270036
+        }
+      ]
+    },
+    {
+      "id": "document-latency-insight",
+      "title": "Document request latency",
+      "score": 0,
+      "displayValue": "Est savings of 600 ms",
+      "details": []
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "score": 0,
+      "details": [
+        {
+          "type": "list-section",
+          "value": {
+            "type": "network-tree",
+            "chains": {
+              "9818D5F7796A8CEA4A0C7F15F79BDD22": {
+                "url": "https://www.promptforge.com.ng/auth",
+                "navStartToEndTime": 2290,
+                "transferSize": 2022,
+                "isLongest": true,
+                "children": {
+                  "54821.10": {
+                    "url": "https://www.promptforge.com.ng/manifest.webmanifest",
+                    "navStartToEndTime": 4527,
+                    "transferSize": 764,
+                    "isLongest": true,
+                    "children": {}
+                  },
+                  "54821.3": {
+                    "url": "https://www.promptforge.com.ng/assets/index-C5gqg7e2.js",
+                    "navStartToEndTime": 3747,
+                    "transferSize": 233319,
+                    "children": {
+                      "54821.30": {
+                        "url": "https://rupzljrpzdfrehgvbwdt.supabase.co/auth/v1/settings",
+                        "navStartToEndTime": 4308,
+                        "transferSize": 828,
+                        "children": {}
+                      }
+                    }
+                  },
+                  "54821.4": {
+                    "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+                    "navStartToEndTime": 3711,
+                    "transferSize": 21885,
+                    "children": {
+                      "54821.12": {
+                        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+                        "navStartToEndTime": 3768,
+                        "transferSize": 1119,
+                        "children": {
+                          "54821.14": {
+                            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2",
+                            "navStartToEndTime": 3992,
+                            "transferSize": 37116,
+                            "children": {}
+                          },
+                          "54821.23": {
+                            "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2",
+                            "navStartToEndTime": 3976,
+                            "transferSize": 22861,
+                            "children": {}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "longestChain": {
+              "duration": 4527
+            }
+          }
+        },
+        {
+          "type": "list-section",
+          "title": "Preconnected origins",
+          "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+          "value": {
+            "type": "text",
+            "value": "no origins were preconnected"
+          }
+        },
+        {
+          "type": "list-section",
+          "title": "Preconnect candidates",
+          "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+          "value": {
+            "type": "table",
+            "headings": [
+              {
+                "key": "origin",
+                "valueType": "text",
+                "label": "Origin"
+              },
+              {
+                "key": "wastedMs",
+                "valueType": "ms",
+                "label": "Est LCP savings"
+              }
+            ],
+            "items": [
+              {
+                "origin": "https://fonts.gstatic.com",
+                "wastedMs": 300.8654
+              },
+              {
+                "origin": "https://fonts.googleapis.com",
+                "wastedMs": 300.1954
+              },
+              {
+                "origin": "https://www.google-analytics.com",
+                "wastedMs": 210.864
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "render-blocking-insight",
+      "title": "Render blocking requests",
+      "score": 0,
+      "displayValue": "Est savings of 450 ms",
+      "details": [
+        {
+          "url": "https://www.promptforge.com.ng/assets/index-B3_n_Jsw.css",
+          "totalBytes": 21885,
+          "wastedMs": 300
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
+          "totalBytes": 1119,
+          "wastedMs": 770
+        }
+      ]
+    },
+    {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 0.12,
+      "displayValue": "4.7 s",
+      "details": []
+    },
+    {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 0.2,
+      "displayValue": "5.4 s",
+      "details": []
+    }
+  ]
+}
