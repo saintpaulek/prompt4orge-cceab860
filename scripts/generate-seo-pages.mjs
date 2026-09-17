@@ -6,6 +6,14 @@ const root = path.resolve("dist/public");
 
 const pages = [
   {
+    path: "blog",
+    title: "PromptForge Blog – Practical AI Prompt Guides",
+    description: "Practical AI prompt guides, ready-to-copy frameworks, and responsible workflows for Nigerian and African creators, freelancers, and businesses.",
+    heading: "Practical AI guides for work that ships",
+    summary: "Clear frameworks, copy-ready prompts, and grounded workflows for creators, freelancers, teams, and growing businesses.",
+    indexable: true,
+  },
+  {
     path: "library",
     title: "AI Prompt Library: 3,000+ Ready-to-Use Prompts | PromptForge",
     description: "Search 3,000+ structured AI prompts for marketing, social media, SEO, finance, customer service, automation, and more.",
