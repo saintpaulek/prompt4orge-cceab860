@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AlertCircle, ArrowLeft, CalendarClock, Check, CheckCircle2, FolderPlus, KeyRound, Loader2, Save, ShieldCheck, Tag, UserRound, History } from "lucide-react";
+import { AlertCircle, ArrowLeft, CalendarClock, Check, CheckCircle2, FolderPlus, KeyRound, Loader2, RefreshCw, Save, ShieldCheck, Tag, UserRound, History } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 import { useSupabaseAuth } from "@/contexts/SupabaseAuthContext";
@@ -33,6 +33,7 @@ export default function Account() {
   const [collectionName, setCollectionName] = useState("");
   const [tagDrafts, setTagDrafts] = useState<Record<number, string>>({});
   const [collectionForPrompt, setCollectionForPrompt] = useState<Record<number, string>>({});
+  const googleName = typeof user?.user_metadata?.full_name === "string" ? user.user_metadata.full_name : typeof user?.user_metadata?.name === "string" ? user.user_metadata.name : undefined;
 
   const savedPrompts = trpc.prompts.list.useQuery(undefined, { enabled: !!user, retry: false });
   const collections = trpc.collections.list.useQuery(undefined, { enabled: !!user, retry: false });
@@ -71,13 +72,13 @@ export default function Account() {
     <div className="account-page-head">
       <Link href="/" className="back-link"><ArrowLeft size={15}/> Back to builder</Link>
       <div className="eyebrow"><span className="pulse"/> PERSONAL SHELF / 04</div>
-      <h1>Your workshop shelf.</h1>
+      <h1>Welcome back{googleName ? `, ${googleName.split(" ")[0]}` : ""}.</h1>
       <p>Manage your profile and member access.</p>
     </div>
     <div className="account-grid">
       <section className="settings-card">
         <div className="section-kicker">PROFILE CARD <span>Private account details</span></div>
-        <div className="profile-identity"><div className="large-avatar">{(name || user.email || "P").slice(0, 1).toUpperCase()}</div><div><strong>{name || "PromptForge member"}</strong><span>{user.email}</span></div></div>
+        <div className="profile-identity"><div className="large-avatar">{(name || googleName || user.email || "P").slice(0, 1).toUpperCase()}</div><div><strong>{name || googleName || "PromptForge member"}</strong><span>{user.email}</span></div><button className="icon-action avatar-refresh" type="button" onClick={() => { void profile.refetch(); toast.success("Profile refreshed"); }} disabled={profile.isFetching} aria-label="Refresh profile" title="Refresh profile"><RefreshCw size={14} className={profile.isFetching ? "spin" : ""}/></button></div>
         <label className="field"><span>Display name</span><div className="input-with-icon"><UserRound size={15}/><input value={name} onChange={e => setName(e.target.value)} placeholder="Your name"/></div></label>
         <button className="forge-button" onClick={() => updateProfile.mutate({ name: name.trim() })} disabled={!name.trim() || updateProfile.isPending}><Save size={16}/>{updateProfile.isPending ? "Saving profile" : "Save profile"}</button>
       </section>

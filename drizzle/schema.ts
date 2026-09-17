@@ -23,6 +23,13 @@ export const unlockCodes = mysqlTable("unlock_codes", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const unlockCodeAudits = mysqlTable("unlock_code_audits", {
+  id: int("id").autoincrement().primaryKey(),
+  adminUserId: int("adminUserId").notNull(),
+  generatedCount: int("generatedCount").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const prompts = mysqlTable("prompts", {
   id: varchar("id", { length: 8 }).primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
@@ -49,6 +56,7 @@ export const savedPrompts = mysqlTable("saved_prompts", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type UnlockCode = typeof unlockCodes.$inferSelect;
+export type UnlockCodeAudit = typeof unlockCodeAudits.$inferSelect;
 export type Prompt = typeof prompts.$inferSelect;
 export type InsertPrompt = typeof prompts.$inferInsert;
 export type SavedPrompt = typeof savedPrompts.$inferSelect;

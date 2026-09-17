@@ -9,6 +9,7 @@ import { SupabaseAuthProvider } from "./contexts/SupabaseAuthContext";
 import { startLogin } from "./const";
 import { fetchJsonApi } from "./lib/trpcTransport";
 import "./index.css";
+import "./styles-patch.css";
 
 if (import.meta.env.PROD && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {

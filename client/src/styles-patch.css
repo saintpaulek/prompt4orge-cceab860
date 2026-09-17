@@ -1,0 +1,15 @@
+/* PromptForge polish additions — merge into index.css during build */
+.library-card-actions .card-action.copied { color: #82d59a; border-color: rgba(130,213,154,.45); animation: copied-pop .2s ease-out; }
+.avatar-refresh { margin-left: auto; flex: 0 0 auto; color: var(--orange); }
+.audit-panel { margin-top: 16px; }
+.audit-panel h2 { font: 600 24px/1.1 'Space Grotesk'; margin: 14px 0 18px; }
+.audit-list { display: grid; gap: 8px; }
+.audit-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; align-items: center; padding: 12px 14px; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08); }
+.audit-row span { display: inline-flex; align-items: center; gap: 7px; color: #deded8; font-size: 12px; }
+.audit-row span svg { color: var(--orange); }
+.audit-row strong { color: var(--orange); font: 600 13px 'Space Grotesk'; }
+.audit-row small { grid-column: 1 / -1; color: #7f877f; font-size: 10px; }
+@keyframes copied-pop { from { transform: scale(.96); opacity: .7; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .library-card-actions .card-action.copied { animation: none; } }
+html[data-theme="light"] .audit-row { background: #f7f4ee; border-color: rgba(24,29,25,.12); }
+html[data-theme="light"] .audit-row span { color: #29342d; }

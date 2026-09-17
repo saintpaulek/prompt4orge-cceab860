@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { and, asc, count, desc, eq, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertSavedPrompt, InsertUser, User, collectionItems, collections, promptVersions, prompts, savedPrompts, unlockCodes, users } from "../drizzle/schema";
+import { InsertSavedPrompt, InsertUser, User, collectionItems, collections, promptVersions, prompts, savedPrompts, unlockCodeAudits, unlockCodes, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -64,12 +64,19 @@ export function makeUnlockCode() {
   return `PF-${left}-${right}`;
 }
 
-export async function createUnlockCodes(count: number) {
+export async function createUnlockCodes(count: number, adminUserId?: number) {
   const db = await getDb();
   if (!db) throw new Error("Database unavailable");
   const values = Array.from({ length: count }, () => ({ code: makeUnlockCode(), isUsed: 0, usedBy: null }));
   await db.insert(unlockCodes).values(values);
+  if (adminUserId) await db.insert(unlockCodeAudits).values({ adminUserId, generatedCount: values.length });
   return values.map(value => value.code);
+}
+
+export async function listUnlockCodeAudits(limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({ id: unlockCodeAudits.id, adminUserId: unlockCodeAudits.adminUserId, generatedCount: unlockCodeAudits.generatedCount, createdAt: unlockCodeAudits.createdAt }).from(unlockCodeAudits).orderBy(desc(unlockCodeAudits.createdAt)).limit(limit);
 }
 
 export async function listUnlockCodes(limit = 100) {

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useSupabaseAuth } from "@/contexts/SupabaseAuthContext";
 import { clearRecoveryPending, isRecoveryPending } from "@/lib/supabase";
 import { consumeGoogleAuthPending, getGooglePostAuthPath } from "@/lib/googleAuth";
+import { trackProductEvent } from "@/lib/productAnalytics";
 
  type AuthMode = "signin" | "signup" | "forgot" | "reset";
 
@@ -35,7 +36,7 @@ export default function Auth() {
       return;
     }
     if (!sessionLoading && user) {
-      if (consumeGoogleAuthPending()) toast.success("Signed in with Google. Welcome to your workshop.");
+      if (consumeGoogleAuthPending()) { trackProductEvent("google_sign_in", { method: "google", success: true }); toast.success("Signed in with Google. Welcome to your workshop."); }
       navigate(getGooglePostAuthPath());
     }
   }, [recoveryFlow, sessionLoading, user, navigate]);

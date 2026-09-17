@@ -5,7 +5,7 @@ import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_
 import { notifyOwner } from "./_core/notification";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { addPromptToCollection, countPrompts, createCollection, createPromptVersion, createSavedPrompt, createUnlockCodes, deleteCollection, deleteSavedPrompt, getUserById, hasPromptForgeAdminAccess, isPromptForgeOwnerEmail, listCollectionItems, listCollections, listPromptVersions, listPrompts, listSavedPrompts, listUnlockCodes, redeemUnlockCode, removePromptFromCollection, setSavedPromptFavorite, updateSavedPromptTags, updateUserProfile } from "./db";
+import { addPromptToCollection, countPrompts, createCollection, createPromptVersion, createSavedPrompt, createUnlockCodes, deleteCollection, deleteSavedPrompt, getUserById, hasPromptForgeAdminAccess, isPromptForgeOwnerEmail, listCollectionItems, listCollections, listPromptVersions, listPrompts, listSavedPrompts, listUnlockCodeAudits, listUnlockCodes, redeemUnlockCode, removePromptFromCollection, setSavedPromptFavorite, updateSavedPromptTags, updateUserProfile } from "./db";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -45,7 +45,8 @@ export const appRouter = router({
   admin: router({
     unlocks: router({
       list: adminProcedure.input(z.object({ limit: z.number().int().min(1).max(200).default(100) }).optional()).query(({ input }) => listUnlockCodes(input?.limit ?? 100)),
-      generate: adminProcedure.input(z.object({ count: z.number().int().min(1).max(50).default(1) })).mutation(async ({ input }) => ({ codes: await createUnlockCodes(input.count) })),
+      audit: adminProcedure.input(z.object({ limit: z.number().int().min(1).max(100).default(50) }).optional()).query(({ input }) => listUnlockCodeAudits(input?.limit ?? 50)),
+      generate: adminProcedure.input(z.object({ count: z.number().int().min(1).max(50).default(1) })).mutation(async ({ ctx, input }) => ({ codes: await createUnlockCodes(input.count, ctx.user!.id) })),
     }),
   }),
   prompts: router({
