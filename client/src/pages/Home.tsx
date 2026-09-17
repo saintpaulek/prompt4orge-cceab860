@@ -3,21 +3,14 @@
 /* Builder preview and platform catalog publish marker: final propagation check. */
 /* Favicon refresh marker: PromptForge emblem metadata. */
 /* Site-wide professional upgrade propagation marker: 11946cef-refresh-2. */
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import type React from "react";
 import { Link, useLocation } from "wouter";
 import { Copy, RotateCcw, Save, Sparkles, ArrowRight, Check, LockKeyhole, Search, Menu, X, ChevronDown, Hammer, BookOpen, Mail, Info, UserRound, WandSparkles, Video, Image as ImageIcon, Code2, Megaphone, PenLine, BriefcaseBusiness, Star, Phone, MessageCircle, Send, CheckCircle2, Users, Target, Wrench, Lightbulb, ExternalLink, Landmark, Sun, Moon, Monitor, ShieldCheck, GraduationCap, HeartPulse, Building2, Scale, ShoppingCart, UserCog, House, ClipboardList } from "lucide-react";
 import { toast } from "sonner";
 import { useSupabaseAuth } from "@/contexts/SupabaseAuthContext";
-import AuthPage from "@/pages/Auth";
 import { trpc } from "@/lib/trpc";
 import { WHATSAPP_BUSINESS_URL } from "@/lib/contactLinks";
-import AccountPage from "@/pages/Account";
-import AdminUnlocksPage from "@/pages/AdminUnlocks";
-import GuidePages from "@/pages/GuidePages";
-import AuthorPage from "@/pages/AuthorPage";
-import BlogPages from "@/pages/BlogPages";
-import PromptLibrary, { LIBRARY_BUILDER_TRANSFER_KEY } from "@/pages/PromptLibrary";
 import { newCategorySafetyNotes, platformOptions, projectTypesByCategory } from "@/lib/builderOptions";
 import { useTheme } from "@/contexts/ThemeContext";
 import { getMobileNavActiveItem, mobileNavTooltips } from "@/lib/mobileNavigation";
@@ -28,6 +21,15 @@ import { getMobileMenuAccessibility } from "@/lib/mobileAppExperience";
 import { getHeroAssetStyle } from "@/lib/heroAssets";
 import { extractPromptVariables, formatPromptExport, optimizePromptForPlatform, refinePrompt, replacePromptVariables, scorePrompt, type OptimizationTarget, type PromptExportFormat, type RefineAction } from "@/lib/promptTools";
 import { builderIllustrationAssets } from "@/lib/builderAssets";
+
+const AuthPage = lazy(() => import("@/pages/Auth"));
+const AccountPage = lazy(() => import("@/pages/Account"));
+const AdminUnlocksPage = lazy(() => import("@/pages/AdminUnlocks"));
+const GuidePages = lazy(() => import("@/pages/GuidePages"));
+const AuthorPage = lazy(() => import("@/pages/AuthorPage"));
+const BlogPages = lazy(() => import("@/pages/BlogPages"));
+const PromptLibrary = lazy(() => import("@/pages/PromptLibrary"));
+const LIBRARY_BUILDER_TRANSFER_KEY = "promptforge-library-transfer";
 
 
 type Category = { name: string; icon: React.ElementType; blurb: string };
@@ -262,4 +264,4 @@ function ForgeSectionTransition({ routeKey, children }: { routeKey: string; chil
   return <div key={routeKey} className="forge-section-transition" data-route={routeKey}>{children}</div>;
 }
 
-export default function Home() { const [location, navigate] = useLocation(); const [unlockOpen, setUnlockOpen] = useState(false); const page = location === "/library" ? <PromptLibrary/> : location === "/blog" || location.startsWith("/blog/") ? <BlogPages/> : location === "/pricing" ? <PricingPage/> : location === "/about" ? <AboutPage/> : location === "/contact" ? <ContactPage/> : location === "/author/promptforge-editorial-team" ? <AuthorPage/> : location.startsWith("/guides/") ? <GuidePages/> : location === "/auth" ? <AuthPage/> : location === "/account" ? <AccountPage/> : location.startsWith("/admin/unlocks") ? <AdminUnlocksPage/> : <Builder/>; const isForgeSection = location === "/" || location === "/library"; return <Layout onUnlock={() => setUnlockOpen(true)}>{isForgeSection ? <ForgeSectionTransition routeKey={location}>{page}</ForgeSectionTransition> : page}{unlockOpen && <div className="modal-backdrop" onClick={() => setUnlockOpen(false)}><div className="unlock-modal" onClick={e => e.stopPropagation()}><button className="close-modal" onClick={() => setUnlockOpen(false)}><X size={18}/></button><div className="eyebrow">LIFETIME ACCESS</div><h2>Unlock the whole workshop.</h2><p>Get every prompt in the library plus unlimited forging for a one-time payment.</p><div className="price price-pair"><strong>₦10,000</strong><span>/</span><strong>$10</strong><small>one time</small></div><a className="forge-button" href="https://wa.me/p/28447341561540526/2347069573528" target="_blank" rel="noreferrer">Unlock PromptForge <ArrowRight size={16}/></a><div className="code-line">Have an unlock code? <button onClick={() => { setUnlockOpen(false); navigate("/account"); }}>Redeem code</button></div></div></div>}</Layout> }
+export default function Home() { const [location, navigate] = useLocation(); const [unlockOpen, setUnlockOpen] = useState(false); const page = location === "/library" ? <PromptLibrary/> : location === "/blog" || location.startsWith("/blog/") ? <BlogPages/> : location === "/pricing" ? <PricingPage/> : location === "/about" ? <AboutPage/> : location === "/contact" ? <ContactPage/> : location === "/author/promptforge-editorial-team" ? <AuthorPage/> : location.startsWith("/guides/") ? <GuidePages/> : location === "/auth" ? <AuthPage/> : location === "/account" ? <AccountPage/> : location.startsWith("/admin/unlocks") ? <AdminUnlocksPage/> : <Builder/>; const isForgeSection = location === "/" || location === "/library"; return <Layout onUnlock={() => setUnlockOpen(true)}><Suspense fallback={<div className="route-loading" role="status">Loading the workshop…</div>}>{isForgeSection ? <ForgeSectionTransition routeKey={location}>{page}</ForgeSectionTransition> : page}</Suspense>{unlockOpen && <div className="modal-backdrop" onClick={() => setUnlockOpen(false)}><div className="unlock-modal" onClick={e => e.stopPropagation()}><button className="close-modal" onClick={() => setUnlockOpen(false)}><X size={18}/></button><div className="eyebrow">LIFETIME ACCESS</div><h2>Unlock the whole workshop.</h2><p>Get every prompt in the library plus unlimited forging for a one-time payment.</p><div className="price price-pair"><strong>₦10,000</strong><span>/</span><strong>$10</strong><small>one time</small></div><a className="forge-button" href="https://wa.me/p/28447341561540526/2347069573528" target="_blank" rel="noreferrer">Unlock PromptForge <ArrowRight size={16}/></a><div className="code-line">Have an unlock code? <button onClick={() => { setUnlockOpen(false); navigate("/account"); }}>Redeem code</button></div></div></div>}</Layout> }

@@ -136,7 +136,7 @@ function InstallPrompt() {
   };
 
   if (mode === "hidden") return null;
-  return <aside className="mobile-install-prompt" role="dialog" aria-labelledby="install-prompt-title"><button className="install-dismiss" onClick={dismiss} aria-label="Dismiss install prompt"><X size={16}/></button><div className="install-icon"><Download size={18}/></div><div className="install-copy"><strong id="install-prompt-title">Keep PromptForge close.</strong>{mode === "native" ? <span>Add the workshop to your home screen for an app-like workspace.</span> : <span>In Safari, tap <Share2 size={13}/> Share, then choose “Add to Home Screen.”</span>}</div>{mode === "native" && <button className="install-action" onClick={() => void install()}>Install</button>}</aside>;
+  return <aside className="mobile-install-prompt" aria-labelledby="install-prompt-title"><button className="install-dismiss" onClick={dismiss} aria-label="Dismiss install prompt"><X size={16}/></button><div className="install-icon"><Download size={18}/></div><div className="install-copy"><strong id="install-prompt-title">Keep PromptForge close.</strong>{mode === "native" ? <span>Add the workshop to your home screen for an app-like workspace.</span> : <span>In Safari, tap <Share2 size={13}/> Share, then choose “Add to Home Screen.”</span>}</div>{mode === "native" && <button className="install-action" onClick={() => void install()}>Install</button>}</aside>;
 }
 
 export default function MobileNativeControls() {

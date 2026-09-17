@@ -2,18 +2,15 @@
 <html lang="en">
 
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HD22HVTFD4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-HD22HVTFD4');
-    </script>
+    <link rel="preconnect" href="https://rupzljrpzdfrehgvbwdt.supabase.co" />
+    <link rel="preconnect" href="https://d36hbw14aib5lz.cloudfront.net" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+      content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" as="image" href="/manus-storage/promptforge-hero-mobile_964b233a.webp" media="(max-width: 720px)" fetchpriority="high" />
     <title>AI Prompt Builder for Better Results | PromptForge</title>
     <meta name="description" content="Create clear, structured AI prompts in under 60 seconds for content, marketing, code, business, and customer engagement." />
     <meta name="keywords" content="AI prompt builder, prompt engineering, ChatGPT prompts, marketing prompts, business prompts, prompt library" />
@@ -45,20 +42,32 @@
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <!-- THIS IS THE START OF A COMMENT BLOCK, BLOCK TO BE DELETED: Google Fonts here, example:
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    THIS IS THE END OF A COMMENT BLOCK, BLOCK TO BE DELETED -->
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+    <script>
+      (function () {
+        function loadAnalytics() {
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', 'G-HD22HVTFD4');
+          var ga = document.createElement('script');
+          ga.async = true;
+          ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-HD22HVTFD4';
+          document.head.appendChild(ga);
+          var umami = document.createElement('script');
+          umami.defer = true;
+          umami.src = '%VITE_ANALYTICS_ENDPOINT%/umami';
+          umami.dataset.websiteId = '%VITE_ANALYTICS_WEBSITE_ID%';
+          document.body.appendChild(umami);
+        }
+        if ('requestIdleCallback' in window) window.requestIdleCallback(loadAnalytics, { timeout: 2500 });
+        else window.setTimeout(loadAnalytics, 1500);
+      }());
+    </script>
   </body>
 
 </html>

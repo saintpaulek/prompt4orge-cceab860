@@ -3,8 +3,22 @@ import path from "node:path";
 
 const origin = "https://www.promptforge.com.ng";
 const root = path.resolve("dist/public");
+const blogPages = [
+  ["best-ai-prompts-for-whatsapp-business-nigeria", "Best AI Prompts for WhatsApp Business in Nigeria (2026)", "Build clearer WhatsApp customer replies, campaigns, payment reminders, and follow-up workflows for Nigerian businesses."],
+  ["midjourney-image-prompts-that-look-african", "How to Create Midjourney / Image Prompts That Actually Look African", "A practical guide to place, people, styling, light, and cultural detail for grounded African visual concepts."],
+  ["prompt-engineering-cheat-sheet-freelancers", "Prompt Engineering Cheat Sheet for Freelancers", "A compact framework for turning client goals into reusable prompts for research, proposals, content, delivery, and review."],
+  ["ready-to-use-ai-prompts-nigerian-social-media-managers", "15 Ready-to-Use AI Prompts for Nigerian Social Media Managers", "Practical prompts for content calendars, captions, community replies, campaign ideas, and performance reviews."],
+  ["write-better-client-proposals-with-ai", "How to Write Better Client Proposals with AI (Freelancer Guide)", "Use AI to clarify scope, mirror client priorities, show your method, and reduce proposal ambiguity."],
+  ["chatgpt-prompts-selling-instagram-tiktok-nigeria", "Best ChatGPT Prompts for Selling on Instagram & TikTok in Nigeria", "Create platform-native hooks, product explanations, objection replies, and short-form sales assets."],
+  ["ai-prompts-virtual-assistants-remote-workers-africa", "AI Prompts for Virtual Assistants & Remote Workers in Africa", "Prompts for inbox triage, meeting notes, research, SOPs, handovers, and client communication."],
+  ["high-converting-sales-copy-ai-nigerian-examples", "How to Generate High-Converting Sales Copy with AI (Nigerian Examples)", "A practical framework for offers, objections, proof, urgency, and calls to action without unsupported hype."],
+  ["free-vs-paid-ai-prompt-tools-creators", "Free vs Paid AI Prompt Tools – Honest Comparison for Creators", "How to decide whether a prompt tool earns a place in your workflow based on repeat use and time saved."],
+  ["promptforge-build-production-ready-prompts-60-seconds", "PromptForge Tutorial: How to Build Production-Ready Prompts in 60 Seconds", "A step-by-step tour of choosing a category, shaping the brief, reviewing output, and saving a reusable prompt."],
+  ["ai-image-prompt-formulas-african-brands-creators", "10 AI Image Prompt Formulas That Work for African Brands & Creators", "Reusable visual formulas for product scenes, portraits, campaigns, editorial images, and social content."],
+  ["nigerian-businesses-ai-prompts-save-time-money", "How Nigerian Businesses Are Using AI Prompts to Save Time & Make More Money", "Where structured prompts can improve customer service, sales follow-up, content operations, and internal documents."],
+].map(([slug, title, description]) => ({ path: `blog/${slug}`, title: `${title} | PromptForge`, description, heading: title, summary: description, author: "PromptForge Editorial Team", published: "2026-09-17", updated: "2026-09-17", indexable: true }));
 
-const pages = [
+const pages = [...blogPages,
   {
     path: "blog",
     title: "PromptForge Blog – Practical AI Prompt Guides",
