@@ -45,3 +45,9 @@ html[data-theme="light"] .blog-card p,.light .blog-card p { color:#536057; }
 html[data-theme="light"] .blog-prompt { color:#f4f1e9; background:#1b201b; }
 @media (max-width:900px) { .blog-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .blog-cta { flex-direction:column; align-items:flex-start; } }
 @media (max-width:620px) { .blog-page,.blog-article-page { padding:0 16px 56px; } .blog-grid { grid-template-columns:1fr; } .blog-card { min-height:0; } .blog-article-hero h1 { font-size:44px; } .blog-article-body>section:not(.blog-cta) { grid-template-columns:32px 1fr; gap:12px; } .blog-article-body h2 { font-size:25px; } .blog-cta { padding:22px 18px; } }
+
+/* Stability: keep the viewport from jumping while lazy routes and catalogs settle. */
+.route-loading { min-height: 900px; display:grid; place-items:center; color:#9b9e98; }
+.library-data-page .live-library-grid { min-height: 960px; align-content:start; }
+.blog-page .blog-grid { min-height: 900px; align-content:start; }
+@media (max-width:620px) { .route-loading { min-height: 760px; } .library-data-page .live-library-grid { min-height: 1360px; } .blog-page .blog-grid { min-height: 1700px; } }

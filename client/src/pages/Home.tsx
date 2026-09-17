@@ -16,7 +16,6 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { getMobileNavActiveItem, mobileNavTooltips } from "@/lib/mobileNavigation";
 import { getFullAccessTooltip, hasFullAccess } from "@/lib/accessStatus";
 import { getGoogleAvatarUrl } from "@/lib/googleAuth";
-import MobileNativeControls from "@/components/MobileNativeControls";
 import { getMobileMenuAccessibility } from "@/lib/mobileAppExperience";
 import { getHeroAssetStyle } from "@/lib/heroAssets";
 import { extractPromptVariables, formatPromptExport, optimizePromptForPlatform, refinePrompt, replacePromptVariables, scorePrompt, type OptimizationTarget, type PromptExportFormat, type RefineAction } from "@/lib/promptTools";
@@ -29,6 +28,7 @@ const GuidePages = lazy(() => import("@/pages/GuidePages"));
 const AuthorPage = lazy(() => import("@/pages/AuthorPage"));
 const BlogPages = lazy(() => import("@/pages/BlogPages"));
 const PromptLibrary = lazy(() => import("@/pages/PromptLibrary"));
+const MobileNativeControls = lazy(() => import("@/components/MobileNativeControls"));
 const LIBRARY_BUILDER_TRANSFER_KEY = "promptforge-library-transfer";
 
 
@@ -113,7 +113,7 @@ function Layout({ children, onUnlock }: { children: React.ReactNode; onUnlock: (
     </header>
     {children}
     <footer className="footer"><div className="footer-brand"><span className="footer-wordmark" aria-label="PromptForge"><span>PROMPT</span><b>FORGE</b></span><div><strong>PromptForge</strong><span>Production-ready prompts, without the blank page.</span></div></div><div className="footer-links"><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/library">Library</Link></div><small>© 2026 PromptForge.</small></footer>
-    <MobileNativeControls/>
+    <Suspense fallback={null}><MobileNativeControls/></Suspense>
     <MobileAppNavigation location={location} hasAccount={!!user} isUnlocked={fullAccess} onUnlock={onUnlock}/>
   </div>;
 }
