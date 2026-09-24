@@ -82,7 +82,7 @@ export async function listUnlockCodeAudits(limit = 50) {
 export async function listUnlockRedemptionAudits(limit = 100) {
   const db = await getDb();
   if (!db) return [];
-  return db.select({ id: unlockRedemptionAudits.id, userId: unlockRedemptionAudits.userId, code: unlockRedemptionAudits.code, outcome: unlockRedemptionAudits.outcome, createdAt: unlockRedemptionAudits.createdAt }).from(unlockRedemptionAudits).orderBy(desc(unlockRedemptionAudits.createdAt)).limit(limit);
+  return db.select({ id: unlockRedemptionAudits.id, userId: unlockRedemptionAudits.userId, userEmail: users.email, code: unlockRedemptionAudits.code, outcome: unlockRedemptionAudits.outcome, createdAt: unlockRedemptionAudits.createdAt }).from(unlockRedemptionAudits).leftJoin(users, eq(unlockRedemptionAudits.userId, users.id)).orderBy(desc(unlockRedemptionAudits.createdAt)).limit(limit);
 }
 
 export async function listUnlockCodes(limit = 100) {
