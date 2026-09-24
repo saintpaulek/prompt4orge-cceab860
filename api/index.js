@@ -172,6 +172,19 @@ var unlockCodes = mysqlTable("unlock_codes", {
   usedBy: int("usedBy"),
   createdAt: timestamp("createdAt").defaultNow().notNull()
 });
+var unlockCodeAudits = mysqlTable("unlock_code_audits", {
+  id: int("id").autoincrement().primaryKey(),
+  adminUserId: int("adminUserId").notNull(),
+  generatedCount: int("generatedCount").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull()
+});
+var unlockRedemptionAudits = mysqlTable("unlock_redemption_audits", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  code: varchar("code", { length: 80 }).notNull(),
+  outcome: mysqlEnum("outcome", ["SUCCESS", "ALREADY_USED", "INVALID", "RACE_LOST"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull()
+});
 var prompts = mysqlTable("prompts", {
   id: varchar("id", { length: 8 }).primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
@@ -280,12 +293,23 @@ function makeUnlockCode() {
   const right = randomBytes(3).toString("hex").toUpperCase();
   return `PF-${left}-${right}`;
 }
-async function createUnlockCodes(count2) {
+async function createUnlockCodes(count2, adminUserId) {
   const db = await getDb();
   if (!db) throw new Error("Database unavailable");
   const values = Array.from({ length: count2 }, () => ({ code: makeUnlockCode(), isUsed: 0, usedBy: null }));
   await db.insert(unlockCodes).values(values);
+  if (adminUserId) await db.insert(unlockCodeAudits).values({ adminUserId, generatedCount: values.length });
   return values.map((value) => value.code);
+}
+async function listUnlockCodeAudits(limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({ id: unlockCodeAudits.id, adminUserId: unlockCodeAudits.adminUserId, generatedCount: unlockCodeAudits.generatedCount, createdAt: unlockCodeAudits.createdAt }).from(unlockCodeAudits).orderBy(desc(unlockCodeAudits.createdAt)).limit(limit);
+}
+async function listUnlockRedemptionAudits(limit = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({ id: unlockRedemptionAudits.id, userId: unlockRedemptionAudits.userId, code: unlockRedemptionAudits.code, outcome: unlockRedemptionAudits.outcome, createdAt: unlockRedemptionAudits.createdAt }).from(unlockRedemptionAudits).orderBy(desc(unlockRedemptionAudits.createdAt)).limit(limit);
 }
 async function listUnlockCodes(limit = 100) {
   const db = await getDb();
@@ -300,13 +324,24 @@ async function redeemUnlockCode(userId, code) {
   return db.transaction(async (tx) => {
     const matches = await tx.select({ id: unlockCodes.id, isUsed: unlockCodes.isUsed }).from(unlockCodes).where(eq(unlockCodes.code, normalized)).limit(1);
     const found = matches[0];
-    if (!found) return { status: "invalid" };
-    if (found.isUsed) return { status: "already_used" };
+    if (!found) {
+      await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "INVALID" });
+      return { status: "invalid" };
+    }
+    if (found.isUsed) {
+      await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "ALREADY_USED" });
+      return { status: "already_used" };
+    }
     const updateResult = await tx.update(unlockCodes).set({ isUsed: 1, usedBy: userId }).where(and(eq(unlockCodes.id, found.id), eq(unlockCodes.isUsed, 0)));
-    const affectedRows = updateResult.affectedRows ?? 0;
-    if (affectedRows !== 1) return { status: "already_used" };
+    const resultHeader = Array.isArray(updateResult) ? updateResult[0] : updateResult;
+    const affectedRows = resultHeader?.affectedRows ?? 0;
+    if (affectedRows !== 1) {
+      await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "RACE_LOST" });
+      return { status: "already_used" };
+    }
     const unlockedAt = /* @__PURE__ */ new Date();
     await tx.update(users).set({ isUnlocked: 1, unlockedAt, unlockCode: normalized }).where(eq(users.id, userId));
+    await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "SUCCESS" });
     return { status: "success", redeemedCode: normalized, unlockedAt };
   });
 }
@@ -534,7 +569,9 @@ var appRouter = router({
   admin: router({
     unlocks: router({
       list: adminProcedure.input(z2.object({ limit: z2.number().int().min(1).max(200).default(100) }).optional()).query(({ input }) => listUnlockCodes(input?.limit ?? 100)),
-      generate: adminProcedure.input(z2.object({ count: z2.number().int().min(1).max(50).default(1) })).mutation(async ({ input }) => ({ codes: await createUnlockCodes(input.count) }))
+      audit: adminProcedure.input(z2.object({ limit: z2.number().int().min(1).max(100).default(50) }).optional()).query(({ input }) => listUnlockCodeAudits(input?.limit ?? 50)),
+      redemptionAudit: adminProcedure.input(z2.object({ limit: z2.number().int().min(1).max(200).default(100) }).optional()).query(({ input }) => listUnlockRedemptionAudits(input?.limit ?? 100)),
+      generate: adminProcedure.input(z2.object({ count: z2.number().int().min(1).max(50).default(1) })).mutation(async ({ ctx, input }) => ({ codes: await createUnlockCodes(input.count, ctx.user.id) }))
     })
   }),
   prompts: router({
