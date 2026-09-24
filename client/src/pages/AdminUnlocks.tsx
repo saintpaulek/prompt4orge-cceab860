@@ -39,7 +39,7 @@ export default function AdminUnlocks() {
 
   const stats = useMemo(() => {
     const rows = codes.data ?? [];
-    return { total: rows.length, available: rows.filter(row => !row.isUsed).length, used: rows.filter(row => row.isUsed).length, failed: (redemptionAudits.data ?? []).filter(row => row.outcome === "INVALID").length };
+    return { total: rows.length, available: rows.filter(row => !row.isUsed).length, used: rows.filter(row => row.isUsed).length, failed: (redemptionAudits.data ?? []).filter(row => row.outcome !== "SUCCESS").length };
   }, [codes.data, redemptionAudits.data]);
 
   const copyCode = async (code: string) => {
