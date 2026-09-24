@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { and, asc, count, desc, eq, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertSavedPrompt, InsertUser, User, collectionItems, collections, promptVersions, prompts, savedPrompts, unlockCodeAudits, unlockCodes, users } from "../drizzle/schema";
+import { InsertSavedPrompt, InsertUser, User, collectionItems, collections, promptVersions, prompts, savedPrompts, unlockCodeAudits, unlockCodes, unlockRedemptionAudits, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -79,6 +79,12 @@ export async function listUnlockCodeAudits(limit = 50) {
   return db.select({ id: unlockCodeAudits.id, adminUserId: unlockCodeAudits.adminUserId, generatedCount: unlockCodeAudits.generatedCount, createdAt: unlockCodeAudits.createdAt }).from(unlockCodeAudits).orderBy(desc(unlockCodeAudits.createdAt)).limit(limit);
 }
 
+export async function listUnlockRedemptionAudits(limit = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({ id: unlockRedemptionAudits.id, userId: unlockRedemptionAudits.userId, code: unlockRedemptionAudits.code, outcome: unlockRedemptionAudits.outcome, createdAt: unlockRedemptionAudits.createdAt }).from(unlockRedemptionAudits).orderBy(desc(unlockRedemptionAudits.createdAt)).limit(limit);
+}
+
 export async function listUnlockCodes(limit = 100) {
   const db = await getDb();
   if (!db) return [];
@@ -97,8 +103,14 @@ export async function redeemUnlockCode(userId: number, code: string) {
       .where(eq(unlockCodes.code, normalized))
       .limit(1);
     const found = matches[0];
-    if (!found) return { status: "invalid" as const };
-    if (found.isUsed) return { status: "already_used" as const };
+    if (!found) {
+      await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "INVALID" });
+      return { status: "invalid" as const };
+    }
+    if (found.isUsed) {
+      await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "ALREADY_USED" });
+      return { status: "already_used" as const };
+    }
 
     // The conditional update is the single-use guard. Concurrent attempts for
     // the same code can never both claim it because only the first update can
@@ -111,13 +123,17 @@ export async function redeemUnlockCode(userId: number, code: string) {
     // valid unused code appear to have affected zero rows.
     const resultHeader = Array.isArray(updateResult) ? updateResult[0] : updateResult;
     const affectedRows = (resultHeader as { affectedRows?: number } | undefined)?.affectedRows ?? 0;
-    if (affectedRows !== 1) return { status: "already_used" as const };
+    if (affectedRows !== 1) {
+      await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "RACE_LOST" });
+      return { status: "already_used" as const };
+    }
 
     const unlockedAt = new Date();
     // Persist access and redemption history on the authenticated account. The
     // profile is keyed by account id, so access follows that account across
     // devices after the user signs in again.
     await tx.update(users).set({ isUnlocked: 1, unlockedAt, unlockCode: normalized }).where(eq(users.id, userId));
+    await tx.insert(unlockRedemptionAudits).values({ userId, code: normalized, outcome: "SUCCESS" });
     return { status: "success" as const, redeemedCode: normalized, unlockedAt };
   });
 }

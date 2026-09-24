@@ -30,6 +30,14 @@ export const unlockCodeAudits = mysqlTable("unlock_code_audits", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const unlockRedemptionAudits = mysqlTable("unlock_redemption_audits", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  code: varchar("code", { length: 80 }).notNull(),
+  outcome: mysqlEnum("outcome", ["SUCCESS", "ALREADY_USED", "INVALID", "RACE_LOST"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const prompts = mysqlTable("prompts", {
   id: varchar("id", { length: 8 }).primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
@@ -57,6 +65,7 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type UnlockCode = typeof unlockCodes.$inferSelect;
 export type UnlockCodeAudit = typeof unlockCodeAudits.$inferSelect;
+export type UnlockRedemptionAudit = typeof unlockRedemptionAudits.$inferSelect;
 export type Prompt = typeof prompts.$inferSelect;
 export type InsertPrompt = typeof prompts.$inferInsert;
 export type SavedPrompt = typeof savedPrompts.$inferSelect;

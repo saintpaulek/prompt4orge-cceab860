@@ -43,6 +43,13 @@
       "when": 1789636461656,
       "tag": "0005_fluffy_runaways",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1790270675774,
+      "tag": "0006_dear_zombie",
+      "breakpoints": true
     }
   ]
 }
