@@ -106,7 +106,11 @@ export async function redeemUnlockCode(userId: number, code: string) {
     const updateResult = await tx.update(unlockCodes)
       .set({ isUsed: 1, usedBy: userId })
       .where(and(eq(unlockCodes.id, found.id), eq(unlockCodes.isUsed, 0)));
-    const affectedRows = (updateResult as { affectedRows?: number }).affectedRows ?? 0;
+    // Drizzle's MySQL driver returns `[ResultSetHeader, fields]`, not the
+    // ResultSetHeader directly. Reading the array as an object made every
+    // valid unused code appear to have affected zero rows.
+    const resultHeader = Array.isArray(updateResult) ? updateResult[0] : updateResult;
+    const affectedRows = (resultHeader as { affectedRows?: number } | undefined)?.affectedRows ?? 0;
     if (affectedRows !== 1) return { status: "already_used" as const };
 
     const unlockedAt = new Date();

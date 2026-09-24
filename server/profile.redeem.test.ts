@@ -11,6 +11,12 @@ function context(user: TrpcContext["user"]): TrpcContext {
 }
 
 describe("profile.redeemCode", () => {
+  it("documents that Drizzle MySQL update results use the first tuple item", () => {
+    const drizzleResult = [{ affectedRows: 1 }, null];
+    const resultHeader = Array.isArray(drizzleResult) ? drizzleResult[0] : drizzleResult;
+    expect(resultHeader.affectedRows).toBe(1);
+  });
+
   it("requires an authenticated account before redemption", async () => {
     const caller = appRouter.createCaller(context(null));
     await expect(caller.profile.redeemCode({ code: "PF-ABC1-2345" })).rejects.toMatchObject({ code: "UNAUTHORIZED" });
