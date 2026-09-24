@@ -1,0 +1,1 @@
+Manus turns the brief into a working Builder with categories, structured fields, live output, and a reusable prompt workflow.

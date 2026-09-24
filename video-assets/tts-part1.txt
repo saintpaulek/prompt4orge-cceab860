@@ -1,0 +1,13 @@
+Speak in English with a clear, warm, confident educational voice at a steady documentary pace: Welcome to this behind-the-build walkthrough of PromptForge, a production AI prompt builder created with Manus AI. We will follow the complete journey from the first product prompt to a working, connected, deployed application.
+
+Chapter one: the starting brief. The goal was to help creators turn rough ideas into clear AI instructions in under a minute. The brief also defined the audience, a dark Workshop Noir visual direction with orange accents, mobile responsiveness, and a real production deployment. This is the first lesson: a strong prompt describes both the job to do and the standard the result must meet.
+
+Manus turns that natural-language brief into a working web project. The first build creates the application shell, routes, Builder, Library, account access, pricing, contact, and educational pages. Instead of disconnected screens, we create a consistent product structure.
+
+In the Builder, users choose what they are making, set the audience and platform, define the tone, and watch a structured prompt take shape. The output is organized into role, task, audience, format, and constraints. The interface does not only produce a result; it teaches the user how to brief an AI system.
+
+The Workshop Noir system makes the product recognizable. Charcoal surfaces form the workbench, orange marks action and focus, and editorial typography improves legibility. The same design language continues across every page.
+
+Chapter two: data and member access. The Library is backed by a real catalog with search, categories, access filters, sorting, pagination, loading skeletons, retry states, empty states, and Copy and Use in Builder actions. Free work orders are available immediately, while locked work orders stay protected until an account is unlocked.
+
+The account system connects identity to saved prompts and access state. Supabase handles authentication, while authorization is checked on the server. Google OAuth, email and magic links, password recovery, profile details, and durable owner administration were treated as production features, not demo shortcuts.

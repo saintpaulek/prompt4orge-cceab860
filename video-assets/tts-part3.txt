@@ -1,0 +1,9 @@
+Speak in English with a clear, warm, confident educational voice at a steady documentary pace: Chapter six: optimize the production experience. Mobile zoom remains available for accessibility. The first mobile hero image is prioritized, carefully chosen origins receive preconnect hints, and route-specific pages load in separate JavaScript chunks. Mobile install controls are deferred because they are not needed to render the Builder. Library and Blog loading states reserve space so content does not jump as data arrives.
+
+Lighthouse measures the result. After deployment, we compare performance, accessibility, Largest Contentful Paint, Total Blocking Time, and Cumulative Layout Shift on real public routes. This turns optimization into an evidence-based loop.
+
+The result is more than a generated mockup. It is a working product with a visual identity, real member flows, protected data, connected services, searchable content, analytics, a deployment pipeline, and an improvement cycle.
+
+That is the efficiency of building with Manus AI: start with product intent in plain language, let the system accelerate implementation, and keep applying the professional cycle of inspect, build, test, deploy, and improve. If you demonstrate Manus to a team, focus on that loop. Begin with the clearest prompt you can write. Ask for the product, audience, constraints, and definition of done. Connect only the services the workflow needs. Test the critical journeys on the actual domain. Then use the next prompt to improve the product based on evidence.
+
+PromptForge is the example: an idea became a branded, connected, measurable web application through iterative collaboration with Manus AI.

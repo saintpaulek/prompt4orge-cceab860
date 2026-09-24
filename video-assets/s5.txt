@@ -1,0 +1,1 @@
+Google Cloud supplies OAuth. Resend delivers branded email. GitHub stores the source. Vercel builds and serves the paid domain.

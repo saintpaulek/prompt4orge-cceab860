@@ -1,0 +1,1 @@
+Supabase handles identity. Google OAuth, email, magic links, recovery, profiles, and server-side authorization complete the member flow.

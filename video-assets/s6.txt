@@ -1,0 +1,1 @@
+Push to the main branch, verify DNS and production aliases, test API routes, and smoke-test the real domain on mobile.

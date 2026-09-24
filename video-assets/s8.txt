@@ -1,0 +1,1 @@
+Prioritize the mobile hero, split route bundles, stabilize loading space, run Lighthouse, and iterate from evidence.
