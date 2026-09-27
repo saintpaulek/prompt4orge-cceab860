@@ -1,1 +1,1 @@
-export const WHATSAPP_BUSINESS_URL = "https://wa.me/p/28447341561540526/2347069573528";
+export const WHATSAPP_BUSINESS_URL = "https://wa.me/2347069573528";
