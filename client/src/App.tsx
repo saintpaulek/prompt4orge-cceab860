@@ -1,4 +1,5 @@
 /* Workshop Noir style: the app defaults to a charcoal workbench so ember-orange actions and steel surfaces carry the hierarchy. */
+import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -14,5 +15,5 @@ function Router() {
 }
 
 export default function App() {
-  return <ErrorBoundary><ThemeProvider defaultTheme="dark" switchable><TooltipProvider><Toaster/><Router/></TooltipProvider></ThemeProvider></ErrorBoundary>;
+  return <ErrorBoundary><ThemeProvider defaultTheme="dark" switchable><TooltipProvider><Toaster/><Router/><Analytics/></TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
